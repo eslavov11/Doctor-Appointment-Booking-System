@@ -3,9 +3,11 @@ package com.doctorAppointmentBookingSystem.entity;
 /**
  * Created by Edi on 06-Apr-17.
  */
+
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +15,7 @@ import java.util.Set;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type")
-public abstract class User implements UserDetails {
+public abstract class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -111,7 +113,7 @@ public abstract class User implements UserDetails {
         this.authorities = authorities;
     }
 
-    public void addRole(Role role){
+    public void addRole(Role role) {
         this.getAuthorities().add(role);
     }
 }
