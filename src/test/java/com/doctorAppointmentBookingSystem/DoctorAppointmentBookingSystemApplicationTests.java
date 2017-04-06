@@ -1,4 +1,4 @@
-package com.doctorappointmentbookingsystem;
+package com.doctorAppointmentBookingSystem;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
