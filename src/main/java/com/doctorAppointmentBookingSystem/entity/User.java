@@ -1,15 +1,15 @@
 package com.doctorAppointmentBookingSystem.entity;
 
-/**
- * Created by Edi on 06-Apr-17.
- */
-
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+/**
+ * Created by Edi on 06-Apr-17.
+ */
 
 @Entity
 @Table(name = "users")
@@ -21,6 +21,8 @@ public abstract class User implements UserDetails, Serializable {
     private long id;
 
     private String username;
+
+    private String email;
 
     private String password;
 
@@ -87,6 +89,14 @@ public abstract class User implements UserDetails, Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setPassword(String password) {
