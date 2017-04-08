@@ -10,7 +10,6 @@ import java.util.Set;
 /**
  * Created by Edi on 06-Apr-17.
  */
-
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

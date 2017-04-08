@@ -43,6 +43,10 @@ public class Doctor implements Serializable {
     private String picturePath;
 
     @ManyToOne
+    @JoinColumn(name = "week_schedule_id")
+    private WeekSchedule weekSchedule;
+
+    @ManyToOne
     @JoinColumn(name = "rating_id")
     private Rating rating;
 
@@ -155,6 +159,14 @@ public class Doctor implements Serializable {
 
     public void setPicturePath(String picturePath) {
         this.picturePath = picturePath;
+    }
+
+    public WeekSchedule getWeekSchedule() {
+        return weekSchedule;
+    }
+
+    public void setWeekSchedule(WeekSchedule weekSchedule) {
+        this.weekSchedule = weekSchedule;
     }
 
     public Rating getRating() {
