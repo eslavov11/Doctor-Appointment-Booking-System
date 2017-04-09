@@ -24,4 +24,36 @@ public class DaySchedule implements Serializable {
     private WeekSchedule weekSchedule;
 
     public DaySchedule() {}
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Time getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
+    }
+
+    public WeekSchedule getWeekSchedule() {
+        return weekSchedule;
+    }
+
+    public void setWeekSchedule(WeekSchedule weekSchedule) {
+        this.weekSchedule = weekSchedule;
+    }
 }

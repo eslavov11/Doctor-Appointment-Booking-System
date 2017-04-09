@@ -35,6 +35,10 @@ public class Patient implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+
     public Patient() {}
 
     public long getId() {
@@ -115,5 +119,13 @@ public class Patient implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 }

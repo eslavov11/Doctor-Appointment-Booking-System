@@ -3,6 +3,8 @@ package com.doctorAppointmentBookingSystem.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Edi on 06-Apr-17.
@@ -42,8 +44,8 @@ public class Doctor implements Serializable {
 
     private String picturePath;
 
-    @ManyToOne
-    @JoinColumn(name = "week_schedule_id")
+    @OneToOne(optional = false)
+    @JoinColumn(name = "week_schedule_id", referencedColumnName = "id")
     private WeekSchedule weekSchedule;
 
     @ManyToOne
@@ -54,7 +56,11 @@ public class Doctor implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "doctor")
+    private Set<Patient> patients;
+
     public Doctor() {
+        this.setPatients(new HashSet<>());
     }
 
     public long getId() {
@@ -183,5 +189,13 @@ public class Doctor implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(Set<Patient> patients) {
+        this.patients = patients;
     }
 }

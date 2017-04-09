@@ -3,6 +3,7 @@ package com.doctorAppointmentBookingSystem.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -15,8 +16,26 @@ public class WeekSchedule implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "weekSchedule")
     private Set<DaySchedule> daySchedules;
 
-    public WeekSchedule() {}
+    public WeekSchedule() {
+        this.setDaySchedules(new HashSet<>());
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Set<DaySchedule> getDaySchedules() {
+        return daySchedules;
+    }
+
+    public void setDaySchedules(Set<DaySchedule> daySchedules) {
+        this.daySchedules = daySchedules;
+    }
 }
