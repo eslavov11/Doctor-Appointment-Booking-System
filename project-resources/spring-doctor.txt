@@ -1,0 +1,115 @@
+users --done!
+-username --default email, not editable!
+-email
+-password
+-role_id
+
+roles --done!
+-authority
+
+doctors --done!
+-name
+-address
+-tel
+-egn
+-start_practice_date --experience (years)
+-settle_point
+-date_of_birth
+-rating
+-gender
+-picture
+-description --"He is a doctor, graduated in ...."
+-works_with_nzok
+-user_id
+-week_schedule_id
+-patients
+
+patients --done!
+-name
+-egn
+-tel
+-date_of_birth
+-date_enrollment --default sysdate
+-gender
+-isInsured
+-user
+-doctor_id
+
+week_schedules--done!
+-day_schedules 
+
+day_schedules--done!
+-start_time
+-end_time
+-week_schedule_id
+
+appointments --every 30 minutes an appointment, according to schedule --done!
+ //color red if already busy plain text, green and clickable if available
+-date //see day of week and check if doctor's available
+-patient
+-appointment_type_id --consultation,.. etc...
+-description
+
+settle_points --done!
+-name
+-ekatte
+-longitude
+-latitude
+
+doctors_specialties --done!
+-doctor
+-doctor_type
+
+doctor_specialty --done!
+-specialty_name
+-description
+
+ratings --TODO if there is time left --done!
+-- IF TIME LEFT -> for each doctor - list ratings of each patient with stars and comment
+-rate
+-comment
+-patient --rating patient
+-date_rated --sysdate
+
+clinic
+-name
+-settle_point
+-address
+-phone_number
+-website
+-description
+
+appointment_type --done!
+-name
+-description
+
+//functionality - pages
+administration
+- all users - crud
+- nomenclatures - crud -- settlepoints, doctor_type, appointment type
+-- map - doctors on map // geolocation
+--language properties?? - TODO:IF time
+
+
+*registration
+-page for doctor
+-page for patient
+
+*login - by username and password - then check for role and get other details - is it doctor or patient
+
+*home page - annonymous -> list of all doctors - ratings, etc...
+*home page - patient -> 
+*home page - doctor -> my schedule / or list of all patients <- TODO
+
+*doctor -> access all patients
+*doctor -> edit schedule
+*doctor -> edit profile
+
+*patient -> add new appointment
+*patient -> rate doctor
+*patient -> edit profile
+
+*logout page
+
+*admin -> add clinic 
+*admin -> list of all clinics
