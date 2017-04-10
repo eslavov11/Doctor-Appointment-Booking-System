@@ -1,0 +1,12 @@
+INTELIJ SPRING AUTO-BUILD
+
+1. add to pom
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-devtools</artifactId>
+	<scope>runtime</scope>
+</dependency>
+
+2. (one time) ctrl+shift+A -> registry -> check ->  compiler.automake.allow.when.app.running
+
+3. (foreach project) ctrl+shift+A -> compiler -> check -> build project automatically
