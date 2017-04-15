@@ -25,4 +25,9 @@ public class RoleServiceImpl implements RoleService {
     public Role getDefaultRole() {
         return this.roleRepository.findOneByAuthority(DEFAULT_ROLE);
     }
+
+    @Override
+    public Role getRoleByAuthority(String authority) {
+        return this.roleRepository.findOneByAuthority(authority);
+    }
 }

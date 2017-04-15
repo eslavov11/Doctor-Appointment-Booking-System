@@ -17,6 +17,8 @@ public class UserRegistrationModel {
 
     private String confirmPassword;
 
+    private String additionalRole;
+
     public String getEmail() {
         return email;
     }
@@ -47,5 +49,13 @@ public class UserRegistrationModel {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getAdditionalRole() {
+        return additionalRole;
+    }
+
+    public void setAdditionalRole(String additionalRole) {
+        this.additionalRole = additionalRole;
     }
 }
