@@ -6,7 +6,8 @@ import com.doctorAppointmentBookingSystem.customValidation.IsPasswordsMatching;
 import javax.validation.constraints.Size;
 
 @IsPasswordsMatching
-public class RegistrationModel {
+public class UserRegistrationModel {
+    private String email;
 
     @Size(min = 5, message = "Username too short")
     private String username;
@@ -15,6 +16,14 @@ public class RegistrationModel {
     private String password;
 
     private String confirmPassword;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getUsername() {
         return username;

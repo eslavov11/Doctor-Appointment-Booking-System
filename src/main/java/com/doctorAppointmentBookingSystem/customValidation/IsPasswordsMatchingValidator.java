@@ -1,6 +1,6 @@
 package com.doctorAppointmentBookingSystem.customValidation;
 
-import com.doctorAppointmentBookingSystem.model.bindingModel.RegistrationModel;
+import com.doctorAppointmentBookingSystem.model.bindingModel.UserRegistrationModel;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -12,7 +12,7 @@ public class IsPasswordsMatchingValidator implements ConstraintValidator<IsPassw
 
     @Override
     public boolean isValid(Object userClass, ConstraintValidatorContext constraintValidatorContext) {
-        return userClass instanceof RegistrationModel &&
-                ((RegistrationModel) userClass).getPassword().equals(((RegistrationModel) userClass).getConfirmPassword());
+        return userClass instanceof UserRegistrationModel &&
+                ((UserRegistrationModel) userClass).getPassword().equals(((UserRegistrationModel) userClass).getConfirmPassword());
     }
 }

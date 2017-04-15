@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
  * Created by Edi on 06-Apr-17.
  */
 public interface UserService extends UserDetailsService {
-    //void register(RegistrationModel registrationModel);
+    //void register(UserRegistrationModel registrationModel);
 }
