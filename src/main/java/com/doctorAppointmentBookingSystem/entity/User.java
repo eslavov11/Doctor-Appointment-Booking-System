@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "users")
-public abstract class User implements UserDetails, Serializable {
+public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

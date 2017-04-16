@@ -37,6 +37,6 @@ public class DoctorServiceImpl implements DoctorService {
         Doctor doctor = this.modelMapper.map(registrationModel, Doctor.class);
         doctor.setUser(user);
 
-        this.doctorRepository.save(doctor);
+        this.doctorRepository.saveAndFlush(doctor);
     }
 }

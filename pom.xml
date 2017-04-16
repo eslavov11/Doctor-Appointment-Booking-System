@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>doctor-appointment-booking-system</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Final project for Software University "Java MVC Frameworks - Spring" course</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

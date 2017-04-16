@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Autowired
     private UserService userService;
 
@@ -30,30 +29,31 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers("/", "/register/**", "/bootstrap/**", "/jquery/**", "/connect/**").permitAll()
-                //.antMatchers("/bikes/**").hasRole("USER")
-                .anyRequest().authenticated()
+                    .authorizeRequests()
+                    .antMatchers("/", "/register-patient", "/register-doctor",
+                            "/bootstrap/**", "/jquery/**", "/connect/**").permitAll()
+                    .antMatchers("/bikes/**").hasRole("USER")
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").permitAll()
-                .usernameParameter("username")
-                .passwordParameter("password")
+                    .formLogin().loginPage("/login").permitAll()
+                    .usernameParameter("username")
+                    .passwordParameter("password")
                 .and()
-                .rememberMe()
-                .rememberMeCookieName("RememberMe")
-                .rememberMeParameter("rememberMe")
-                .key("SecretKey")
-                .tokenValiditySeconds(100000)
+                    .rememberMe()
+                    .rememberMeCookieName("RememberMe")
+                    .rememberMeParameter("rememberMe")
+                    .key("SecretKey")
+                    .tokenValiditySeconds(100000)
                 .and()
-                .logout().logoutSuccessUrl("/login?logout").permitAll()
+                    .logout().logoutSuccessUrl("/login?logout").permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/unauthorized")
+                    .exceptionHandling().accessDeniedPage("/unauthorized")
                 .and()
-                .csrf().disable();
+                    .csrf().disable();
     }
 
     @Bean
-    public BCryptPasswordEncoder getBCryptPasswordEncoder(){
+    public BCryptPasswordEncoder getBCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

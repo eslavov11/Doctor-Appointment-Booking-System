@@ -2,6 +2,7 @@ package com.doctorAppointmentBookingSystem.model.bindingModel;
 
 
 import com.doctorAppointmentBookingSystem.customValidation.IsPasswordsMatching;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.validation.constraints.Size;
 

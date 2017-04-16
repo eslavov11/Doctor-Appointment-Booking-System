@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Register</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<header th:replace="fragment/parts::menu">
+</header>
+<main>
+    <div class="container">
+        <h1>Register Page</h1>
+        <form method="post" th:object="${registrationModel}">
+            <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? 'has-danger'">
+                <label class="form-control-label" for="inputUsername">Username</label>
+                <input type="text" class="form-control form-control-danger" id="inputUsername" th:field="*{username}"/>
+                <div class="form-control-feedback" th:each="error : ${#fields.errors('username')}" th:text="${error}">Sorry, that username's taken. Try another?</div>
+            </div>
+            <div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-danger'">
+                <label class="form-control-label" for="inputPassword">Password</label>
+                <input type="password" class="form-control form-control-danger" id="inputPassword" th:field="*{password}"/>
+                <div class="form-control-feedback" th:each="error : ${#fields.errors('password')}" th:text="${error}">Sorry, that password is incorrect?</div>
+            </div>
+            <div class="form-group" th:classappend="${#fields.hasErrors('global')} ? 'has-danger'">
+                <label class="form-control-label" for="inputConfirmPassword">Confirm Password</label>
+                <input type="password" class="form-control form-control-danger" id="inputConfirmPassword" th:field="*{confirmPassword}"/>
+                <div class="form-control-feedback" th:each="error : ${#fields.errors('global')}" th:text="${error}">Sorry, passwords are not matching?</div>
+            </div>
+            <input type="submit" class="btn btn-success" value="Register"/>
+        </form>
+    </div>
+</main>
+<script th:src="@{jquery/jquery.min.js}"></script>
+<script th:src="@{bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

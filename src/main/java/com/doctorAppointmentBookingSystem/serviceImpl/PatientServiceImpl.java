@@ -32,11 +32,13 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public void create(PatientRegistrationModel registrationModel) {
         UserRegistrationModel userRegistrationModel = this.modelMapper.map(registrationModel, UserRegistrationModel.class);
+        String DEFAULT_PATIENT_ROLE = "ROLE_PATIENT";
+        userRegistrationModel.setAdditionalRole(DEFAULT_PATIENT_ROLE);
         User user = this.userService.register(userRegistrationModel);
 
         Patient patient = this.modelMapper.map(registrationModel, Patient.class);
         patient.setUser(user);
 
-        this.patientRepository.save(patient);
+        this.patientRepository.saveAndFlush(patient);
     }
 }

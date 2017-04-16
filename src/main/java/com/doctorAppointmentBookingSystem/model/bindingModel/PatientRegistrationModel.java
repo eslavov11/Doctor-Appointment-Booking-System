@@ -1,6 +1,8 @@
 package com.doctorAppointmentBookingSystem.model.bindingModel;
 
 import com.doctorAppointmentBookingSystem.customValidation.PasswordConfirmable;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -27,6 +29,8 @@ public class PatientRegistrationModel implements PasswordConfirmable {
 
     private String telephoneNumber;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "PST")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
     private Date dateOfEnrollment;
@@ -123,7 +127,7 @@ public class PatientRegistrationModel implements PasswordConfirmable {
         this.gender = gender;
     }
 
-    public Boolean getInsured() {
+    public Boolean getIsInsured() {
         return isInsured;
     }
 
