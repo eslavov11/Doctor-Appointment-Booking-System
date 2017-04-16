@@ -44,7 +44,7 @@ public class Doctor implements Serializable {
 
     private String picturePath;
 
-    @OneToOne(optional = false)
+    @OneToOne //(optional = false)
     @JoinColumn(name = "week_schedule_id", referencedColumnName = "id")
     private WeekSchedule weekSchedule;
 

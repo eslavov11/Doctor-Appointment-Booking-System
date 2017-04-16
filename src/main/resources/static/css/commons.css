@@ -1,0 +1,15 @@
+/*SELECT 2 Settings*/
+span.select2-container {
+    width: 100% !important;
+    height: 42px;
+}
+
+span.select2-container span.select2-selection{
+    height: 100%;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+span.select2-container span.select2-selection__arrow {
+    margin-top: 5px;
+}

@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Patient Register</title>
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
           th:href="@{bootstrap/css/bootstrap.min.css}"/>
 </head>
@@ -11,7 +11,6 @@
 <header th:replace="fragment/parts::menu">
 </header>
 <main>
-    <br/>
     <div class="container">
         <h1>Patient Register Page</h1>
         <form method="post" th:object="${patientRegistrationModel}">
@@ -41,6 +40,7 @@
                 </div>
             </div>
 
+            <!--TODO: ---------------------------------------  ----------GLOBAL???------- -->
             <div class="form-group" th:classappend="${#fields.hasErrors('global')} ? 'has-danger'">
                 <label class="form-control-label" for="inputConfirmPassword">Confirm Password</label>
                 <input type="password" class="form-control form-control-danger" id="inputConfirmPassword"
@@ -95,7 +95,7 @@
                 </div>
             </div>
 
-            <div class="form-group" th:classappend="${#fields.hasErrors('isInsured')} ? 'has-danger'">
+            <div class="form-group" th:classappend="${#fields.hasErrors('gender')} ? 'has-danger'">
                 <label class="form-control-label">Gender</label>
                 <br/>
                 <label class="custom-control custom-radio">
@@ -121,7 +121,9 @@
             </div>
 
             <input type="submit" class="btn btn-success" value="Register"/>
+            <a href="/register-doctor">Register as doctor</a>
         </form>
+        <br/>
     </div>
 </main>
 <script th:src="@{jquery/jquery.min.js}"></script>

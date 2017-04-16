@@ -2,6 +2,8 @@ package com.doctorAppointmentBookingSystem.model.bindingModel;
 
 import com.doctorAppointmentBookingSystem.customValidation.PasswordConfirmable;
 import com.doctorAppointmentBookingSystem.entity.SettlePoint;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -24,17 +26,21 @@ public class DoctorRegistrationModel implements PasswordConfirmable {
 
     private String lastName;
 
-    private String gender;
-
     private String EGN;
 
     private String telephoneNumber;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "PST")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
+    private String gender;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "PST")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startPracticeDate;
 
-    private SettlePoint settlePoint;
+    private long settlePointId;
 
     private String address;
 
@@ -132,12 +138,12 @@ public class DoctorRegistrationModel implements PasswordConfirmable {
         this.startPracticeDate = startPracticeDate;
     }
 
-    public SettlePoint getSettlePoint() {
-        return settlePoint;
+    public long getSettlePointId() {
+        return settlePointId;
     }
 
-    public void setSettlePoint(SettlePoint settlePoint) {
-        this.settlePoint = settlePoint;
+    public void setSettlePointId(long settlePointId) {
+        this.settlePointId = settlePointId;
     }
 
     public String getAddress() {
