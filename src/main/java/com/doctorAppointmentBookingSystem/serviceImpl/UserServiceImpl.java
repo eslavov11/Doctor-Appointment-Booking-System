@@ -3,6 +3,7 @@ package com.doctorAppointmentBookingSystem.serviceImpl;
 import com.doctorAppointmentBookingSystem.entity.Role;
 import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.error.Errors;
+import com.doctorAppointmentBookingSystem.model.bindingModel.ChangePasswordModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.UserRegistrationModel;
 import com.doctorAppointmentBookingSystem.repository.UserRepository;
 import com.doctorAppointmentBookingSystem.service.RoleService;
@@ -66,5 +67,14 @@ public class UserServiceImpl implements UserService {
         }
 
         return this.userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public void updatePassword(ChangePasswordModel changePasswordModel) {
+        User user = this.userRepository.findOne(changePasswordModel.getUserId());
+        String encryptedPassword = this.bCryptPasswordEncoder.encode(changePasswordModel.getPassword());
+        user.setPassword(encryptedPassword);
+
+         this.userRepository.saveAndFlush(user);
     }
 }

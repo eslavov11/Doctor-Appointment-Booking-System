@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/parts::head">
+</head>
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Doctor Register</title>
-    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
-          th:href="@{bootstrap/css/bootstrap.min.css}"/>
     <link rel="stylesheet" href="../static/select2/css/select2.min.css"
-          th:href="@{select2/css/select2.min.css}"/>
+          th:href="@{~/select2/css/select2.min.css}"/>
     <link rel="stylesheet" href="../static/css/commons.css"
-          th:href="@{css/commons.css}"/>
+          th:href="@{~/css/commons.css}"/>
 </head>
 <body>
 <header th:replace="fragment/parts::menu">
@@ -162,14 +160,14 @@
             </div>
 
             <input type="submit" class="btn btn-success" value="Register"/>
-            <a href="/register-patient">Register as patient</a>
+            <a class="pl-1" href="/register-patient">Register as patient</a>
         </form>
         <br/>
     </div>
 </main>
-<script th:src="@{jquery/jquery.min.js}"></script>
-<script th:src="@{bootstrap/js/bootstrap.min.js}"></script>
-<script th:src="@{select2/js/select2.min.js}"></script>
+<div th:replace="fragment/parts::scripts">
+</div>
+<script th:src="@{~/select2/js/select2.min.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {
         $("#inputSettlePoint").select2();

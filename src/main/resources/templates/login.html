@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/parts::head">
+</head>
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login - Doctor Appointment System</title>
-    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
-          th:href="@{bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
 <header th:replace="fragment/parts::menu">
@@ -30,10 +28,13 @@
                 </label>
             </div>
             <input type="submit" class="btn btn-success" value="Log In"/>
+            <span class="pl-1">New to our system?</span>
+            <a href="/register-patient">Register here</a>
         </form>
     </div>
 </main>
-<script th:src="@{jquery/jquery.min.js}"></script>
-<script th:src="@{bootstrap/js/bootstrap.min.js}"></script>
+
+<div th:replace="fragment/parts::scripts">
+</div>
 </body>
 </html>
