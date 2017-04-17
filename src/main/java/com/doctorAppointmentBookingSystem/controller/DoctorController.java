@@ -1,7 +1,7 @@
 package com.doctorAppointmentBookingSystem.controller;
 
-import com.doctorAppointmentBookingSystem.entity.SettlePoint;
 import com.doctorAppointmentBookingSystem.model.bindingModel.DoctorRegistrationModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.SettlePointViewModel;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.SettlePointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class DoctorController {
 
     @GetMapping("/register-doctor")
     public String getRegisterPage(@ModelAttribute DoctorRegistrationModel doctorRegistrationModel, Model model) {
-        List<SettlePoint> settlePoints = this.settlePointService.getAll();
+        List<SettlePointViewModel> settlePoints = this.settlePointService.getAll();
 
         model.addAttribute("settlePoints", settlePoints);
 

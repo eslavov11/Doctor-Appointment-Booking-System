@@ -39,6 +39,8 @@ public class PatientRegistrationModel implements PasswordConfirmable {
 
     private Boolean isInsured;
 
+    private long doctorId;
+
     public String getEmail() {
         return email;
     }
@@ -133,5 +135,13 @@ public class PatientRegistrationModel implements PasswordConfirmable {
 
     public void setInsured(Boolean insured) {
         isInsured = insured;
+    }
+
+    public long getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(long doctorId) {
+        this.doctorId = doctorId;
     }
 }

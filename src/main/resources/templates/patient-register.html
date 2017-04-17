@@ -6,6 +6,10 @@
     <title>Patient Register</title>
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css"
           th:href="@{bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../static/select2/css/select2.min.css"
+          th:href="@{select2/css/select2.min.css}"/>
+    <link rel="stylesheet" href="../static/css/commons.css"
+          th:href="@{css/commons.css}"/>
 </head>
 <body>
 <header th:replace="fragment/parts::menu">
@@ -40,7 +44,7 @@
                 </div>
             </div>
 
-            <!--TODO: ---------------------------------------  ----------GLOBAL???------- -->
+            <!--TODO: _________________________________________________GLOBAL???______ -->
             <div class="form-group" th:classappend="${#fields.hasErrors('global')} ? 'has-danger'">
                 <label class="form-control-label" for="inputConfirmPassword">Confirm Password</label>
                 <input type="password" class="form-control form-control-danger" id="inputConfirmPassword"
@@ -112,6 +116,16 @@
                 </label>
             </div>
 
+            <div class="form-group">
+                <label class="form-control-label" for="inputDoctor">Doctor</label>
+                <select class="form-control form-control-danger" id="inputDoctor" th:field="*{doctorId}">
+                    <option th:each="doctor : ${doctors}"
+                            th:value="${doctor.id}"
+                            th:text="'Dr. ' + ${doctor.firstName} + ' ' + ${doctor.lastName} + ' (' + ${doctor.settlePointName} + ')'">
+                    </option>
+                </select>
+            </div>
+
             <div class="form-group" th:classappend="${#fields.hasErrors('isInsured')} ? 'has-danger'">
                 <label class="custom-control custom-checkbox form-control-label">
                     <input type="checkbox" checked="checked" class="custom-control-input" th:field="*{isInsured}"/>
@@ -128,5 +142,11 @@
 </main>
 <script th:src="@{jquery/jquery.min.js}"></script>
 <script th:src="@{bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{select2/js/select2.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    $(document).ready(function () {
+        $("#inputDoctor").select2();
+    });
+</script>
 </body>
 </html>

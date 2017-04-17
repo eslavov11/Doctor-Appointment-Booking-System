@@ -5,6 +5,7 @@ import com.doctorAppointmentBookingSystem.entity.SettlePoint;
 import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.model.bindingModel.DoctorRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.UserRegistrationModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
 import com.doctorAppointmentBookingSystem.repository.DoctorRepository;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.SettlePointService;
@@ -12,6 +13,9 @@ import com.doctorAppointmentBookingSystem.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Edi on 16-Apr-17.
@@ -49,5 +53,22 @@ public class DoctorServiceImpl implements DoctorService {
         doctor.setSettlePoint(settlePoint);
 
         this.doctorRepository.saveAndFlush(doctor);
+    }
+
+    @Override
+    public Doctor getById(long id) {
+        return this.doctorRepository.getOne(id);
+    }
+
+    @Override
+    public List<DoctorSelectViewModel> getAll() {
+        List<Doctor> doctors = this.doctorRepository.findAllByOrderByFirstNameAscLastName();
+        List<DoctorSelectViewModel> doctorSelectViewModels = new ArrayList<>();
+        for (Doctor doctor : doctors) {
+            DoctorSelectViewModel doctorSelectViewModel = this.modelMapper.map(doctor, DoctorSelectViewModel.class);
+            doctorSelectViewModels.add(doctorSelectViewModel);
+        }
+
+        return doctorSelectViewModels;
     }
 }
