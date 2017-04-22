@@ -2,6 +2,7 @@ package com.doctorAppointmentBookingSystem.controller;
 
 import com.doctorAppointmentBookingSystem.entity.Doctor;
 import com.doctorAppointmentBookingSystem.entity.User;
+import com.doctorAppointmentBookingSystem.model.bindingModel.EditWeekScheduleModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.WeekScheduleModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
@@ -9,6 +10,7 @@ import com.doctorAppointmentBookingSystem.service.WeekScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,23 +37,33 @@ public class ScheduleController {
     }
 
     @GetMapping("/edit")
-    public String getEditSchedule(@ModelAttribute WeekScheduleModel weekScheduleModel, Principal principal) {
-        long userId = ((User)((Authentication) principal).getPrincipal()).getId();
-        Doctor doctor = this.doctorService.getByUserId(userId);
+    public String getEditSchedule(Principal principal, Model model) {
+        long weekScheduleId = getWeekScheduleId((Authentication) principal);
+        EditWeekScheduleModel editWeekScheduleModel = this.weekScheduleService.getById(weekScheduleId);
 
-        this.weekScheduleService.getById(doctor.getWeekSchedule().getId());
+        model.addAttribute("editWeekScheduleModel", editWeekScheduleModel);
 
         return "schedule/edit";
     }
 
     @PostMapping("/edit")
-    public String editSchedule(@Valid @ModelAttribute WeekScheduleModel weekScheduleModel, BindingResult bindingResult) {
+    public String editSchedule(@Valid @ModelAttribute EditWeekScheduleModel editWeekScheduleModel,
+                               BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "schedule/edit";
         }
 
-        //this.weekScheduleService.create(weekScheduleModel);
+        long weekScheduleId = getWeekScheduleId((Authentication) principal);
+
+        editWeekScheduleModel.setId(weekScheduleId);
+        this.weekScheduleService.save(editWeekScheduleModel);
 
         return "redirect:/";
+    }
+
+    private long getWeekScheduleId(Authentication principal) {
+        long userId = ((User) principal.getPrincipal()).getId();
+        Doctor doctor = this.doctorService.getByUserId(userId);
+        return doctor.getWeekSchedule().getId();
     }
 }

@@ -7,7 +7,7 @@ import java.util.Set;
  * Created by Edi on 22-Apr-17.
  */
 public class WeekScheduleModel {
-    Set<DayScheduleModel> dayScheduleModels;
+    private Set<DayScheduleModel> dayScheduleModels;
 
     public WeekScheduleModel() {
         this.setDayScheduleModels(new HashSet<>());

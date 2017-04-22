@@ -4,6 +4,8 @@ import com.doctorAppointmentBookingSystem.entity.DayOfWeek;
 import com.doctorAppointmentBookingSystem.entity.DaySchedule;
 import com.doctorAppointmentBookingSystem.entity.WeekSchedule;
 import com.doctorAppointmentBookingSystem.model.bindingModel.DayScheduleModel;
+import com.doctorAppointmentBookingSystem.model.bindingModel.EditDayScheduleModel;
+import com.doctorAppointmentBookingSystem.model.bindingModel.EditWeekScheduleModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.WeekScheduleModel;
 import com.doctorAppointmentBookingSystem.repository.WeekScheduleRepository;
 import com.doctorAppointmentBookingSystem.service.DayScheduleService;
@@ -51,11 +53,18 @@ public class WeekScheduleServiceImpl implements WeekScheduleService {
     }
 
     @Override
-    public WeekScheduleModel getById(long id) {
+    public EditWeekScheduleModel getById(long id) {
         WeekSchedule weekSchedule = this.weekScheduleRepository.findOne(id);
 
-        WeekScheduleModel weekScheduleModel = this.modelMapper.map(weekSchedule, WeekScheduleModel.class);
+        EditWeekScheduleModel weekScheduleModel = this.modelMapper.map(weekSchedule, EditWeekScheduleModel.class);
 
         return weekScheduleModel;
+    }
+
+    @Override
+    public void save(EditWeekScheduleModel editWeekScheduleModel) {
+        for (EditDayScheduleModel editDayScheduleModel : editWeekScheduleModel.getEditDayScheduleModels()) {
+            this.dayScheduleService.save(editDayScheduleModel);
+        }
     }
 }
