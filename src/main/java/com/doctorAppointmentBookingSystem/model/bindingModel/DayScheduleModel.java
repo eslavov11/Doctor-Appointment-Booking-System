@@ -1,5 +1,7 @@
 package com.doctorAppointmentBookingSystem.model.bindingModel;
 
+import com.doctorAppointmentBookingSystem.entity.WeekSchedule;
+
 import java.sql.Time;
 
 /**
@@ -11,6 +13,8 @@ public class DayScheduleModel {
     private Time startTime;
 
     private Time endTime;
+
+    private WeekSchedule weekSchedule;
 
     public String getDayOfWeek() {
         return dayOfWeek;
@@ -34,5 +38,13 @@ public class DayScheduleModel {
 
     public void setEndTime(Time endTime) {
         this.endTime = endTime;
+    }
+
+    public WeekSchedule getWeekSchedule() {
+        return weekSchedule;
+    }
+
+    public void setWeekSchedule(WeekSchedule weekSchedule) {
+        this.weekSchedule = weekSchedule;
     }
 }

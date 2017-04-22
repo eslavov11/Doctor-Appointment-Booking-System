@@ -7,5 +7,7 @@ import com.doctorAppointmentBookingSystem.model.bindingModel.WeekScheduleModel;
  * Created by Edi on 22-Apr-17.
  */
 public interface WeekScheduleService {
-    WeekSchedule create(WeekScheduleModel weekScheduleModel);
+    WeekScheduleModel getById(long id);
+
+    WeekSchedule createDefault();
 }

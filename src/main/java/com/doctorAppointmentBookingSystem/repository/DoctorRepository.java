@@ -11,5 +11,7 @@ import java.util.List;
  */
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
+    Doctor findOneByUserId(long userId);
+
     List<Doctor> findAllByOrderByFirstNameAscLastName();
 }
