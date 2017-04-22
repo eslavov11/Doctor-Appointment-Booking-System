@@ -33,7 +33,7 @@ public class PatientController {
     }
 
     @GetMapping("/register-patient")
-    public String getRegisterPage(@ModelAttribute PatientRegistrationModel patientRegistrationModel, Model model) {
+    public String getRegister(@ModelAttribute PatientRegistrationModel patientRegistrationModel, Model model) {
         List<DoctorSelectViewModel> doctors = this.doctorService.getAll();
 
         model.addAttribute("doctors", doctors);
@@ -42,7 +42,7 @@ public class PatientController {
     }
 
     @PostMapping("/register-patient")
-    public String registerUser(@Valid @ModelAttribute PatientRegistrationModel patientRegistrationModel, BindingResult bindingResult) {
+    public String register(@Valid @ModelAttribute PatientRegistrationModel patientRegistrationModel, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "patient-register";
         }

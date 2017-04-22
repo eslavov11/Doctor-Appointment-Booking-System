@@ -3,8 +3,6 @@ package com.doctorAppointmentBookingSystem.controller;
 import com.doctorAppointmentBookingSystem.entity.Doctor;
 import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.model.bindingModel.EditWeekScheduleModel;
-import com.doctorAppointmentBookingSystem.model.bindingModel.WeekScheduleModel;
-import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.WeekScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;

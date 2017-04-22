@@ -2,6 +2,7 @@ package com.doctorAppointmentBookingSystem.serviceImpl;
 
 import com.doctorAppointmentBookingSystem.entity.DaySchedule;
 import com.doctorAppointmentBookingSystem.model.bindingModel.DayScheduleModel;
+import com.doctorAppointmentBookingSystem.model.bindingModel.EditDayScheduleModel;
 import com.doctorAppointmentBookingSystem.repository.DayScheduleRepository;
 import com.doctorAppointmentBookingSystem.service.DayScheduleService;
 import org.modelmapper.ModelMapper;
@@ -26,6 +27,13 @@ public class DayScheduleServiceImpl implements DayScheduleService {
     @Override
     public void create(DayScheduleModel dayScheduleModel) {
         DaySchedule daySchedule = this.modelMapper.map(dayScheduleModel, DaySchedule.class);
+
+        this.dayScheduleRepository.saveAndFlush(daySchedule);
+    }
+
+    @Override
+    public void save(EditDayScheduleModel editDayScheduleModel) {
+        DaySchedule daySchedule = this.modelMapper.map(editDayScheduleModel, DaySchedule.class);
 
         this.dayScheduleRepository.saveAndFlush(daySchedule);
     }

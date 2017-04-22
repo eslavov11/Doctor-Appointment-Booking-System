@@ -31,7 +31,7 @@ public class DoctorController {
     }
 
     @GetMapping("/register-doctor")
-    public String getRegisterPage(@ModelAttribute DoctorRegistrationModel doctorRegistrationModel, Model model) {
+    public String getRegister(@ModelAttribute DoctorRegistrationModel doctorRegistrationModel, Model model) {
         List<SettlePointViewModel> settlePoints = this.settlePointService.getAll();
 
         model.addAttribute("settlePoints", settlePoints);
@@ -40,7 +40,7 @@ public class DoctorController {
     }
 
     @PostMapping("/register-doctor")
-    public String registerUser(@Valid @ModelAttribute DoctorRegistrationModel doctorRegistrationModel, BindingResult bindingResult) {
+    public String register(@Valid @ModelAttribute DoctorRegistrationModel doctorRegistrationModel, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "doctor-register";
         }
