@@ -98,18 +98,29 @@ administration
 *login - by username and password - then check for role and get other details - is it doctor or patient
 
 *home page - annonymous -> list of all doctors - ratings, etc...
-*home page - patient -> 
+*home page - patient -> doctor's schedule on home page
 *home page - doctor -> my schedule / or list of all patients <- TODO
 
-*doctor -> access all patients
+*doctor -> access all patients - pagination
 *doctor -> edit schedule
 *doctor -> edit profile
 
 *patient -> add new appointment
 *patient -> rate doctor
 *patient -> edit profile
+*patient -> my doctor's schedule - refresh button - get with AJAX!!!!
+/* select hour - with disabled select and red font or background
+<select>
+  <option value="volvo" disabled style="color:red">Volvo</option>
+  <option value="saab" style="color:green">Saab</option>
+  <option value="vw" disabled style="color:red">VW</option>
+  <option value="audi">Audi</option>
+</select>
+*/
 
 *logout page
 
 *admin -> add clinic 
-*admin -> list of all clinics
+*admin -> list of all clinics - pagination
+*admin -> list of all doctors - pagination, use the public one but with edit and delete button
+*admin -> list of all patients?? - pagination

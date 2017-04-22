@@ -15,6 +15,9 @@ public class DaySchedule implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Enumerated(value = EnumType.STRING)
+    private DayOfWeek dayOfWeek;
+
     private Time startTime;
 
     private Time endTime;
@@ -31,6 +34,14 @@ public class DaySchedule implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public DayOfWeek getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
     public Time getStartTime() {
