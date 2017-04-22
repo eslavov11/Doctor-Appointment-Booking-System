@@ -42,8 +42,8 @@ public class WeekScheduleServiceImpl implements WeekScheduleService {
         for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
             DayScheduleModel dayScheduleModel = new DayScheduleModel();
             dayScheduleModel.setDayOfWeek(dayOfWeek.toString());
-            dayScheduleModel.setStartTime(new Time(0L));
-            dayScheduleModel.setEndTime(new Time(0L));
+            dayScheduleModel.setStartTime(Time.valueOf("00:00:00"));
+            dayScheduleModel.setEndTime(Time.valueOf("00:00:00"));
             dayScheduleModel.setWeekSchedule(weekSchedule);
 
             this.dayScheduleService.create(dayScheduleModel);
@@ -56,9 +56,15 @@ public class WeekScheduleServiceImpl implements WeekScheduleService {
     public EditWeekScheduleModel getById(long id) {
         WeekSchedule weekSchedule = this.weekScheduleRepository.findOne(id);
 
-        EditWeekScheduleModel weekScheduleModel = this.modelMapper.map(weekSchedule, EditWeekScheduleModel.class);
+        EditWeekScheduleModel editWeekScheduleModel = this.modelMapper.map(weekSchedule, EditWeekScheduleModel.class);
+        for (DaySchedule daySchedule : weekSchedule.getDaySchedules()) {
+            EditDayScheduleModel editDayScheduleModel = this.modelMapper.map(daySchedule, EditDayScheduleModel.class);
+            editDayScheduleModel.setStartTimeStr(daySchedule.getStartTime().toString());
+            editDayScheduleModel.setEndTimeStr(daySchedule.getEndTime().toString());
+            editWeekScheduleModel.getEditDayScheduleModels().add(editDayScheduleModel);
+        }
 
-        return weekScheduleModel;
+        return editWeekScheduleModel;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.doctorAppointmentBookingSystem.model.bindingModel;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -9,10 +11,10 @@ import java.util.Set;
 public class EditWeekScheduleModel {
     private long id;
 
-    private Set<EditDayScheduleModel> editDayScheduleModels;
+    private List<EditDayScheduleModel> editDayScheduleModels;
 
     public EditWeekScheduleModel() {
-        this.setEditDayScheduleModels(new HashSet<>());
+        this.setEditDayScheduleModels(new ArrayList<>());
     }
 
     public long getId() {
@@ -23,11 +25,11 @@ public class EditWeekScheduleModel {
         this.id = id;
     }
 
-    public Set<EditDayScheduleModel> getEditDayScheduleModels() {
+    public List<EditDayScheduleModel> getEditDayScheduleModels() {
         return editDayScheduleModels;
     }
 
-    public void setEditDayScheduleModels(Set<EditDayScheduleModel> editDayScheduleModels) {
+    public void setEditDayScheduleModels(List<EditDayScheduleModel> editDayScheduleModels) {
         this.editDayScheduleModels = editDayScheduleModels;
     }
 }

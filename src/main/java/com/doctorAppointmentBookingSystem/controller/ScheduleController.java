@@ -2,6 +2,7 @@ package com.doctorAppointmentBookingSystem.controller;
 
 import com.doctorAppointmentBookingSystem.entity.Doctor;
 import com.doctorAppointmentBookingSystem.entity.User;
+import com.doctorAppointmentBookingSystem.model.bindingModel.EditDayScheduleModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.EditWeekScheduleModel;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.WeekScheduleService;
@@ -54,6 +55,14 @@ public class ScheduleController {
         long weekScheduleId = getWeekScheduleId((Authentication) principal);
 
         editWeekScheduleModel.setId(weekScheduleId);
+        EditWeekScheduleModel editWeekScheduleModelIds = this.weekScheduleService.getById(weekScheduleId);
+        for (int i = 0; i < editWeekScheduleModel.getEditDayScheduleModels().size(); i++) {
+            editWeekScheduleModel
+                    .getEditDayScheduleModels()
+                    .get(i).setId(editWeekScheduleModelIds
+                            .getEditDayScheduleModels().get(i).getId());
+        }
+
         this.weekScheduleService.save(editWeekScheduleModel);
 
         return "redirect:/";

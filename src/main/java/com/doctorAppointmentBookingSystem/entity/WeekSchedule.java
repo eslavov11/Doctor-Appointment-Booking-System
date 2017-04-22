@@ -17,6 +17,7 @@ public class WeekSchedule implements Serializable {
     private long id;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "weekSchedule")
+    @OrderBy("id")
     private Set<DaySchedule> daySchedules;
 
     public WeekSchedule() {

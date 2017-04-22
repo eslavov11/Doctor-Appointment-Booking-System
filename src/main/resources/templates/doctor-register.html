@@ -89,7 +89,8 @@
             <div class="form-group" th:classappend="${#fields.hasErrors('dateOfBirth')} ? 'has-danger'">
                 <label class="form-control-label" for="inputDateOfBirth">Date Of Birth</label>
                 <input type="date" class="form-control form-control-danger" id="inputDateOfBirth"
-                       th:field="*{dateOfBirth}"/>
+                       th:field="*{dateOfBirth}" th:value="${#dates.format(#dates.createNow(), 'dd-MMM-yyyy')}" />
+                <!--TODO: set with jQuery current date-->
                 <div class="form-control-feedback" th:each="error : ${#fields.errors('dateOfBirth')}"
                      th:text="${error}">
                     Sorry, that date is incorrect.
@@ -116,7 +117,7 @@
             <div class="form-group" th:classappend="${#fields.hasErrors('startPracticeDate')} ? 'has-danger'">
                 <label class="form-control-label" for="inputStartPracticeDate">Start Practice Date</label>
                 <input type="date" class="form-control form-control-danger" id="inputStartPracticeDate"
-                       th:field="*{startPracticeDate}"/>
+                       th:field="*{startPracticeDate}" value="2000-01-01" />
                 <div class="form-control-feedback" th:each="error : ${#fields.errors('startPracticeDate')}"
                      th:text="${error}">
                     Sorry, that date is incorrect.
