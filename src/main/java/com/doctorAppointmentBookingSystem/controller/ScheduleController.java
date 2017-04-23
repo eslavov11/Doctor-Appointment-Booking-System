@@ -2,7 +2,6 @@ package com.doctorAppointmentBookingSystem.controller;
 
 import com.doctorAppointmentBookingSystem.entity.Doctor;
 import com.doctorAppointmentBookingSystem.entity.User;
-import com.doctorAppointmentBookingSystem.model.bindingModel.EditDayScheduleModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.EditWeekScheduleModel;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.WeekScheduleService;
@@ -33,6 +32,18 @@ public class ScheduleController {
     public ScheduleController(WeekScheduleService weekScheduleService, DoctorService doctorService) {
         this.weekScheduleService = weekScheduleService;
         this.doctorService = doctorService;
+    }
+
+    @GetMapping("/")
+    public String getSchedule(Principal principal, Model model) {
+/*
+        long weekScheduleId = getWeekScheduleId((Authentication) principal);
+        EditWeekScheduleModel editWeekScheduleModel = this.weekScheduleService.getById(weekScheduleId);
+
+        model.addAttribute("weekl", editWeekScheduleModel);
+*/
+
+        return "schedule/schedule";
     }
 
     @GetMapping("/edit")

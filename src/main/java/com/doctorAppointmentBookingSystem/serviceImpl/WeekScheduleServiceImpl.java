@@ -6,7 +6,6 @@ import com.doctorAppointmentBookingSystem.entity.WeekSchedule;
 import com.doctorAppointmentBookingSystem.model.bindingModel.DayScheduleModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.EditDayScheduleModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.EditWeekScheduleModel;
-import com.doctorAppointmentBookingSystem.model.bindingModel.WeekScheduleModel;
 import com.doctorAppointmentBookingSystem.repository.WeekScheduleRepository;
 import com.doctorAppointmentBookingSystem.service.DayScheduleService;
 import com.doctorAppointmentBookingSystem.service.WeekScheduleService;
