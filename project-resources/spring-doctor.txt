@@ -36,9 +36,11 @@ patients --done!
 -doctor_id
 
 week_schedules--done!
+-appointment_duration_minutes
 -day_schedules 
 
 day_schedules--done!
+-day_of_week
 -start_time
 -end_time
 -week_schedule_id
@@ -47,6 +49,7 @@ appointments --every 30 minutes an appointment, according to schedule --done!
  //color red if already busy plain text, green and clickable if available
 -date //see day of week and check if doctor's available
 -patient
+-doctor
 -appointment_type_id --consultation,.. etc...
 -description
 
@@ -102,7 +105,8 @@ administration
 *home page - doctor -> my schedule / or list of all patients <- TODO
 
 *doctor -> access all patients - pagination
-*doctor -> edit schedule
+*doctor -> edit schedule - only be able to access his own schedule!
+
 *doctor -> edit profile
 
 *patient -> add new appointment

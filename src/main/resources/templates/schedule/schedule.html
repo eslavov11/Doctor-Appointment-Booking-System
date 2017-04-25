@@ -31,10 +31,10 @@
                 <tbody>
                 <tr>
                     <th scope="row">From</th>
-                    <td th:each="editDayScheduleModel, stat : *{editDayScheduleModels}">
-                        <input class="form-control" type="time" value="00:00:00"
-                               th:field="*{editDayScheduleModels[__${stat.index}__].startTimeStr}"/>
-                    </td>
+                    <!--<td th:each="editDayScheduleModel, stat : *{editDayScheduleModels}">-->
+                        <!--<input class="form-control" type="time" value="00:00:00"-->
+                               <!--th:field="*{editDayScheduleModels[__${stat.index}__].startTimeStr}"/>-->
+                    <!--</td>-->
                 </tr>
                 </tbody>
             </table>
