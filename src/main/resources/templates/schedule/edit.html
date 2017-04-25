@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Edit Week Schedule</title>
+    <link rel="stylesheet" href="../static/css/commons.css"
+          th:href="@{~/css/commons.css}"/>
 </head>
 <head th:replace="fragment/parts::head">
     <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
@@ -15,36 +17,38 @@
         <h1>Edit Week Schedule</h1>
         <div style="color: red" th:if="${error} != null" th:text="${error}"></div>
         <form method="post" th:object="${editWeekScheduleModel}">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                    <th>Sunday</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">From</th>
-                    <td th:each="editDayScheduleModel, stat : *{editDayScheduleModels}">
-                        <input class="form-control" type="time" value="00:00:00"
-                               th:field="*{editDayScheduleModels[__${stat.index}__].startTimeStr}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">To</th>
-                    <td th:each="editDayScheduleModel, stat : *{editDayScheduleModels}">
-                        <input class="form-control" type="time" value="00:00:00"
-                               th:field="*{editDayScheduleModels[__${stat.index}__].endTimeStr}"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                        <th>Sunday</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">From</th>
+                        <td th:each="editDayScheduleModel, stat : *{editDayScheduleModels}">
+                            <input class="form-control" type="time" value="00:00:00"
+                                   th:field="*{editDayScheduleModels[__${stat.index}__].startTimeStr}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">To</th>
+                        <td th:each="editDayScheduleModel, stat : *{editDayScheduleModels}">
+                            <input class="form-control" type="time" value="00:00:00"
+                                   th:field="*{editDayScheduleModels[__${stat.index}__].endTimeStr}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <input type="submit" class="btn btn-success" value="Save Schedule"/>
         </form>

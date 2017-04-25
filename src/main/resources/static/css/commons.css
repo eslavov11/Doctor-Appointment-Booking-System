@@ -13,3 +13,9 @@ span.select2-container span.select2-selection{
 span.select2-container span.select2-selection__arrow {
     margin-top: 5px;
 }
+
+/*TABLE SETTINGS*/
+.table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 15px;
+}
