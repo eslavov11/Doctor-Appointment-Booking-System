@@ -11,6 +11,8 @@ import java.util.Set;
 public class EditWeekScheduleModel {
     private long id;
 
+    private int appointmentDuration;
+
     private List<EditDayScheduleModel> editDayScheduleModels;
 
     public EditWeekScheduleModel() {
@@ -23,6 +25,14 @@ public class EditWeekScheduleModel {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getAppointmentDuration() {
+        return appointmentDuration;
+    }
+
+    public void setAppointmentDuration(int appointmentDuration) {
+        this.appointmentDuration = appointmentDuration;
     }
 
     public List<EditDayScheduleModel> getEditDayScheduleModels() {

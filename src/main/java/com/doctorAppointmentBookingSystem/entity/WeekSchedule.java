@@ -16,6 +16,8 @@ public class WeekSchedule implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private int appointmentDuration;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "weekSchedule")
     @OrderBy("id")
     private Set<DaySchedule> daySchedules;
@@ -30,6 +32,14 @@ public class WeekSchedule implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getAppointmentDuration() {
+        return appointmentDuration;
+    }
+
+    public void setAppointmentDuration(int appointmentDuration) {
+        this.appointmentDuration = appointmentDuration;
     }
 
     public Set<DaySchedule> getDaySchedules() {

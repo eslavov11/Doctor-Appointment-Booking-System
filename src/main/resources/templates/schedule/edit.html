@@ -50,6 +50,14 @@
                 </table>
             </div>
 
+            <div class="form-group" th:classappend="${#fields.hasErrors('appointmentDuration')}? 'has-danger'">
+                <label for="appointmentDuration">Appointment Duration (Minutes)</label>
+                <input type="number" class="form-control" id="appointmentDuration" aria-describedby="durationHelp"
+                       name="appointmentDuration" th:field="*{appointmentDuration}"/>
+                <small id="durationHelp" class="form-control-feedback" th:each="error : ${#fields.errors('appointmentDuration')}"
+                       th:text="${error}">Error Message</small>
+            </div>
+
             <input type="submit" class="btn btn-success" value="Save Schedule"/>
         </form>
     </div>

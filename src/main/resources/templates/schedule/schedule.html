@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Edit Week Schedule</title>
     <link rel="stylesheet" href="../static/css/commons.css"
           th:href="@{~/css/commons.css}"/>
@@ -14,24 +16,45 @@
 </header>
 <main>
     <div class="container">
-        <h1>Edit Week Schedule</h1>
-        <div class="form-group row float-lg-right">
+        <h1>Schedule</h1>
+        <div class="form-group row"> <!-- float-lg-right-->
             <label for="week-input" class="col-lg-2 col-form-label">Week</label>
             <div class="col-lg-10">
                 <input class="form-control" type="week" value="2011-W33" id="week-input"/>
             </div>
         </div>
-        <div class="table-wrapper">
+        <div class="row table-wrapper">
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                    <th>Sunday</th>
+                    <th>
+                        <div>Monday</div>
+                        <div>25.04</div>
+                    </th>
+                    <th>
+                        <div>Tuesday</div>
+                        <div>25.04</div>
+                    </th>
+                    <th>
+                        <div>Wednesday</div>
+                        <div>25.04</div>
+                    </th>
+                    <th>
+                        <div>Thursday</div>
+                        <div>25.04</div>
+                    </th>
+                    <th>
+                        <div>Friday</div>
+                        <div>25.04</div>
+                    </th>
+                    <th>
+                        <div>Saturday</div>
+                        <div>25.04</div>
+                    </th>
+                    <th>
+                        <div>Sunday</div>
+                        <div>25.04</div>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>

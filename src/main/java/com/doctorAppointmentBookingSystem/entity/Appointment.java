@@ -21,6 +21,10 @@ public class Appointment implements Serializable {
     private Patient patient;
 
     @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+
+    @ManyToOne
     @JoinColumn(name = "appointment_type_id")
     private AppointmentType appointmentType;
 
@@ -50,6 +54,14 @@ public class Appointment implements Serializable {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
     public AppointmentType getAppointmentType() {
