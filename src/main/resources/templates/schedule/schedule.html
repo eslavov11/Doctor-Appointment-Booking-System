@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>Edit Week Schedule</title>
+    <!--<meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+    <title>Schedule</title>
     <link rel="stylesheet" href="../static/css/commons.css"
           th:href="@{~/css/commons.css}"/>
 </head>
@@ -17,53 +17,53 @@
 <main>
     <div class="container">
         <h1>Schedule</h1>
-        <div class="form-group row"> <!-- float-lg-right-->
-            <label for="week-input" class="col-lg-2 col-form-label">Week</label>
-            <div class="col-lg-10">
-                <input class="form-control" type="week" value="2011-W33" id="week-input"/>
-            </div>
+        <br/>
+        <div class="form-group"> <!-- float-lg-right-->
+            <input class="form-control" type="week" value="2011-W33" id="week-input"/>
         </div>
-        <div class="row table-wrapper">
-            <table class="table">
+        <div class="table-wrapper">
+            <table id="schedule-table" class="table">
                 <thead>
                 <tr>
                     <th>
                         <div>Monday</div>
-                        <div>25.04</div>
+                        <div class="schedule-date">01.01</div>
                     </th>
                     <th>
                         <div>Tuesday</div>
-                        <div>25.04</div>
+                        <div class="schedule-date">01.01</div>
                     </th>
                     <th>
                         <div>Wednesday</div>
-                        <div>25.04</div>
+                        <div class="schedule-date">01.01</div>
                     </th>
                     <th>
                         <div>Thursday</div>
-                        <div>25.04</div>
+                        <div class="schedule-date">01.01</div>
                     </th>
                     <th>
                         <div>Friday</div>
-                        <div>25.04</div>
+                        <div class="schedule-date">01.01</div>
                     </th>
                     <th>
                         <div>Saturday</div>
-                        <div>25.04</div>
+                        <div class="schedule-date">01.01</div>
                     </th>
                     <th>
                         <div>Sunday</div>
-                        <div>25.04</div>
+                        <div class="schedule-date">01.01</div>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <!--<th scope="row">From</th>-->
-                    <!--<td th:each="editDayScheduleModel, stat : *{editDayScheduleModels}">-->
-                    <!--<input class="form-control" type="time" value="00:00:00"-->
-                    <!--th:field="*{editDayScheduleModels[__${stat.index}__].startTimeStr}"/>-->
-                    <!--</td>-->
+                    <td class="schedule-day"></td>
+                    <td class="schedule-day"></td>
+                    <td class="schedule-day"></td>
+                    <td class="schedule-day"></td>
+                    <td class="schedule-day"></td>
+                    <td class="schedule-day"></td>
+                    <td class="schedule-day"></td>
                 </tr>
                 </tbody>
             </table>
@@ -73,5 +73,26 @@
 
 <div th:replace="fragment/parts::scripts">
 </div>
+<script th:src="@{~/js/util/requester.js}" src="../../static/js/util/requester.js"></script>
+<script th:src="@{~/js/controller/scheduleController.js}" src="../../static/js/controller/scheduleController.js"></script>
+<script th:src="@{~/js/model/appointmentModel.js}" src="../../static/js/model/appointmentModel.js"></script>
+<script th:src="@{~/js/model/weekScheduleModel.js}" src="../../static/js/model/weekScheduleModel.js"></script>
+<script th:src="@{~/js/viewBag/scheduleViewBag.js}" src="../../static/js/viewBag/scheduleViewBag.js"></script>
+<script type="text/javascript" th:inline="javascript">
+    var app = app || {};
+
+    var requester = requester || app.requester.load();
+
+    var scheduleModel = app.weekScheduleModel.load(requester);
+    var appointmentModel = app.appointmentModel.load(requester);
+    var scheduleViewBag = app.scheduleViewBag.load();
+
+    var scheduleController = app.scheduleController.load(scheduleModel, appointmentModel, scheduleViewBag);
+
+    $(document).ready(function () {
+        scheduleController.loadSchedule();
+    });
+</script>
+
 </body>
 </html>

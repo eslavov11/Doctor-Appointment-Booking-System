@@ -6,6 +6,7 @@ var app = app || {};
 app.scheduleController = function () {
     function ScheduleController(model, appointmentModel, viewBag) {
         this._model = model;
+        this._appointmentModel = appointmentModel;
         this._viewBag = viewBag;
     }
 

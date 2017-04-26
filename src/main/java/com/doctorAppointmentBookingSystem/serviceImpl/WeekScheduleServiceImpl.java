@@ -68,6 +68,10 @@ public class WeekScheduleServiceImpl implements WeekScheduleService {
 
     @Override
     public void save(EditWeekScheduleModel editWeekScheduleModel) {
+        WeekSchedule weekSchedule = this.weekScheduleRepository.getOne(editWeekScheduleModel.getId());
+        weekSchedule.setAppointmentDuration(editWeekScheduleModel.getAppointmentDuration());
+        this.weekScheduleRepository.saveAndFlush(weekSchedule);
+
         for (EditDayScheduleModel editDayScheduleModel : editWeekScheduleModel.getEditDayScheduleModels()) {
             this.dayScheduleService.save(editDayScheduleModel);
         }

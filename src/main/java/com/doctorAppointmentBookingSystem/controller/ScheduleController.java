@@ -6,6 +6,7 @@ import com.doctorAppointmentBookingSystem.model.bindingModel.EditWeekScheduleMod
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.WeekScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,6 +78,14 @@ public class ScheduleController {
         this.weekScheduleService.save(editWeekScheduleModel);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/week")
+    public ResponseEntity<EditWeekScheduleModel> getWeekSchedule(Principal principal) {
+        long weekScheduleId = getWeekScheduleId((Authentication) principal);
+        EditWeekScheduleModel editWeekScheduleModel = this.weekScheduleService.getById(weekScheduleId);
+
+        return ResponseEntity.ok(editWeekScheduleModel);
     }
 
     private long getWeekScheduleId(Authentication principal) {
