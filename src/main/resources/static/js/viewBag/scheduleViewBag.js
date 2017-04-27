@@ -24,7 +24,8 @@ app.scheduleViewBag = (function() {
             var time = hours + ':' + minutes;
 
             var appointmentEl = $('<div>');
-            var appointmentLink = $('<a>').text(time).attr('href', '/appointment/add?date=' + new Date().toLocaleString("en-GB"));
+            var appointmentLink = $('<a>').text(time)
+                .attr('href', '/appointment/add?date=' + new Date().toLocaleString("en-US").replace(',', ''));
 
             $(appointmentEl).append(appointmentLink);
             $(scheduleDay).append(appointmentEl);

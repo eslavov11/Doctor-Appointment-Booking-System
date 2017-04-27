@@ -20,7 +20,8 @@
         <form method="post" th:object="${addAppointmentModel}">
             <div class="form-group">
                 <label class="form-control-label" for="inputDate">Appointment Date</label>
-                <input type="text" class="form-control form-control-danger" id="inputDate" th:field="*{date}" />
+                <input type="text" class="form-control form-control-danger" id="inputDate"
+                       th:value="${#dates.format(addAppointmentModel.date, 'dd-MMM-yyyy HH:mm')}"/>
             </div>
 
             <div class="form-group">
