@@ -81,6 +81,13 @@ public class DoctorServiceImpl implements DoctorService {
         return this.doctorRepository.findOneByUserId(userId);
     }
 
+    @Override
+    public DoctorSelectViewModel getModelByUserId(long userId) {
+        Doctor doctor = this.doctorRepository.findOneByUserId(userId);
+
+        return this.modelMapper.map(doctor, DoctorSelectViewModel.class);
+    }
+
     private User createDoctorUser(DoctorRegistrationModel registrationModel) {
         UserRegistrationModel userRegistrationModel = this.modelMapper.map(registrationModel, UserRegistrationModel.class);
         String DEFAULT_DOCTOR_ROLE = "ROLE_DOCTOR";

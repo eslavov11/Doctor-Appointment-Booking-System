@@ -23,6 +23,7 @@ doctors --done!
 -user_id
 -week_schedule_id
 -patients
+-doctor_specialty_id
 
 patients --done!
 -name
@@ -58,10 +59,6 @@ settle_points --done!
 -ekatte
 -longitude
 -latitude
-
-doctors_specialties --done!
--doctor
--doctor_type
 
 doctor_specialty --done!
 -specialty_name

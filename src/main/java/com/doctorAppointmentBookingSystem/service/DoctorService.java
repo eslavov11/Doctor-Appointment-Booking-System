@@ -16,5 +16,7 @@ public interface DoctorService {
 
     Doctor getByUserId(long userId);
 
+    DoctorSelectViewModel getModelByUserId(long userId);
+
     List<DoctorSelectViewModel> getAll();
 }
