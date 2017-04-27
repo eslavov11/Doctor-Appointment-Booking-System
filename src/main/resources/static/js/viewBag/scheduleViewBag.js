@@ -23,7 +23,10 @@ app.scheduleViewBag = (function() {
             var minutes = currentAppointmentTime % 60;
             var time = hours + ':' + minutes;
 
-            var appointmentEl = $('<div>').text(time);
+            var appointmentEl = $('<div>');
+            var appointmentLink = $('<a>').text(time).attr('href', '/appointment/add?date=' + new Date().toLocaleString("en-GB"));
+
+            $(appointmentEl).append(appointmentLink);
             $(scheduleDay).append(appointmentEl);
 
             currentAppointmentTime += appointmentDuration;

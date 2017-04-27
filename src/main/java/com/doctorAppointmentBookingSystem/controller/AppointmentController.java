@@ -42,7 +42,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/add")
-    public String getAddAppointment(Principal principal, @RequestParam("date") @DateTimeFormat Date date,
+    public String getAddAppointment(Principal principal, @RequestParam("date") @DateTimeFormat(pattern="dd/MM/yyyy") Date date,
                                     @ModelAttribute AddAppointmentModel addAppointmentModel, Model model) {
         addAppointmentModel.setDate(date);
 
