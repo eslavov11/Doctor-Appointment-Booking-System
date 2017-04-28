@@ -91,30 +91,16 @@
     var scheduleController = app.scheduleController.load(scheduleModel, appointmentModel, scheduleViewBag);
 
     $(document).ready(function () {
-        scheduleController.loadSchedule();
+        $('#week-input').val(app.getWeekNumberFormat());
+        scheduleController.updateSchedule();
 
-        var weekEl = $('#week-input').val(app.getWeekNumberFormat());
-        updateSchedule(weekEl);
+        scheduleController.loadSchedule();
     });
 
     $('#week-input').change(function () {
-        updateSchedule(this);
+        scheduleController.updateSchedule();
+        scheduleController.updateAppointments();
     });
-
-    function updateSchedule(weekEl) {
-        var weekYear = $(weekEl).val().split('-W');
-
-        var dateOfWeek = app.getDateOfISOWeek(weekYear[0], weekYear[1]);
-
-        $('.schedule-date').each(function (index, scheduleDate) {
-            var formattedDate = ('0' + dateOfWeek.getDate()).slice(-2) + '.' + ('0' +  (dateOfWeek.getMonth() + 1)).slice(-2);
-
-            $(scheduleDate).last().text(formattedDate);
-
-            dateOfWeek.setDate(dateOfWeek.getDate() + 1);
-        });
-    }
 </script>
-
 </body>
 </html>

@@ -7,11 +7,11 @@ app.scheduleViewBag = (function () {
     function showSchedule(data) {
         var scheduleDays = $('#schedule-table .schedule-day');
         scheduleDays.each(function (index, scheduleDay) {
-            appendAppointmentTimes(scheduleDay, data.editDayScheduleModels[index], data.appointmentDuration);
+            _appendAppointmentTimes(scheduleDay, data.editDayScheduleModels[index], data.appointmentDuration);
         });
     }
 
-    function appendAppointmentTimes(scheduleDay, dayScheduleData, appointmentDuration) {
+    function _appendAppointmentTimes(scheduleDay, dayScheduleData, appointmentDuration) {
         var startTime = dayScheduleData.startTimeStr.substr(0, 5).split(':');
         var endTime = dayScheduleData.endTimeStr.substr(0, 5).split(':');
         var startTimeMinutes = Number(startTime[0]) * 60 + Number(startTime[1]);
@@ -50,10 +50,41 @@ app.scheduleViewBag = (function () {
         }
     }
 
+    function updateSchedule() {
+        var weekYear = $('#week-input').val().split('-W');
+
+        var dateOfWeek = app.getDateOfISOWeek(weekYear[0], weekYear[1]);
+
+        $('.schedule-date').each(function (index, scheduleDate) {
+            var formattedDate = ('0' + dateOfWeek.getDate()).slice(-2) + '.' + ('0' + (dateOfWeek.getMonth() + 1)).slice(-2);
+
+            $(scheduleDate).last()
+                .text(formattedDate)
+                .attr('data-content', dateOfWeek.toLocaleDateString("en-US"));
+
+            dateOfWeek.setDate(dateOfWeek.getDate() + 1);
+        });
+    }
+
+    function updateAppointments() {
+        $('.schedule-date').each(function (index, scheduleDate) {
+            var appointmentDate = $(scheduleDate).last().attr('data-content');
+
+            var scheduleDay = $('#schedule-table .schedule-day').eq(index);
+            scheduleDay.find('a').each(function (index, appointmentLinkEl) {
+                var hrefFormatted = $(appointmentLinkEl).attr('data-content').format(appointmentDate);
+
+                $(appointmentLinkEl).attr('href', hrefFormatted);
+            });
+        });
+    }
+
     return {
         load: function () {
             return {
-                showSchedule: showSchedule
+                showSchedule: showSchedule,
+                updateSchedule: updateSchedule,
+                updateAppointments: updateAppointments
             }
         }
     }

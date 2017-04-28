@@ -15,9 +15,18 @@ app.scheduleController = function () {
         this._model.getWeekSchedule()
             .then(function (data) {
                 _this._viewBag.showSchedule(data);
+                _this.updateAppointments();
             }, function (error) {
                 console.log(error);
             });
+    };
+
+    ScheduleController.prototype.updateSchedule = function () {
+        this._viewBag.updateSchedule();
+    };
+
+    ScheduleController.prototype.updateAppointments = function () {
+        this._viewBag.updateAppointments();
     };
 
     return {
