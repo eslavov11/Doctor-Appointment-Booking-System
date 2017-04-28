@@ -18,7 +18,7 @@ app.scheduleViewBag = (function () {
         var endTimeMinutes = Number(endTime[0]) * 60 + Number(endTime[1]);
 
         var currentAppointmentTime = startTimeMinutes;
-        var index = 0;
+        var appointmentsCount = 0;
         while (currentAppointmentTime < endTimeMinutes) {
             var hours = Math.floor(currentAppointmentTime / 60);
             var minutes = currentAppointmentTime % 60;
@@ -27,19 +27,26 @@ app.scheduleViewBag = (function () {
 
             var appointmentEl = $('<span>');
             var appointmentLink = $('<a>').text(time)
-                .attr('href', '/appointment/add?date=' + new Date().toLocaleString("en-US").replace(',', ''));
+                .attr('href', '/appointment/add')
+                // + new Date().toLocaleString("en-US").replace(',', '')
+                .attr('data-content', ('/appointment/add?date={0} ' + app.convert24To12HourFormat(time + ':00')));
 
             $(appointmentEl).append(appointmentLink);
             $(scheduleDay).append(appointmentEl);
 
             currentAppointmentTime += appointmentDuration;
 
-            if (index % 2 == 0) {
+            if (appointmentsCount % 2 == 0) {
                 $(scheduleDay).append(' ');
             } else {
                 $(scheduleDay).append($('<br>'));
             }
-            ++index;
+
+            ++appointmentsCount;
+        }
+
+        if (appointmentsCount == 0) {
+            $(scheduleDay).append('Day off.');
         }
     }
 

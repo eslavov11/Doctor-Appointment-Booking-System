@@ -73,6 +73,7 @@
 
 <div th:replace="fragment/parts::scripts">
 </div>
+<script th:src="@{~/js/util/common.js}" src="../../static/js/util/common.js"></script>
 <script th:src="@{~/js/util/requester.js}" src="../../static/js/util/requester.js"></script>
 <script th:src="@{~/js/controller/scheduleController.js}" src="../../static/js/controller/scheduleController.js"></script>
 <script th:src="@{~/js/model/appointmentModel.js}" src="../../static/js/model/appointmentModel.js"></script>
@@ -91,7 +92,28 @@
 
     $(document).ready(function () {
         scheduleController.loadSchedule();
+
+        var weekEl = $('#week-input').val(app.getWeekNumberFormat());
+        updateSchedule(weekEl);
     });
+
+    $('#week-input').change(function () {
+        updateSchedule(this);
+    });
+
+    function updateSchedule(weekEl) {
+        var weekYear = $(weekEl).val().split('-W');
+
+        var dateOfWeek = app.getDateOfISOWeek(weekYear[0], weekYear[1]);
+
+        $('.schedule-date').each(function (index, scheduleDate) {
+            var formattedDate = ('0' + dateOfWeek.getDate()).slice(-2) + '.' + ('0' +  (dateOfWeek.getMonth() + 1)).slice(-2);
+
+            $(scheduleDate).last().text(formattedDate);
+
+            dateOfWeek.setDate(dateOfWeek.getDate() + 1);
+        });
+    }
 </script>
 
 </body>
