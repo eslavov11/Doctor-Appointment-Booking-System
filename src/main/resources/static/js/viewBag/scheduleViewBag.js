@@ -3,7 +3,7 @@
  */
 var app = app || {};
 
-app.scheduleViewBag = (function() {
+app.scheduleViewBag = (function () {
     function showSchedule(data) {
         var scheduleDays = $('#schedule-table .schedule-day');
         scheduleDays.each(function (index, scheduleDay) {
@@ -18,12 +18,14 @@ app.scheduleViewBag = (function() {
         var endTimeMinutes = Number(endTime[0]) * 60 + Number(endTime[1]);
 
         var currentAppointmentTime = startTimeMinutes;
-        while(currentAppointmentTime < endTimeMinutes) {
+        var index = 0;
+        while (currentAppointmentTime < endTimeMinutes) {
             var hours = Math.floor(currentAppointmentTime / 60);
             var minutes = currentAppointmentTime % 60;
-            var time = hours + ':' + minutes;
+            var time = ('0' + hours).slice(-2) + ':' +
+                ('0' + minutes).slice(-2);
 
-            var appointmentEl = $('<div>');
+            var appointmentEl = $('<span>');
             var appointmentLink = $('<a>').text(time)
                 .attr('href', '/appointment/add?date=' + new Date().toLocaleString("en-US").replace(',', ''));
 
@@ -31,6 +33,13 @@ app.scheduleViewBag = (function() {
             $(scheduleDay).append(appointmentEl);
 
             currentAppointmentTime += appointmentDuration;
+
+            if (index % 2 == 0) {
+                $(scheduleDay).append(' ');
+            } else {
+                $(scheduleDay).append($('<br>'));
+            }
+            ++index;
         }
     }
 
