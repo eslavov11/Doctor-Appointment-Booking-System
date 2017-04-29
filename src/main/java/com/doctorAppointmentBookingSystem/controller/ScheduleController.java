@@ -1,13 +1,16 @@
 package com.doctorAppointmentBookingSystem.controller;
 
 import com.doctorAppointmentBookingSystem.entity.Doctor;
+import com.doctorAppointmentBookingSystem.entity.Patient;
 import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.model.bindingModel.EditWeekScheduleModel;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
+import com.doctorAppointmentBookingSystem.service.PatientService;
 import com.doctorAppointmentBookingSystem.service.WeekScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 
@@ -29,10 +33,14 @@ public class ScheduleController {
 
     private DoctorService doctorService;
 
+    private PatientService patientService;
+
     @Autowired
-    public ScheduleController(WeekScheduleService weekScheduleService, DoctorService doctorService) {
+    public ScheduleController(WeekScheduleService weekScheduleService, DoctorService doctorService,
+                              PatientService patientService) {
         this.weekScheduleService = weekScheduleService;
         this.doctorService = doctorService;
+        this.patientService = patientService;
     }
 
     @GetMapping("/")
@@ -48,8 +56,8 @@ public class ScheduleController {
     }
 
     @GetMapping("/edit")
-    public String getEditSchedule(Principal principal, Model model) {
-        long weekScheduleId = getWeekScheduleId((Authentication) principal);
+    public String getEditSchedule(Principal principal, Model model, HttpServletRequest request) {
+        long weekScheduleId = getWeekScheduleId((Authentication) principal, request);
         EditWeekScheduleModel editWeekScheduleModel = this.weekScheduleService.getById(weekScheduleId);
 
         model.addAttribute("editWeekScheduleModel", editWeekScheduleModel);
@@ -59,12 +67,12 @@ public class ScheduleController {
 
     @PostMapping("/edit")
     public String editSchedule(@Valid @ModelAttribute EditWeekScheduleModel editWeekScheduleModel,
-                               BindingResult bindingResult, Principal principal) {
+                               BindingResult bindingResult, Principal principal, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "schedule/edit";
         }
 
-        long weekScheduleId = getWeekScheduleId((Authentication) principal);
+        long weekScheduleId = getWeekScheduleId((Authentication) principal, request);
 
         editWeekScheduleModel.setId(weekScheduleId);
         EditWeekScheduleModel editWeekScheduleModelIds = this.weekScheduleService.getById(weekScheduleId);
@@ -72,7 +80,7 @@ public class ScheduleController {
             editWeekScheduleModel
                     .getEditDayScheduleModels()
                     .get(i).setId(editWeekScheduleModelIds
-                            .getEditDayScheduleModels().get(i).getId());
+                    .getEditDayScheduleModels().get(i).getId());
         }
 
         this.weekScheduleService.save(editWeekScheduleModel);
@@ -81,16 +89,23 @@ public class ScheduleController {
     }
 
     @GetMapping("/week")
-    public ResponseEntity<EditWeekScheduleModel> getWeekSchedule(Principal principal) {
-        long weekScheduleId = getWeekScheduleId((Authentication) principal);
+    public ResponseEntity<EditWeekScheduleModel> getWeekSchedule(Principal principal, HttpServletRequest request) {
+        long weekScheduleId = getWeekScheduleId((Authentication) principal, request);
         EditWeekScheduleModel editWeekScheduleModel = this.weekScheduleService.getById(weekScheduleId);
 
         return ResponseEntity.ok(editWeekScheduleModel);
     }
 
-    private long getWeekScheduleId(Authentication principal) {
+    private long getWeekScheduleId(Authentication principal, HttpServletRequest request) {
         long userId = ((User) principal.getPrincipal()).getId();
-        Doctor doctor = this.doctorService.getByUserId(userId);
-        return doctor.getWeekSchedule().getId();
+        if (request.isUserInRole("ROLE_DOCTOR")) {
+            Doctor doctor = this.doctorService.getByUserId(userId);
+            return doctor.getWeekSchedule().getId();
+        } else if (request.isUserInRole("ROLE_PATIENT")) {
+            Patient patient = this.patientService.getByUserId(userId);
+            return patient.getDoctor().getWeekSchedule().getId();
+        }
+
+        return 0;
     }
 }

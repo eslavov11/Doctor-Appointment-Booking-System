@@ -1,5 +1,8 @@
 package com.doctorAppointmentBookingSystem.model.bindingModel;
 
+import com.doctorAppointmentBookingSystem.entity.Doctor;
+import com.doctorAppointmentBookingSystem.entity.Patient;
+
 import java.util.Date;
 
 /**
@@ -11,6 +14,10 @@ public class AddAppointmentModel {
     private long appointmentTypeId;
 
     private String description;
+
+    private Patient patient;
+
+    private Doctor doctor;
 
     public Date getDate() {
         return date;
@@ -34,5 +41,21 @@ public class AddAppointmentModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 }

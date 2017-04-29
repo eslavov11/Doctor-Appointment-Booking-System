@@ -1,6 +1,7 @@
 package com.doctorAppointmentBookingSystem.controller;
 
 import com.doctorAppointmentBookingSystem.entity.Doctor;
+import com.doctorAppointmentBookingSystem.entity.Patient;
 import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.model.bindingModel.AddAppointmentModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.AppointmentTypeViewModel;
@@ -8,9 +9,11 @@ import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
 import com.doctorAppointmentBookingSystem.service.AppointmentService;
 import com.doctorAppointmentBookingSystem.service.AppointmentTypeService;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
+import com.doctorAppointmentBookingSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,12 +36,15 @@ public class AppointmentController {
 
     private DoctorService doctorService;
 
+    private PatientService patientService;
+
     @Autowired
     public AppointmentController(AppointmentService appointmentService, AppointmentTypeService appointmentTypeService,
-                                 DoctorService doctorService) {
+                                 DoctorService doctorService, PatientService patientService) {
         this.appointmentService = appointmentService;
         this.appointmentTypeService = appointmentTypeService;
         this.doctorService = doctorService;
+        this.patientService = patientService;
     }
 
     @GetMapping("/add")
@@ -47,7 +53,8 @@ public class AppointmentController {
         addAppointmentModel.setDate(date);
 
         long userId = ((User)((Authentication) principal).getPrincipal()).getId();
-        DoctorSelectViewModel doctorSelectViewModel = this.doctorService.getModelByUserId(userId);
+        Patient patient = this.patientService.getByUserId(userId);
+        DoctorSelectViewModel doctorSelectViewModel = this.doctorService.getModelByUserId(patient.getDoctor().getUser().getId());
         model.addAttribute("doctorSelectViewModel", doctorSelectViewModel);
 
         List<AppointmentTypeViewModel> appointmentTypes = this.appointmentTypeService.getAll();
@@ -56,12 +63,23 @@ public class AppointmentController {
         return "appointment/add";
     }
 
-    @PostMapping("/edit")
-    public String editSchedule(@Valid @ModelAttribute AddAppointmentModel addAppointmentModel,
-                               BindingResult bindingResult, Principal principal) {
+    @PostMapping("/add")
+    public String addAppointment(@RequestParam("date") @DateTimeFormat(pattern="MM/dd/yyyy hh:mm:ss") Date date,
+                                 @Valid @ModelAttribute AddAppointmentModel addAppointmentModel,
+                               BindingResult bindingResult, Authentication principal) {
         if (bindingResult.hasErrors()) {
             return "appointment/add";
         }
+
+        addAppointmentModel.setDate(date);
+
+        long userId = ((User)principal.getPrincipal()).getId();
+        Patient patient = this.patientService.getByUserId(userId);
+
+        addAppointmentModel.setPatient(patient);
+        addAppointmentModel.setDoctor(patient.getDoctor());
+
+        this.appointmentService.save(addAppointmentModel);
 
         return "redirect:/";
     }

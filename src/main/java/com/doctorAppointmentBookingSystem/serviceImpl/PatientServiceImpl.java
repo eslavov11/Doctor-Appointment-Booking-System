@@ -50,4 +50,9 @@ public class PatientServiceImpl implements PatientService {
 
         this.patientRepository.saveAndFlush(patient);
     }
+
+    @Override
+    public Patient getByUserId(long userId) {
+        return this.patientRepository.findOneByUserId(userId);
+    }
 }

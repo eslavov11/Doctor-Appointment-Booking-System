@@ -25,7 +25,7 @@ app.scheduleViewBag = (function () {
             var time = ('0' + hours).slice(-2) + ':' +
                 ('0' + minutes).slice(-2);
 
-            var appointmentEl = $('<span>');
+            var appointmentEl = $('<span>').addClass('appointment-wrapper');
             var appointmentLink = $('<a>').text(time)
                 .attr('href', '/appointment/add')
                 // + new Date().toLocaleString("en-US").replace(',', '')
@@ -38,6 +38,7 @@ app.scheduleViewBag = (function () {
 
             if (appointmentsCount % 2 == 0) {
                 $(scheduleDay).append(' ');
+                $(scheduleDay).append($('<span>').text('| ').addClass('hidden-sm-down'));
             } else {
                 $(scheduleDay).append($('<br>'));
             }
@@ -67,6 +68,19 @@ app.scheduleViewBag = (function () {
     }
 
     function updateAppointments() {
+        $('.schedule-date').each(function (index, scheduleDate) {
+            var appointmentDate = $(scheduleDate).last().attr('data-content');
+
+            var scheduleDay = $('#schedule-table .schedule-day').eq(index);
+            scheduleDay.find('a').each(function (index, appointmentLinkEl) {
+                var hrefFormatted = $(appointmentLinkEl).attr('data-content').format(appointmentDate);
+
+                $(appointmentLinkEl).attr('href', hrefFormatted);
+            });
+        });
+    }
+
+    function loadBookedAppointments() {
         $('.schedule-date').each(function (index, scheduleDate) {
             var appointmentDate = $(scheduleDate).last().attr('data-content');
 
