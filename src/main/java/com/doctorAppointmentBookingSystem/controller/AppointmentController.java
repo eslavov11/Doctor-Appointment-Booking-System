@@ -50,7 +50,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/add")
-    public String getAddAppointment(Principal principal, @RequestParam("date") @DateTimeFormat(pattern="MM/dd/yyyy hh:mm:ss") Date date,
+    public String getAddAppointment(Principal principal, @RequestParam("date") @DateTimeFormat(pattern="MM/dd/yyyy hh:mm:ss a") Date date,
                                     @ModelAttribute AddAppointmentModel addAppointmentModel, Model model) {
         addAppointmentModel.setDate(date);
 
@@ -66,7 +66,7 @@ public class AppointmentController {
     }
 
     @PostMapping("/add")
-    public String addAppointment(@RequestParam("date") @DateTimeFormat(pattern="MM/dd/yyyy hh:mm:ss") Date date,
+    public String addAppointment(@RequestParam("date") @DateTimeFormat(pattern="MM/dd/yyyy hh:mm:ss a") Date date,
                                  @Valid @ModelAttribute AddAppointmentModel addAppointmentModel,
                                BindingResult bindingResult, Authentication principal) {
         if (bindingResult.hasErrors()) {
@@ -83,7 +83,7 @@ public class AppointmentController {
 
         this.appointmentService.save(addAppointmentModel);
 
-        return "redirect:/";
+        return "redirect:/schedule/";
     }
 
     @GetMapping("/getForDate")
