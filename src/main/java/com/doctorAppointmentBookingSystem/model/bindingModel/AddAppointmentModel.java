@@ -11,7 +11,7 @@ import java.util.Date;
 public class AddAppointmentModel {
     private Date date;
 
-    private long appointmentTypeId;
+    private long type;
 
     private String description;
 
@@ -27,12 +27,12 @@ public class AddAppointmentModel {
         this.date = date;
     }
 
-    public long getAppointmentTypeId() {
-        return appointmentTypeId;
+    public long getType() {
+        return type;
     }
 
-    public void setAppointmentTypeId(long appointmentTypeId) {
-        this.appointmentTypeId = appointmentTypeId;
+    public void setType(long type) {
+        this.type = type;
     }
 
     public String getDescription() {

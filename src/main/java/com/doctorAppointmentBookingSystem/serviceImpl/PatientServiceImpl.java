@@ -42,7 +42,7 @@ public class PatientServiceImpl implements PatientService {
         userRegistrationModel.setAdditionalRole(DEFAULT_PATIENT_ROLE);
         User user = this.userService.register(userRegistrationModel);
 
-        Doctor doctor = this.doctorService.getById(registrationModel.getDoctorId());
+        Doctor doctor = this.doctorService.getById(registrationModel.getDoctor());
 
         Patient patient = this.modelMapper.map(registrationModel, Patient.class);
         patient.setUser(user);

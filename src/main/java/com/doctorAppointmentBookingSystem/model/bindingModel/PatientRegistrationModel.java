@@ -39,7 +39,7 @@ public class PatientRegistrationModel implements PasswordConfirmable {
 
     private Boolean isInsured;
 
-    private long doctorId;
+    private long doctor;
 
     public String getEmail() {
         return email;
@@ -137,11 +137,11 @@ public class PatientRegistrationModel implements PasswordConfirmable {
         isInsured = insured;
     }
 
-    public long getDoctorId() {
-        return doctorId;
+    public long getDoctor() {
+        return doctor;
     }
 
-    public void setDoctorId(long doctorId) {
-        this.doctorId = doctorId;
+    public void setDoctor(long doctor) {
+        this.doctor = doctor;
     }
 }

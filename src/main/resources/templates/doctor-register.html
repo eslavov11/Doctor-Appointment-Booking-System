@@ -126,7 +126,7 @@
 
             <div class="form-group">
                 <label class="form-control-label" for="inputSettlePoint">Settle point</label>
-                <select class="form-control form-control-danger" id="inputSettlePoint" th:field="*{settlePointId}">
+                <select class="form-control form-control-danger" id="inputSettlePoint" th:field="*{settlePoint}">
                     <option th:each="settlePoint : ${settlePoints}"
                             th:value="${settlePoint.id}"
                             th:text="${settlePoint.name} + ' (' + ${settlePoint.ekatte} + ')'"></option>

@@ -40,7 +40,7 @@ public class DoctorRegistrationModel implements PasswordConfirmable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startPracticeDate;
 
-    private long settlePointId;
+    private long settlePoint;
 
     private String address;
 
@@ -138,12 +138,12 @@ public class DoctorRegistrationModel implements PasswordConfirmable {
         this.startPracticeDate = startPracticeDate;
     }
 
-    public long getSettlePointId() {
-        return settlePointId;
+    public long getSettlePoint() {
+        return settlePoint;
     }
 
-    public void setSettlePointId(long settlePointId) {
-        this.settlePointId = settlePointId;
+    public void setSettlePoint(long settlePoint) {
+        this.settlePoint = settlePoint;
     }
 
     public String getAddress() {

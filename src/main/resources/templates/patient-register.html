@@ -116,7 +116,7 @@
 
             <div class="form-group">
                 <label class="form-control-label" for="inputDoctor">Doctor</label>
-                <select class="form-control form-control-danger" id="inputDoctor" th:field="*{doctorId}">
+                <select class="form-control form-control-danger" id="inputDoctor" th:field="*{doctor}">
                     <option th:each="doctor : ${doctors}"
                             th:value="${doctor.id}"
                             th:text="'Dr. ' + ${doctor.firstName} + ' ' + ${doctor.lastName} + ' (' + ${doctor.settlePointName} + ')'">

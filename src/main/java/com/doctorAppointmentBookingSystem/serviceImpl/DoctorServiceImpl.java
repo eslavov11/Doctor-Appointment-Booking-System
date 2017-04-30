@@ -48,7 +48,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public void create(DoctorRegistrationModel registrationModel) {
         User user = this.createDoctorUser(registrationModel);
-        SettlePoint settlePoint = this.settlePointService.getById(registrationModel.getSettlePointId());
+        SettlePoint settlePoint = this.settlePointService.getById(registrationModel.getSettlePoint());
         WeekSchedule weekSchedule = this.weekScheduleService.createDefault();
 
         Doctor doctor = this.modelMapper.map(registrationModel, Doctor.class);

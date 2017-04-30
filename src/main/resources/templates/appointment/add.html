@@ -26,7 +26,7 @@
 
             <div class="form-group">
                 <label class="form-control-label" for="inputAppointmentType">Appointment Type</label>
-                <select class="form-control form-control-danger" id="inputAppointmentType" th:field="*{appointmentTypeId}">
+                <select class="form-control form-control-danger" id="inputAppointmentType" th:field="*{type}">
                     <option th:each="appointmentType : ${appointmentTypes}"
                             th:value="${appointmentType.id}"
                             th:text="${appointmentType.name}"></option>

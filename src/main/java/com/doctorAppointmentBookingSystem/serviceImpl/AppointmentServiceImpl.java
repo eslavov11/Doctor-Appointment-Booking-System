@@ -39,7 +39,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public void save(AddAppointmentModel addAppointmentModel) {
         Appointment appointment = this.modelMapper.map(addAppointmentModel, Appointment.class);
 
-        AppointmentType appointmentType = this.appointmentTypeService.getById(addAppointmentModel.getAppointmentTypeId());
+        AppointmentType appointmentType = this.appointmentTypeService.getById(addAppointmentModel.getType());
         appointment.setAppointmentType(appointmentType);
 
         this.appointmentRepository.saveAndFlush(appointment);
