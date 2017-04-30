@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Add Appointment</title>
-    <link rel="stylesheet" href="../static/select2/css/select2.min.css"
+    <link rel="stylesheet" href="../../static/select2/css/select2.min.css"
           th:href="@{~/select2/css/select2.min.css}"/>
-    <link rel="stylesheet" href="../static/css/commons.css"
+    <link rel="stylesheet" href="../../static/css/commons.css"
           th:href="@{~/css/commons.css}"/>
 </head>
 <head th:replace="fragment/parts::head">
@@ -17,10 +18,31 @@
 <main>
     <div class="container">
         <h1>Add Appointment</h1>
+        <br/>
         <form method="post" th:object="${addAppointmentModel}">
             <div class="form-group">
+                <label class="form-control-label">Appointment For</label>
+                <div>
+                    <a href="#"
+                       th:text="'Dr. ' + ${doctorSelectViewModel.firstName} + ' ' + ${doctorSelectViewModel.lastName}"></a>,
+                    <span class="form-control-label" th:text="${doctorSelectViewModel.settlePointName}"></span>
+                </div>
+            </div>
+
+            <span sec:authorize="hasRole('ROLE_DOCTOR')">
+                <div class="form-group">
+                    <label class="form-control-label" for="inputPatient">Appointment Type</label>
+                    <select class="form-control form-control-danger" id="inputPatient" th:field="*{patient}">
+                        <option th:each="patient : ${doctorPatients}"
+                                th:value="${patient.id}"
+                                th:text="${patient.firstName} + ' ' + ${patient.lastName} + ' (' + ${patient.EGN} + ')'"></option>
+                    </select>
+                </div>
+            </span>
+
+            <div class="form-group">
                 <label class="form-control-label" for="inputDate">Appointment Date</label>
-                <input type="text" class="form-control form-control-danger" id="inputDate"
+                <input type="text" class="form-control form-control-danger" id="inputDate" readonly="readonly"
                        th:value="${#dates.format(addAppointmentModel.date, 'dd-MMM-yyyy HH:mm')}"/>
             </div>
 

@@ -4,6 +4,9 @@ import com.doctorAppointmentBookingSystem.entity.Appointment;
 import com.doctorAppointmentBookingSystem.entity.AppointmentType;
 import com.doctorAppointmentBookingSystem.model.bindingModel.AddAppointmentModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.AppointmentDateViewModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.AppointmentViewModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.PatientBasicViewModel;
 import com.doctorAppointmentBookingSystem.repository.AppointmentRepository;
 import com.doctorAppointmentBookingSystem.service.AppointmentService;
 import com.doctorAppointmentBookingSystem.service.AppointmentTypeService;
@@ -64,5 +67,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
 
         return appointmentDateViewModels;
+    }
+
+    @Override
+    public AppointmentViewModel getByDate(Date date) {
+        Appointment appointment = this.appointmentRepository.findOneByDate(date);
+
+        AppointmentViewModel appointmentViewModel = this.modelMapper.map(appointment, AppointmentViewModel.class);
+        PatientBasicViewModel patientBasicViewModel = this.modelMapper.map(appointment.getPatient(), PatientBasicViewModel.class);
+        appointmentViewModel.setPatientBasicViewModel(patientBasicViewModel);
+        DoctorSelectViewModel doctorSelectViewModel = this.modelMapper.map(appointment.getDoctor(), DoctorSelectViewModel.class);
+        appointmentViewModel.setDoctorSelectViewModel(doctorSelectViewModel);
+
+        return appointmentViewModel;
     }
 }

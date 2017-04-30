@@ -2,6 +2,7 @@ package com.doctorAppointmentBookingSystem.service;
 
 import com.doctorAppointmentBookingSystem.model.bindingModel.AddAppointmentModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.AppointmentDateViewModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.AppointmentViewModel;
 
 import java.util.Date;
 import java.util.List;
@@ -13,4 +14,6 @@ public interface AppointmentService {
     void save(AddAppointmentModel addAppointmentModel);
 
     List<AppointmentDateViewModel> getAllForDate(Date date);
+
+    AppointmentViewModel getByDate(Date date);
 }

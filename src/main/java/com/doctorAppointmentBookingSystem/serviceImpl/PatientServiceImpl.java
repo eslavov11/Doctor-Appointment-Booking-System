@@ -5,6 +5,7 @@ import com.doctorAppointmentBookingSystem.entity.Patient;
 import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.model.bindingModel.PatientRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.UserRegistrationModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.PatientBasicViewModel;
 import com.doctorAppointmentBookingSystem.repository.PatientRepository;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.PatientService;
@@ -12,6 +13,9 @@ import com.doctorAppointmentBookingSystem.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Edi on 16-Apr-17.
@@ -54,5 +58,24 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Patient getByUserId(long userId) {
         return this.patientRepository.findOneByUserId(userId);
+    }
+
+    @Override
+    public PatientBasicViewModel getBasicById(long id) {
+        Patient patient = this.patientRepository.getOne(id);
+
+        return this.modelMapper.map(patient, PatientBasicViewModel.class);
+    }
+
+    @Override
+    public List<PatientBasicViewModel> getPatientsByDoctorId(long doctorId) {
+        List<Patient> patients = this.patientRepository.findAllByDoctorId(doctorId);
+        List<PatientBasicViewModel> patientBasicViewModels = new ArrayList<>();
+        for (Patient patient : patients) {
+            PatientBasicViewModel patientBasicViewModel = this.modelMapper.map(patient, PatientBasicViewModel.class);
+            patientBasicViewModels.add(patientBasicViewModel);
+        }
+
+        return patientBasicViewModels;
     }
 }

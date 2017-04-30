@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <!--<meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
@@ -75,6 +76,8 @@
         </div>
     </div>
 </main>
+<span id="role-doctor" sec:authorize="hasRole('ROLE_DOCTOR')">
+</span>
 
 <div th:replace="fragment/parts::scripts">
 </div>

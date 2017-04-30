@@ -26,10 +26,16 @@ app.scheduleViewBag = (function () {
                 ('0' + minutes).slice(-2);
 
             var appointmentEl = $('<span>').addClass('appointment-wrapper');
-            var appointmentLink = $('<a>').text(time)
-                .attr('href', '/appointment/add')
+            var appointmentLink = $('<a>').text(time);
+
+            if ($('#role-doctor').length) {
+                $(appointmentLink).attr('href', '/appointment/doctor/add')
                 // + new Date().toLocaleString("en-US").replace(',', '')
-                .attr('data-content', ('/appointment/add?date={0} ' + app.convert24To12HourFormat(time + ':00')));
+                    .attr('data-content', ('/appointment/doctor/add?date={0} ' + app.convert24To12HourFormat(time + ':00')));
+            } else {
+                $(appointmentLink).attr('href', '/appointment/patient/add')
+                    .attr('data-content', ('/appointment/patient/add?date={0} ' + app.convert24To12HourFormat(time + ':00')));
+            }
 
             $(appointmentEl).append(appointmentLink);
             $(scheduleDay).append(appointmentEl);
@@ -55,7 +61,7 @@ app.scheduleViewBag = (function () {
         var weekYear = $('#week-input').val().split('-W');
 
         var currentMonday = app.getDateOfISOWeek(weekYear[0], weekYear[1]);
-        var dateOfWeek = new Date(currentMonday.getTime());;
+        var dateOfWeek = new Date(currentMonday.getTime());
 
         $('.schedule-date').each(function (index, scheduleDate) {
             var formattedDate = ('0' + dateOfWeek.getDate()).slice(-2) + '.' + ('0' + (dateOfWeek.getMonth() + 1)).slice(-2);
@@ -95,28 +101,34 @@ app.scheduleViewBag = (function () {
 
             $('#schedule-table .schedule-day').eq(dayOfWeek)
                 .find('.appointment-wrapper').each(function (index, appointmentWrapper) {
-                    var appointmentLinkEl = $(appointmentWrapper).find('a')[0];
+                var appointmentLinkEl = $(appointmentWrapper).find('a')[0];
 
-                    var time = $(appointmentLinkEl).text().split(':'),
-                        hour = Number(time[0]),
-                        minute = Number(time[1]),
-                        hasAppointment = false;
+                var time = $(appointmentLinkEl).text().split(':'),
+                    hour = Number(time[0]),
+                    minute = Number(time[1]),
+                    hasAppointment = false;
 
-                    data.forEach(function (appointment) {
-                        var appDate = new Date(appointment.date);
+                data.forEach(function (appointment) {
+                    var appDate = new Date(appointment.date);
 
-                        if (hour === appDate.getHours() && minute === appDate.getMinutes()) {
+                    if (hour === appDate.getHours() && minute === appDate.getMinutes()) {
+                        if ($('#role-doctor').length) {
+                            var href = $(appointmentLinkEl).attr('href').split('?');
+
+                            $(appointmentLinkEl).css('color', 'black').attr('href', ('/appointment/?' + href[1]));
+                        } else {
                             $(appointmentLinkEl).css('color', 'red').addClass('disabled-link');
-
-                            hasAppointment = true;
-                            return false;
                         }
-                    });
 
-                    /*if ($(appointmentLinkEl).hasClass('disabled-link') && !hasAppointment) {
-                        $(appointmentLinkEl).css('color', '').removeClass('disabled-link');
-                    }*/
+                        hasAppointment = true;
+                        return false;
+                    }
                 });
+
+                /*if ($(appointmentLinkEl).hasClass('disabled-link') && !hasAppointment) {
+                 $(appointmentLinkEl).css('color', '').removeClass('disabled-link');
+                 }*/
+            });
         }
     }
 
