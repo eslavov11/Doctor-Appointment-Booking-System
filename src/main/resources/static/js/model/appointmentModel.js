@@ -10,7 +10,7 @@ app.appointmentModel = (function() {
         this._serviceUrl = '/appointment/'
     }
 
-    AppointmentModel.prototype.getAppointmentForDate = function (date) {
+    AppointmentModel.prototype.getBookedAppointmentsForDay = function (date) {
         var queryUrl = this._serviceUrl + 'getForDate?date=' + date;
 
         return this._requester.get(queryUrl, date);

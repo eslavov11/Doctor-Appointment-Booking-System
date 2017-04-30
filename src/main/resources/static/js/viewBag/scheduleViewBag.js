@@ -54,7 +54,8 @@ app.scheduleViewBag = (function () {
     function updateSchedule() {
         var weekYear = $('#week-input').val().split('-W');
 
-        var dateOfWeek = app.getDateOfISOWeek(weekYear[0], weekYear[1]);
+        var currentMonday = app.getDateOfISOWeek(weekYear[0], weekYear[1]);
+        var dateOfWeek = new Date(currentMonday.getTime());;
 
         $('.schedule-date').each(function (index, scheduleDate) {
             var formattedDate = ('0' + dateOfWeek.getDate()).slice(-2) + '.' + ('0' + (dateOfWeek.getMonth() + 1)).slice(-2);
@@ -65,6 +66,8 @@ app.scheduleViewBag = (function () {
 
             dateOfWeek.setDate(dateOfWeek.getDate() + 1);
         });
+
+        return currentMonday;
     }
 
     function updateAppointments() {
@@ -80,23 +83,49 @@ app.scheduleViewBag = (function () {
         });
     }
 
-    function loadBookedAppointments() {
-        $('.schedule-date').each(function (index, scheduleDate) {
-            var appointmentDate = $(scheduleDate).last().attr('data-content');
+    function clearBookedAppointments() {
+        $('#schedule-table .schedule-day .disabled-link').css('color', '').removeClass('disabled-link');
+    }
 
-            var scheduleDay = $('#schedule-table .schedule-day').eq(index);
-            scheduleDay.find('a').each(function (index, appointmentLinkEl) {
-                var hrefFormatted = $(appointmentLinkEl).attr('data-content').format(appointmentDate);
+    function showBookedAppointmentsForDay(data) {
+        if (data.length != 0) {
+            var dayOfWeek = new Date(data[0].date).getDay();
+            dayOfWeek = (dayOfWeek == 0) ? 7 : dayOfWeek;
+            dayOfWeek--; // 0 - monday, .. 6 - sunday
 
-                $(appointmentLinkEl).attr('href', hrefFormatted);
-            });
-        });
+            $('#schedule-table .schedule-day').eq(dayOfWeek)
+                .find('.appointment-wrapper').each(function (index, appointmentWrapper) {
+                    var appointmentLinkEl = $(appointmentWrapper).find('a')[0];
+
+                    var time = $(appointmentLinkEl).text().split(':'),
+                        hour = Number(time[0]),
+                        minute = Number(time[1]),
+                        hasAppointment = false;
+
+                    data.forEach(function (appointment) {
+                        var appDate = new Date(appointment.date);
+
+                        if (hour === appDate.getHours() && minute === appDate.getMinutes()) {
+                            $(appointmentLinkEl).css('color', 'red').addClass('disabled-link');
+
+                            hasAppointment = true;
+                            return false;
+                        }
+                    });
+
+                    /*if ($(appointmentLinkEl).hasClass('disabled-link') && !hasAppointment) {
+                        $(appointmentLinkEl).css('color', '').removeClass('disabled-link');
+                    }*/
+                });
+        }
     }
 
     return {
         load: function () {
             return {
                 showSchedule: showSchedule,
+                showBookedAppointmentsForDay: showBookedAppointmentsForDay,
+                clearBookedAppointments: clearBookedAppointments,
                 updateSchedule: updateSchedule,
                 updateAppointments: updateAppointments
             }

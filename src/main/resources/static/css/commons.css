@@ -19,3 +19,9 @@ span.select2-container span.select2-selection__arrow {
     overflow-x: auto;
     margin-bottom: 15px;
 }
+
+/*a href*/
+.disabled-link {
+    pointer-events: none;
+    cursor: default;
+}

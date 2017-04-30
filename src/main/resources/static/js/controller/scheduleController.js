@@ -8,6 +8,7 @@ app.scheduleController = function () {
         this._model = model;
         this._appointmentModel = appointmentModel;
         this._viewBag = viewBag;
+        this.currentMonday = null;
     }
 
     ScheduleController.prototype.loadSchedule = function () {
@@ -22,11 +23,30 @@ app.scheduleController = function () {
     };
 
     ScheduleController.prototype.updateSchedule = function () {
-        this._viewBag.updateSchedule();
+        this.currentMonday = this._viewBag.updateSchedule();
     };
 
     ScheduleController.prototype.updateAppointments = function () {
         this._viewBag.updateAppointments();
+    };
+
+    ScheduleController.prototype.loadBookedAppointments = function () {
+        this._viewBag.clearBookedAppointments();
+
+        var _this = this;
+
+        var startDate = this.currentMonday;
+
+        for (var dayOfWeek = 0; dayOfWeek < 7; ++dayOfWeek) {
+            this._appointmentModel.getBookedAppointmentsForDay(startDate.toLocaleDateString('en-US'))
+                .then(function (data) {
+                    _this._viewBag.showBookedAppointmentsForDay(data);
+                }, function (error) {
+                    console.log(error);
+                });
+
+            startDate.setDate(startDate.getDate() + 1);
+        }
     };
 
     return {

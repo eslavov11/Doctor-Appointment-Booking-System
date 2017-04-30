@@ -4,6 +4,7 @@ import com.doctorAppointmentBookingSystem.entity.Doctor;
 import com.doctorAppointmentBookingSystem.entity.Patient;
 import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.model.bindingModel.AddAppointmentModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.AppointmentDateViewModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.AppointmentTypeViewModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
 import com.doctorAppointmentBookingSystem.service.AppointmentService;
@@ -12,6 +13,7 @@ import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -82,5 +84,13 @@ public class AppointmentController {
         this.appointmentService.save(addAppointmentModel);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/getForDate")
+    public ResponseEntity<List<AppointmentDateViewModel>> getWeekSchedule(
+            @RequestParam("date") @DateTimeFormat(pattern="MM/dd/yyyy") Date date) {
+        List<AppointmentDateViewModel> appointmentDateViewModels = this.appointmentService.getAllForDate(date);
+
+        return ResponseEntity.ok(appointmentDateViewModels);
     }
 }

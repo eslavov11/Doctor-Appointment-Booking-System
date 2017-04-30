@@ -97,14 +97,16 @@
 
     $(document).ready(function () {
         $('#week-input').val(app.getWeekNumberFormat());
-        scheduleController.updateSchedule();
 
+        scheduleController.updateSchedule();
         scheduleController.loadSchedule();
+        scheduleController.loadBookedAppointments();
     });
 
     $('#week-input').change(function () {
         scheduleController.updateSchedule();
         scheduleController.updateAppointments();
+        scheduleController.loadBookedAppointments();
     });
 </script>
 </body>
