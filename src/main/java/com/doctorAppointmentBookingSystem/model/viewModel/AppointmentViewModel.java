@@ -6,6 +6,8 @@ import java.util.Date;
  * Created by Edi on 30-Apr-17.
  */
 public class AppointmentViewModel {
+    private long id;
+
     private DoctorSelectViewModel doctorSelectViewModel;
 
     private PatientBasicViewModel patientBasicViewModel;
@@ -15,6 +17,14 @@ public class AppointmentViewModel {
     private String type;
 
     private String description;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public DoctorSelectViewModel getDoctorSelectViewModel() {
         return doctorSelectViewModel;

@@ -30,17 +30,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-                <span sec:authorize="hasRole('ROLE_DOCTOR')">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/schedule/">Schedule</a>
-                    </li>
-                </span>
-
-                <span sec:authorize="hasRole('ROLE_PATIENT')">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/schedule/">Doctor's Schedule</a>
-                    </li>
-                </span>
+                <!--DOCTOR-->
+                <li sec:authorize="hasRole('ROLE_DOCTOR')" class="nav-item">
+                    <a class="nav-link" href="/appointment/doctor">Appointments</a>
+                </li>
+                <li sec:authorize="hasRole('ROLE_DOCTOR')" class="nav-item">
+                    <a class="nav-link" href="/schedule/">Schedule</a>
+                </li>
+                <!-- PATIENT -->
+                <li sec:authorize="hasRole('ROLE_PATIENT')" class="nav-item">
+                    <a class="nav-link" href="/appointment/patient">My Appointments</a>
+                </li>
+                <li sec:authorize="hasRole('ROLE_PATIENT')" class="nav-item">
+                    <a class="nav-link" href="/schedule/">Doctor's Schedule</a>
+                </li>
 
                 <span sec:authorize="hasRole('ROLE_ADMIN')">
                     <li class="nav-item">
@@ -59,7 +62,8 @@
                         <span sec:authentication="name">Username</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user-actions-menu">
-                        <a class="dropdown-item" href="/schedule/edit" sec:authorize="hasRole('ROLE_DOCTOR')">Edit Week Schedule</a>
+                        <a class="dropdown-item" href="/schedule/edit" sec:authorize="hasRole('ROLE_DOCTOR')">Edit Week
+                            Schedule</a>
                         <a class="dropdown-item" href="/user/change-password">Change Password</a>
                         <a class="dropdown-item" href="/logout">Logout</a>
                     </div>

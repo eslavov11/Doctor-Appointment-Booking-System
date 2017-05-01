@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Appointments</title>
+    <link rel="stylesheet" href="../../static/css/commons.css"
+          th:href="@{~/css/commons.css}"/>
+</head>
+<head th:replace="fragment/parts::head">
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{~/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<header th:replace="fragment/parts::menu">
+</header>
+<main>
+    <div class="container">
+        <div class="table-wrapper">
+            <h1>My Appointments</h1>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th sec:authorize="hasRole('ROLE_DOCTOR')">Patient</th>
+                    <th sec:authorize="hasRole('ROLE_PATIENT')">Doctor</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="appointment,iter : ${appointmentViewModels}" th:object="${appointment}">
+                    <td th:text="${iter.index + 1}">index</td>
+                    <td th:text="*{#dates.format(date, 'dd-MMM-yyyy HH:mm')}">date</td>
+                    <td th:text="*{type}">type</td>
+                    <td sec:authorize="hasRole('ROLE_DOCTOR')"
+                        th:text="*{patientBasicViewModel.firstName} + ' ' + *{patientBasicViewModel.lastName}">patient</td>
+                    <td sec:authorize="hasRole('ROLE_PATIENT')"
+                        th:text="*{doctorSelectViewModel.firstName} + ' ' + *{doctorSelectViewModel.lastName}">doctor</td>
+                    <td>
+                        <a class="btn btn-secondary" th:href="|/appointment/*{id}|">View</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <br/>
+    </div>
+</main>
+
+<div th:replace="fragment/parts::scripts">
+</div>
+</body>
+</html>

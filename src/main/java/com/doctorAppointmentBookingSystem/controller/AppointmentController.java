@@ -47,6 +47,28 @@ public class AppointmentController {
         this.patientService = patientService;
     }
 
+    @GetMapping("/patient")
+    public String getPatientAppointmentHomePage(Authentication principal, Model model) {
+        long userId = ((User)(principal).getPrincipal()).getId();
+        Patient patient = this.patientService.getByUserId(userId);
+        List<AppointmentViewModel> appointmentViewModels = this.appointmentService.getAllForPatientById(patient.getId());
+
+        model.addAttribute("appointmentViewModels", appointmentViewModels);
+
+        return "appointment/appointments";
+    }
+
+    @GetMapping("/doctor")
+    public String getDoctorAppointmentHomePage(Authentication principal, Model model) {
+        long userId = ((User)(principal).getPrincipal()).getId();
+        Doctor doctor = this.doctorService.getByUserId(userId);
+        List<AppointmentViewModel> appointmentViewModels = this.appointmentService.getAllForDoctorById(doctor.getId());
+
+        model.addAttribute("appointmentViewModels", appointmentViewModels);
+
+        return "appointment/appointments";
+    }
+
     @GetMapping("/")
     public String getAppointment(@RequestParam("date") @DateTimeFormat(pattern="MM/dd/yyyy hh:mm:ss a") Date date, Model model) {
         AppointmentViewModel appointmentViewModel = this.appointmentService.getByDate(date);

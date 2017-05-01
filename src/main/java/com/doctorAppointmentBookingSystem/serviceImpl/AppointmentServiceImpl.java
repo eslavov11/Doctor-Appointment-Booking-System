@@ -70,6 +70,28 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<AppointmentViewModel> getAllForPatientById(long patientId) {
+        List<Appointment> appointments = this.appointmentRepository.findAllByPatientIdOrderByDate(patientId);
+
+        List<AppointmentViewModel> appointmentViewModels = new ArrayList<>();
+
+        mapAppointmentViewModelList(appointments, appointmentViewModels);
+
+        return appointmentViewModels;
+    }
+
+    @Override
+    public List<AppointmentViewModel> getAllForDoctorById(long doctorId) {
+        List<Appointment> appointments = this.appointmentRepository.findAllByDoctorIdOrderByDate(doctorId);
+
+        List<AppointmentViewModel> appointmentViewModels = new ArrayList<>();
+
+        mapAppointmentViewModelList(appointments, appointmentViewModels);
+
+        return appointmentViewModels;
+    }
+
+    @Override
     public AppointmentViewModel getByDate(Date date) {
         Appointment appointment = this.appointmentRepository.findOneByDate(date);
 
@@ -82,5 +104,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentViewModel.setType(appointment.getAppointmentType().getName());
 
         return appointmentViewModel;
+    }
+
+    private void mapAppointmentViewModelList(List<Appointment> appointments, List<AppointmentViewModel> appointmentViewModels) {
+        for (Appointment appointment : appointments) {
+            AppointmentViewModel appointmentViewModel = this.modelMapper.map(appointment, AppointmentViewModel.class);
+            PatientBasicViewModel patientBasicViewModel = this.modelMapper.map(appointment.getPatient(), PatientBasicViewModel.class);
+            appointmentViewModel.setPatientBasicViewModel(patientBasicViewModel);
+            DoctorSelectViewModel doctorSelectViewModel = this.modelMapper.map(appointment.getDoctor(), DoctorSelectViewModel.class);
+            appointmentViewModel.setDoctorSelectViewModel(doctorSelectViewModel);
+
+            appointmentViewModel.setType(appointment.getAppointmentType().getName());
+            appointmentViewModels.add(appointmentViewModel);
+        }
     }
 }
