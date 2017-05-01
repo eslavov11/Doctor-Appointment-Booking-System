@@ -90,7 +90,7 @@ app.scheduleViewBag = (function () {
     }
 
     function clearBookedAppointments() {
-        $('#schedule-table .schedule-day .disabled-link').css('color', '').removeClass('disabled-link');
+        $('#schedule-table .schedule-day .appointment-booked').css('color', '').removeClass('disabled-link');
     }
 
     function showBookedAppointmentsForDay(data) {
@@ -115,9 +115,15 @@ app.scheduleViewBag = (function () {
                         if ($('#role-doctor').length) {
                             var href = $(appointmentLinkEl).attr('href').split('?');
 
-                            $(appointmentLinkEl).css('color', 'black').attr('href', ('/appointment/?' + href[1]));
+                            $(appointmentLinkEl)
+                                .css('color', 'red')
+                                .addClass('appointment-booked')
+                                .attr('href', ('/appointment/?' + href[1]));
                         } else {
-                            $(appointmentLinkEl).css('color', 'red').addClass('disabled-link');
+                            $(appointmentLinkEl)
+                                .css('color', 'red')
+                                .addClass('disabled-link')
+                                .addClass('appointment-booked');
                         }
 
                         hasAppointment = true;

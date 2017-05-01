@@ -79,6 +79,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         DoctorSelectViewModel doctorSelectViewModel = this.modelMapper.map(appointment.getDoctor(), DoctorSelectViewModel.class);
         appointmentViewModel.setDoctorSelectViewModel(doctorSelectViewModel);
 
+        appointmentViewModel.setType(appointment.getAppointmentType().getName());
+
         return appointmentViewModel;
     }
 }

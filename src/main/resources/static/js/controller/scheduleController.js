@@ -17,6 +17,8 @@ app.scheduleController = function () {
             .then(function (data) {
                 _this._viewBag.showSchedule(data);
                 _this.updateAppointments();
+
+                _this.loadBookedAppointments();
             }, function (error) {
                 console.log(error);
             });

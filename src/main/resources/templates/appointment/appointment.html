@@ -31,7 +31,7 @@
                 <div>
                     <a href="#"
                        th:text="${appointmentViewModel.patientBasicViewModel.firstName} + ' ' + ${appointmentViewModel.patientBasicViewModel.lastName}"></a>,
-                    <span class="form-control-label" th:text="${appointmentViewModel.patientBasicViewModel.EGN}"></span>
+                    <span class="form-control-label" th:text="'(' + ${appointmentViewModel.patientBasicViewModel.EGN} + ')'"></span>
                 </div>
             </div>
 
