@@ -1,9 +1,7 @@
 package com.doctorAppointmentBookingSystem.model.bindingModel;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Edi on 22-Apr-17.

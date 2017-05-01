@@ -2,12 +2,13 @@ package com.doctorAppointmentBookingSystem.model.bindingModel;
 
 
 import com.doctorAppointmentBookingSystem.customValidation.IsPasswordsMatching;
+import com.doctorAppointmentBookingSystem.customValidation.PasswordConfirmable;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.validation.constraints.Size;
 
 @IsPasswordsMatching
-public class UserRegistrationModel {
+public class UserRegistrationModel implements PasswordConfirmable {
     private String email;
 
     @Size(min = 5, message = "Username too short")

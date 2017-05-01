@@ -1,6 +1,7 @@
 package com.doctorAppointmentBookingSystem.model.bindingModel;
 
 import com.doctorAppointmentBookingSystem.customValidation.IsPasswordsMatching;
+import com.doctorAppointmentBookingSystem.customValidation.PasswordConfirmable;
 
 import javax.validation.constraints.Size;
 
@@ -8,7 +9,7 @@ import javax.validation.constraints.Size;
  * Created by Edi on 17-Apr-17.
  */
 @IsPasswordsMatching
-public class ChangePasswordModel {
+public class ChangePasswordModel implements PasswordConfirmable {
     private long userId;
 
     @Size(min = 5, message = "Old password too short")

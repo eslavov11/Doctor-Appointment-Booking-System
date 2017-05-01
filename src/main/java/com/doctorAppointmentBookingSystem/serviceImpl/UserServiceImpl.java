@@ -70,11 +70,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(ChangePasswordModel changePasswordModel) {
+    public boolean updatePassword(ChangePasswordModel changePasswordModel) {
         User user = this.userRepository.findOne(changePasswordModel.getUserId());
         String encryptedPassword = this.bCryptPasswordEncoder.encode(changePasswordModel.getPassword());
+        if (!this.bCryptPasswordEncoder.matches(changePasswordModel.getOldPassword(),
+                user.getPassword())) {
+            return false;
+        }
+
         user.setPassword(encryptedPassword);
 
-         this.userRepository.saveAndFlush(user);
+        this.userRepository.saveAndFlush(user);
+
+        return true;
     }
 }

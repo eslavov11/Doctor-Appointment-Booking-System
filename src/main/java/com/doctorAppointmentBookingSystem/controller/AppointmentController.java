@@ -117,14 +117,12 @@ public class AppointmentController {
     @GetMapping("/patient/add")
     public String getPatientAddAppointment(Principal principal, @RequestParam("date") @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm:ss a") Date date,
                                            @ModelAttribute AddAppointmentModel addAppointmentModel, Model model) {
+        if (date.before(new Date())) {
+            throw new InvalidAppointmentDateException();
+        }
 
         if (false) {
             //TODO: check if date not taken -> go to schedule if true
-        }
-
-        if (date.before(new Date())) {
-            //TODO: invalid date
-            return "redirect:/schedule/";
         }
 
         addAppointmentModel.setDate(date);
@@ -145,8 +143,7 @@ public class AppointmentController {
                                         @Valid @ModelAttribute AddAppointmentModel addAppointmentModel,
                                         BindingResult bindingResult, Authentication principal, Model model) {
         if (date.before(new Date())) {
-            //TODO: invalid date
-            return "redirect:/schedule/";
+            throw new InvalidAppointmentDateException();
         }
 
         if (bindingResult.hasErrors()) {
@@ -210,6 +207,10 @@ public class AppointmentController {
     public String doctorAddAppointment(@RequestParam("date") @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm:ss a") Date date,
                                        @Valid @ModelAttribute AddAppointmentModel addAppointmentModel,
                                        BindingResult bindingResult, Authentication principal, Model model) {
+        if (date.before(new Date())) {
+            throw new InvalidAppointmentDateException();
+        }
+
         if (bindingResult.hasErrors()) {
             addAppointmentModel.setDate(date);
 
@@ -253,7 +254,7 @@ public class AppointmentController {
         return "error/appointment-not-found";
     }
 
-    @ExceptionHandler(InvalidAppointmentDateException.class)
+    @ExceptionHandler(InvalidAppointmentDateException .class)
     public String catchInvalidAppointment() {
         return "error/invalid-appointment-date";
     }

@@ -12,5 +12,5 @@ import org.springframework.stereotype.Service;
 public interface UserService extends UserDetailsService {
     User register(UserRegistrationModel registrationModel);
 
-    void updatePassword(ChangePasswordModel changePasswordModel);
+    boolean updatePassword(ChangePasswordModel changePasswordModel);
 }
