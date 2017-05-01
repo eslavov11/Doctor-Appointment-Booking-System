@@ -42,7 +42,6 @@
                 </div>
             </div>
 
-            <!--TODO: _________________________________________________GLOBAL???______ -->
             <div class="form-group" th:classappend="${#fields.hasErrors('global')} ? 'has-danger'">
                 <label class="form-control-label" for="inputConfirmPassword">Confirm Password</label>
                 <input type="password" class="form-control form-control-danger" id="inputConfirmPassword"
@@ -101,7 +100,7 @@
                 <label class="form-control-label">Gender</label>
                 <br/>
                 <label class="custom-control custom-radio">
-                    <input name="gender" type="radio" checked="checked" class="custom-control-input"
+                    <input id="gender-male" name="gender" type="radio" class="custom-control-input"
                            th:field="*{gender}" th:value="MALE"/>
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">Male</span>
@@ -151,6 +150,12 @@
 <script type="text/javascript" th:inline="javascript">
     $(document).ready(function () {
         $("#inputDoctor").select2();
+        $("#gender-male").attr('checked', 'checked');
+        $("#inputDateOfBirth").val(new Date().toISOString().substr(0, 10));
+    });
+
+    $('#inputEmail').focusout(function () {
+       $('#inputUsername').val($(this).val());
     });
 </script>
 </body>

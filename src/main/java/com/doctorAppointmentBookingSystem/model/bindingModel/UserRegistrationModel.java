@@ -16,6 +16,7 @@ public class UserRegistrationModel {
     @Size(min = 5, message = "Password too short")
     private String password;
 
+    @Size(min = 5, message = "Confirm password too short")
     private String confirmPassword;
 
     private String additionalRole;

@@ -11,10 +11,8 @@ public class IsPasswordsMatchingValidator implements ConstraintValidator<IsPassw
     }
 
     @Override
-    public boolean isValid(Object bgTelephone, ConstraintValidatorContext constraintValidatorContext) {
-        Pattern p = Pattern.compile("^\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})$");
-        Matcher m = p.matcher(bgTelephone.toString());
-
-        return m.find();
+    public boolean isValid(Object userClass, ConstraintValidatorContext constraintValidatorContext) {
+        return userClass instanceof PasswordConfirmable &&
+                ((PasswordConfirmable) userClass).getPassword().equals(((PasswordConfirmable) userClass).getConfirmPassword());
     }
 }
