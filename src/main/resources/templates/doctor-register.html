@@ -20,7 +20,7 @@
             <div class="form-group" th:classappend="${#fields.hasErrors('email')} ? 'has-danger'">
                 <label class="form-control-label" for="inputEmail">Email</label>
                 <input type="email" class="form-control form-control-danger" id="inputEmail" th:field="*{email}"/>
-                <div class="form-control-feedback" th:each="error : ${#fields.errors('username')}" th:text="${error}">
+                <div class="form-control-feedback" th:each="error : ${#fields.errors('email')}" th:text="${error}">
                     Sorry, that email is incorrect. Try another?
                 </div>
             </div>
@@ -112,6 +112,10 @@
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">Female</span>
                 </label>
+                <div class="form-control-feedback" th:each="error : ${#fields.errors('gender')}"
+                     th:text="${error}">
+                    Invalid gender.
+                </div>
             </div>
 
             <div class="form-group" th:classappend="${#fields.hasErrors('startPracticeDate')} ? 'has-danger'">

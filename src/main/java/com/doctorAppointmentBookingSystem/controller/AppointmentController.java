@@ -228,6 +228,6 @@ public class AppointmentController {
 
     @ExceptionHandler(AppointmentNotFoundException.class)
     public String catchAppointmentNotFoundException() {
-        return "exception/appointment-not-found";
+        return "error/appointment-not-found";
     }
 }

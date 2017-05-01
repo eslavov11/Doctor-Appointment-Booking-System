@@ -33,15 +33,17 @@ public class DoctorController {
     @GetMapping("/register-doctor")
     public String getRegister(@ModelAttribute DoctorRegistrationModel doctorRegistrationModel, Model model) {
         List<SettlePointViewModel> settlePoints = this.settlePointService.getAll();
-
         model.addAttribute("settlePoints", settlePoints);
 
         return "doctor-register";
     }
 
     @PostMapping("/register-doctor")
-    public String register(@Valid @ModelAttribute DoctorRegistrationModel doctorRegistrationModel, BindingResult bindingResult) {
+    public String register(@Valid @ModelAttribute DoctorRegistrationModel doctorRegistrationModel, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            List<SettlePointViewModel> settlePoints = this.settlePointService.getAll();
+            model.addAttribute("settlePoints", settlePoints);
+
             return "doctor-register";
         }
 

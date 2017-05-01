@@ -13,8 +13,17 @@
 <header th:replace="fragment/parts::menu">
 </header>
 <main>
-    <h1 class="h1">404 Requested Resource Not Found</h1>
-    <a class="btn btn-secondary" href="/">Go Home</a>
+    <div class="container">
+        <h1 class="h1">404 Requested Resource Not Found.</h1>
+        <p>The requested resource doesn't seem to exist.</p>
+        <p>You can:</p>
+        <ul>
+            <li>
+                Go to
+                <a href="/">home page</a>
+            </li>
+        </ul>
+    </div>
 </main>
 <div th:replace="fragment/parts::scripts">
 </div>
