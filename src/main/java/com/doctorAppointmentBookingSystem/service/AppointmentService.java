@@ -20,4 +20,6 @@ public interface AppointmentService {
     List<AppointmentViewModel> getAllForDoctorById(long doctorId);
 
     AppointmentViewModel getByDate(Date date);
+
+    AppointmentViewModel getById(long id);
 }

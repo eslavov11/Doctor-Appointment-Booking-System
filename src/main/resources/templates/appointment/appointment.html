@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Appointment</title>
     <link rel="stylesheet" href="../../static/select2/css/select2.min.css"
@@ -17,41 +18,43 @@
 <main>
     <div class="container">
         <h1>Appointment</h1>
-            <div class="form-group">
-                <label class="form-control-label">Appointment For</label>
-                <div>
-                    <a href="#"
-                       th:text="'Dr. ' + ${appointmentViewModel.doctorSelectViewModel.firstName} + ' ' + ${appointmentViewModel.doctorSelectViewModel.lastName}"></a>,
-                    <span class="form-control-label" th:text="${appointmentViewModel.doctorSelectViewModel.settlePointName}"></span>
-                </div>
+        <div class="form-group">
+            <label class="form-control-label">Appointment For</label>
+            <div>
+                <a href="#"
+                   th:text="'Dr. ' + ${appointmentViewModel.doctorSelectViewModel.firstName} + ' ' + ${appointmentViewModel.doctorSelectViewModel.lastName}"></a>,
+                <span class="form-control-label"
+                      th:text="${appointmentViewModel.doctorSelectViewModel.settlePointName}"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label class="form-control-label">For Patient</label>
-                <div>
-                    <a href="#"
-                       th:text="${appointmentViewModel.patientBasicViewModel.firstName} + ' ' + ${appointmentViewModel.patientBasicViewModel.lastName}"></a>,
-                    <span class="form-control-label" th:text="'(' + ${appointmentViewModel.patientBasicViewModel.EGN} + ')'"></span>
-                </div>
+        <div class="form-group" sec:authorize="hasRole('ROLE_DOCTOR')">
+            <label class="form-control-label">For Patient</label>
+            <div>
+                <a href="#"
+                   th:text="${appointmentViewModel.patientBasicViewModel.firstName} + ' ' + ${appointmentViewModel.patientBasicViewModel.lastName}"></a>,
+                <span class="form-control-label"
+                      th:text="'(' + ${appointmentViewModel.patientBasicViewModel.EGN} + ')'"></span>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label class="form-control-label" for="inputDate">Appointment Date</label>
-                <input type="text" class="form-control form-control-danger" id="inputDate" readonly="readonly"
-                       th:value="${#dates.format(appointmentViewModel.date, 'dd-MMM-yyyy HH:mm')}"/>
-            </div>
+        <div class="form-group">
+            <label class="form-control-label" for="inputDate">Appointment Date</label>
+            <input type="text" class="form-control form-control-danger" id="inputDate" readonly="readonly"
+                   th:value="${#dates.format(appointmentViewModel.date, 'dd-MMM-yyyy HH:mm')}"/>
+        </div>
 
-            <div class="form-group">
-                <label class="form-control-label" for="inputType">Appointment Type</label>
-                <input type="text" class="form-control form-control-danger" id="inputType" readonly="readonly"
-                       th:field="${appointmentViewModel.type}" />
-            </div>
+        <div class="form-group">
+            <label class="form-control-label" for="inputType">Appointment Type</label>
+            <input type="text" class="form-control form-control-danger" id="inputType" readonly="readonly"
+                   th:field="${appointmentViewModel.type}"/>
+        </div>
 
-            <div class="form-group">
-                <label class="form-control-label" for="inputDescription">Description</label>
-                <textarea class="form-control form-control-danger" rows="3" id="inputDescription" readonly="readonly"
-                          th:field="${appointmentViewModel.description}"></textarea>
-            </div>
+        <div class="form-group">
+            <label class="form-control-label" for="inputDescription">Description</label>
+            <textarea class="form-control form-control-danger" rows="3" id="inputDescription" readonly="readonly"
+                      th:field="${appointmentViewModel.description}"></textarea>
+        </div>
         <br/>
     </div>
 </main>

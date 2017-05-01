@@ -38,7 +38,8 @@
                     <td sec:authorize="hasRole('ROLE_PATIENT')"
                         th:text="*{doctorSelectViewModel.firstName} + ' ' + *{doctorSelectViewModel.lastName}">doctor</td>
                     <td>
-                        <a class="btn btn-secondary" th:href="|/appointment/*{id}|">View</a>
+                        <a sec:authorize="hasRole('ROLE_PATIENT')" class="btn btn-secondary" th:href="|/appointment/patient/*{id}|">View</a>
+                        <a sec:authorize="hasRole('ROLE_DOCTOR')" class="btn btn-secondary" th:href="|/appointment/doctor/*{id}|">View</a>
                     </td>
                 </tr>
                 </tbody>

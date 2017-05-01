@@ -69,6 +69,46 @@ public class AppointmentController {
         return "appointment/appointments";
     }
 
+    @GetMapping("/doctor/{appointmentId}")
+    public String getDoctorAppointment(@PathVariable long appointmentId, Authentication principal, Model model) {
+        long userId = ((User)(principal).getPrincipal()).getId();
+        Doctor doctor = this.doctorService.getByUserId(userId);
+        AppointmentViewModel appointmentViewModel = this.appointmentService.getById(appointmentId);
+
+        if (appointmentViewModel == null) {
+            //TODO: throw new 404 not found
+        }
+
+        // Is this appointment to this doctor
+        if (appointmentViewModel.getDoctorSelectViewModel().getId() != doctor.getId()) {
+            return "redirect:/appointment/doctor";
+        }
+
+        model.addAttribute("appointmentViewModel", appointmentViewModel);
+
+        return "appointment/appointment";
+    }
+
+    @GetMapping("/patient/{appointmentId}")
+    public String getPatientAppointment(@PathVariable long appointmentId, Authentication principal, Model model) {
+        long userId = ((User)(principal).getPrincipal()).getId();
+        Patient patient = this.patientService.getByUserId(userId);
+        AppointmentViewModel appointmentViewModel = this.appointmentService.getById(appointmentId);
+
+        if (appointmentViewModel == null) {
+            //TODO: throw new 404 not found
+        }
+
+        // Is this appointment to this patient
+        if (appointmentViewModel.getPatientBasicViewModel().getId() != patient.getId()) {
+            return "redirect:/appointment/patient";
+        }
+
+        model.addAttribute("appointmentViewModel", appointmentViewModel);
+
+        return "appointment/appointment";
+    }
+
     @GetMapping("/")
     public String getAppointment(@RequestParam("date") @DateTimeFormat(pattern="MM/dd/yyyy hh:mm:ss a") Date date, Model model) {
         AppointmentViewModel appointmentViewModel = this.appointmentService.getByDate(date);

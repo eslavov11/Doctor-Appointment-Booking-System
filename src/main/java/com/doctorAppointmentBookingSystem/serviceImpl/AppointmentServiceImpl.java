@@ -106,6 +106,24 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentViewModel;
     }
 
+    @Override
+    public AppointmentViewModel getById(long id) {
+        Appointment appointment = this.appointmentRepository.findOne(id);
+        if (appointment == null) {
+            return null;
+        }
+
+        AppointmentViewModel appointmentViewModel = this.modelMapper.map(appointment, AppointmentViewModel.class);
+        PatientBasicViewModel patientBasicViewModel = this.modelMapper.map(appointment.getPatient(), PatientBasicViewModel.class);
+        appointmentViewModel.setPatientBasicViewModel(patientBasicViewModel);
+        DoctorSelectViewModel doctorSelectViewModel = this.modelMapper.map(appointment.getDoctor(), DoctorSelectViewModel.class);
+        appointmentViewModel.setDoctorSelectViewModel(doctorSelectViewModel);
+
+        appointmentViewModel.setType(appointment.getAppointmentType().getName());
+
+        return appointmentViewModel;
+    }
+
     private void mapAppointmentViewModelList(List<Appointment> appointments, List<AppointmentViewModel> appointmentViewModels) {
         for (Appointment appointment : appointments) {
             AppointmentViewModel appointmentViewModel = this.modelMapper.map(appointment, AppointmentViewModel.class);
