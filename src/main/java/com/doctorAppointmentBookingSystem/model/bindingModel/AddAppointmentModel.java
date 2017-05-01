@@ -3,6 +3,7 @@ package com.doctorAppointmentBookingSystem.model.bindingModel;
 import com.doctorAppointmentBookingSystem.entity.Doctor;
 import com.doctorAppointmentBookingSystem.entity.Patient;
 
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -13,6 +14,7 @@ public class AddAppointmentModel {
 
     private long type;
 
+    @Size(max = 256, message = "Invalid description length")
     private String description;
 
     private Patient patient;

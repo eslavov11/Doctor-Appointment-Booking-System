@@ -4,6 +4,7 @@ import com.doctorAppointmentBookingSystem.entity.Doctor;
 import com.doctorAppointmentBookingSystem.entity.Patient;
 import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.exception.AppointmentNotFoundException;
+import com.doctorAppointmentBookingSystem.exception.InvalidAppointmentDateException;
 import com.doctorAppointmentBookingSystem.model.bindingModel.AddAppointmentModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.*;
 import com.doctorAppointmentBookingSystem.service.AppointmentService;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -140,13 +143,23 @@ public class AppointmentController {
     @PostMapping("/patient/add")
     public String patientAddAppointment(@RequestParam("date") @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm:ss a") Date date,
                                         @Valid @ModelAttribute AddAppointmentModel addAppointmentModel,
-                                        BindingResult bindingResult, Authentication principal) {
+                                        BindingResult bindingResult, Authentication principal, Model model) {
         if (date.before(new Date())) {
             //TODO: invalid date
             return "redirect:/schedule/";
         }
 
         if (bindingResult.hasErrors()) {
+            addAppointmentModel.setDate(date);
+
+            long userId = ((User) (principal).getPrincipal()).getId();
+            Patient patient = this.patientService.getByUserId(userId);
+            DoctorSelectViewModel doctorSelectViewModel = this.doctorService.getModelByUserId(patient.getDoctor().getUser().getId());
+            model.addAttribute("doctorSelectViewModel", doctorSelectViewModel);
+
+            List<AppointmentTypeViewModel> appointmentTypes = this.appointmentTypeService.getAll();
+            model.addAttribute("appointmentTypes", appointmentTypes);
+
             return "appointment/add";
         }
 
@@ -171,10 +184,7 @@ public class AppointmentController {
     public String getDoctorAddAppointment(Principal principal, @RequestParam("date") @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm:ss a") Date date,
                                           @ModelAttribute AddAppointmentModel addAppointmentModel, Model model) {
         if (date.before(new Date())) {
-            //TODO: invalid date
-
-            //TODO: date after today annotation
-            return "redirect:/schedule/";
+            throw new InvalidAppointmentDateException();
         }
 
         if (false) {
@@ -199,8 +209,20 @@ public class AppointmentController {
     @PostMapping("/doctor/add")
     public String doctorAddAppointment(@RequestParam("date") @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm:ss a") Date date,
                                        @Valid @ModelAttribute AddAppointmentModel addAppointmentModel,
-                                       BindingResult bindingResult, Authentication principal) {
+                                       BindingResult bindingResult, Authentication principal, Model model) {
         if (bindingResult.hasErrors()) {
+            addAppointmentModel.setDate(date);
+
+            long userId = ((User)principal.getPrincipal()).getId();
+            DoctorSelectViewModel doctorSelectViewModel = this.doctorService.getModelByUserId(userId);
+            model.addAttribute("doctorSelectViewModel", doctorSelectViewModel);
+
+            List<PatientBasicViewModel> doctorPatients = this.patientService.getPatientsByDoctorId(doctorSelectViewModel.getId());
+            model.addAttribute("doctorPatients", doctorPatients);
+
+            List<AppointmentTypeViewModel> appointmentTypes = this.appointmentTypeService.getAll();
+            model.addAttribute("appointmentTypes", appointmentTypes);
+
             return "appointment/add";
         }
 
@@ -229,5 +251,10 @@ public class AppointmentController {
     @ExceptionHandler(AppointmentNotFoundException.class)
     public String catchAppointmentNotFoundException() {
         return "error/appointment-not-found";
+    }
+
+    @ExceptionHandler(InvalidAppointmentDateException.class)
+    public String catchInvalidAppointment() {
+        return "error/invalid-appointment-date";
     }
 }
