@@ -31,7 +31,7 @@
 
             <span sec:authorize="hasRole('ROLE_DOCTOR')">
                 <div class="form-group">
-                    <label class="form-control-label" for="inputPatient">Appointment Type</label>
+                    <label class="form-control-label" for="inputPatient">For Patient</label>
                     <select class="form-control form-control-danger" id="inputPatient" th:field="*{patient}">
                         <option th:each="patient : ${doctorPatients}"
                                 th:value="${patient.id}"

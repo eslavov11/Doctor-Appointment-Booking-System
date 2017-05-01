@@ -4,11 +4,21 @@ package com.doctorAppointmentBookingSystem.model.viewModel;
  * Created by Edi on 30-Apr-17.
  */
 public class PatientBasicViewModel {
+    private long id;
+
     private String firstName;
 
     private String lastName;
 
     private String EGN;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
