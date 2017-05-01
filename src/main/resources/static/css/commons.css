@@ -25,3 +25,7 @@ span.select2-container span.select2-selection__arrow {
     pointer-events: none;
     cursor: default;
 }
+
+.clickable:hover {
+    cursor: pointer;
+}
