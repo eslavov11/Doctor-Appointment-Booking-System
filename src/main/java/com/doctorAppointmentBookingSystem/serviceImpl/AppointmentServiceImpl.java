@@ -2,6 +2,7 @@ package com.doctorAppointmentBookingSystem.serviceImpl;
 
 import com.doctorAppointmentBookingSystem.entity.Appointment;
 import com.doctorAppointmentBookingSystem.entity.AppointmentType;
+import com.doctorAppointmentBookingSystem.exception.AppointmentNotFoundException;
 import com.doctorAppointmentBookingSystem.model.bindingModel.AddAppointmentModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.AppointmentDateViewModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.AppointmentViewModel;
@@ -72,10 +73,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<AppointmentViewModel> getAllForPatientById(long patientId) {
         List<Appointment> appointments = this.appointmentRepository.findAllByPatientIdOrderByDate(patientId);
-
         List<AppointmentViewModel> appointmentViewModels = new ArrayList<>();
 
-        mapAppointmentViewModelList(appointments, appointmentViewModels);
+        for (Appointment appointment : appointments) {
+            appointmentViewModels.add(mapAppointmentViewModel(appointment));
+        }
 
         return appointmentViewModels;
     }
@@ -83,10 +85,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<AppointmentViewModel> getAllForDoctorById(long doctorId) {
         List<Appointment> appointments = this.appointmentRepository.findAllByDoctorIdOrderByDate(doctorId);
-
         List<AppointmentViewModel> appointmentViewModels = new ArrayList<>();
 
-        mapAppointmentViewModelList(appointments, appointmentViewModels);
+        for (Appointment appointment : appointments) {
+            appointmentViewModels.add(mapAppointmentViewModel(appointment));
+        }
 
         return appointmentViewModels;
     }
@@ -94,46 +97,31 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public AppointmentViewModel getByDate(Date date) {
         Appointment appointment = this.appointmentRepository.findOneByDate(date);
+        if (appointment == null) {
+            throw new AppointmentNotFoundException();
+        }
 
-        AppointmentViewModel appointmentViewModel = this.modelMapper.map(appointment, AppointmentViewModel.class);
-        PatientBasicViewModel patientBasicViewModel = this.modelMapper.map(appointment.getPatient(), PatientBasicViewModel.class);
-        appointmentViewModel.setPatientBasicViewModel(patientBasicViewModel);
-        DoctorSelectViewModel doctorSelectViewModel = this.modelMapper.map(appointment.getDoctor(), DoctorSelectViewModel.class);
-        appointmentViewModel.setDoctorSelectViewModel(doctorSelectViewModel);
-
-        appointmentViewModel.setType(appointment.getAppointmentType().getName());
-
-        return appointmentViewModel;
+        return mapAppointmentViewModel(appointment);
     }
 
     @Override
     public AppointmentViewModel getById(long id) {
         Appointment appointment = this.appointmentRepository.findOne(id);
         if (appointment == null) {
-            return null;
+            throw new AppointmentNotFoundException();
         }
 
+        return mapAppointmentViewModel(appointment);
+    }
+
+    private AppointmentViewModel mapAppointmentViewModel(Appointment appointment) {
         AppointmentViewModel appointmentViewModel = this.modelMapper.map(appointment, AppointmentViewModel.class);
         PatientBasicViewModel patientBasicViewModel = this.modelMapper.map(appointment.getPatient(), PatientBasicViewModel.class);
         appointmentViewModel.setPatientBasicViewModel(patientBasicViewModel);
         DoctorSelectViewModel doctorSelectViewModel = this.modelMapper.map(appointment.getDoctor(), DoctorSelectViewModel.class);
         appointmentViewModel.setDoctorSelectViewModel(doctorSelectViewModel);
-
         appointmentViewModel.setType(appointment.getAppointmentType().getName());
 
         return appointmentViewModel;
-    }
-
-    private void mapAppointmentViewModelList(List<Appointment> appointments, List<AppointmentViewModel> appointmentViewModels) {
-        for (Appointment appointment : appointments) {
-            AppointmentViewModel appointmentViewModel = this.modelMapper.map(appointment, AppointmentViewModel.class);
-            PatientBasicViewModel patientBasicViewModel = this.modelMapper.map(appointment.getPatient(), PatientBasicViewModel.class);
-            appointmentViewModel.setPatientBasicViewModel(patientBasicViewModel);
-            DoctorSelectViewModel doctorSelectViewModel = this.modelMapper.map(appointment.getDoctor(), DoctorSelectViewModel.class);
-            appointmentViewModel.setDoctorSelectViewModel(doctorSelectViewModel);
-
-            appointmentViewModel.setType(appointment.getAppointmentType().getName());
-            appointmentViewModels.add(appointmentViewModel);
-        }
     }
 }
