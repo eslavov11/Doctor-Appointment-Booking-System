@@ -19,13 +19,14 @@
 </header>
 <main>
     <div class="container">
-        <h1>Schedule</h1>
-        <br/>
+        <h1>
+            <span th:text="'Dr. ' + ${doctor.firstName} + ' ' + ${doctor.lastName}"></span> Schedule
+        </h1>
         <div class="form-group"> <!-- float-lg-right-->
             <input class="form-control col-md-4 push-md-8" type="week" value="2011-W33" id="week-input"/>
-            <button id="refresh-btn" type="submit" class="btn btn-success">
-                <i class="fa fa-car"></i>
-            </button>
+            <!--<button id="refresh-btn" type="submit" class="btn btn-success">-->
+                <!--<i class="fa fa-car"></i>-->
+            <!--</button>-->
         </div>
         <div class="table-wrapper">
             <table id="schedule-table" class="table">

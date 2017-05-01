@@ -4,6 +4,7 @@ import com.doctorAppointmentBookingSystem.entity.Doctor;
 import com.doctorAppointmentBookingSystem.entity.Patient;
 import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.model.bindingModel.EditWeekScheduleModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.PatientService;
 import com.doctorAppointmentBookingSystem.service.WeekScheduleService;
@@ -44,13 +45,16 @@ public class ScheduleController {
     }
 
     @GetMapping("/")
-    public String getSchedule(Principal principal, Model model) {
-/*
-        long weekScheduleId = getWeekScheduleId((Authentication) principal);
-        EditWeekScheduleModel editWeekScheduleModel = this.weekScheduleService.getById(weekScheduleId);
-
-        model.addAttribute("weekl", editWeekScheduleModel);
-*/
+    public String getSchedule(Authentication principal, Model model, HttpServletRequest request) {
+        long userId = ((User) principal.getPrincipal()).getId();
+        if (request.isUserInRole("ROLE_DOCTOR")) {
+            DoctorSelectViewModel doctor = this.doctorService.getModelByUserId(userId);
+            model.addAttribute("doctor", doctor);
+        } else if (request.isUserInRole("ROLE_PATIENT")) {
+            Patient patient = this.patientService.getByUserId(userId);
+            DoctorSelectViewModel doctor = this.doctorService.getModelByUserId(patient.getDoctor().getUser().getId());
+            model.addAttribute("doctor", doctor);
+        }
 
         return "schedule/schedule";
     }
@@ -85,7 +89,7 @@ public class ScheduleController {
 
         this.weekScheduleService.save(editWeekScheduleModel);
 
-        return "redirect:/";
+        return "redirect:/schedule/";
     }
 
     @GetMapping("/week")
