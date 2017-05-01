@@ -125,7 +125,15 @@ public class AppointmentController {
     @GetMapping("/patient/add")
     public String getPatientAddAppointment(Principal principal, @RequestParam("date") @DateTimeFormat(pattern="MM/dd/yyyy hh:mm:ss a") Date date,
                                     @ModelAttribute AddAppointmentModel addAppointmentModel, Model model) {
-        //TODO: check if date not taken -> go to schedule if tre
+
+        if (false) {
+            //TODO: check if date not taken -> go to schedule if true
+        }
+
+        if (date.before(new Date())) {
+            //TODO: invalid date
+            return "redirect:/schedule/";
+        }
 
         addAppointmentModel.setDate(date);
 
@@ -144,11 +152,18 @@ public class AppointmentController {
     public String patientAddAppointment(@RequestParam("date") @DateTimeFormat(pattern="MM/dd/yyyy hh:mm:ss a") Date date,
                                  @Valid @ModelAttribute AddAppointmentModel addAppointmentModel,
                                BindingResult bindingResult, Authentication principal) {
+        if (date.before(new Date())) {
+            //TODO: invalid date
+            return "redirect:/schedule/";
+        }
+
         if (bindingResult.hasErrors()) {
             return "appointment/add";
         }
 
-        //TODO: check if not taken
+        if (false) {
+            //TODO: check if not taken
+        }
 
         addAppointmentModel.setDate(date);
 
@@ -166,7 +181,16 @@ public class AppointmentController {
     @GetMapping("/doctor/add")
     public String getDoctorAddAppointment(Principal principal, @RequestParam("date") @DateTimeFormat(pattern="MM/dd/yyyy hh:mm:ss a") Date date,
                                     @ModelAttribute AddAppointmentModel addAppointmentModel, Model model) {
-        //TODO: check if date not taken -> go to schedule if tre
+        if (date.before(new Date())) {
+            //TODO: invalid date
+
+            //TODO: date after today annotation
+            return "redirect:/schedule/";
+        }
+
+        if (false) {
+            //TODO: check if date not taken -> go to schedule if ture
+        }
 
         addAppointmentModel.setDate(date);
 

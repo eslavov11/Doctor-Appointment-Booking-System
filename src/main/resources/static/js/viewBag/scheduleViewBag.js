@@ -61,6 +61,7 @@ app.scheduleViewBag = (function () {
         var weekYear = $('#week-input').val().split('-W');
 
         var currentMonday = app.getDateOfISOWeek(weekYear[0], weekYear[1]);
+
         var dateOfWeek = new Date(currentMonday.getTime());
 
         $('.schedule-date').each(function (index, scheduleDate) {
@@ -77,7 +78,9 @@ app.scheduleViewBag = (function () {
     }
 
     function updateAppointments() {
-        $('.schedule-date').each(function (index, scheduleDate) {
+        _checkForPastWeek($('#schedule-table .schedule-date').first().attr('data-content'));
+
+        $('#schedule-table .schedule-date').each(function (index, scheduleDate) {
             var appointmentDate = $(scheduleDate).last().attr('data-content');
 
             var scheduleDay = $('#schedule-table .schedule-day').eq(index);
@@ -118,6 +121,7 @@ app.scheduleViewBag = (function () {
                             $(appointmentLinkEl)
                                 .css('color', 'red')
                                 .addClass('appointment-booked')
+                                .removeClass('disabled-link')
                                 .attr('href', ('/appointment/?' + href[1]));
                         } else {
                             $(appointmentLinkEl)
@@ -135,6 +139,17 @@ app.scheduleViewBag = (function () {
                  $(appointmentLinkEl).css('color', '').removeClass('disabled-link');
                  }*/
             });
+        }
+    }
+    
+    function _checkForPastWeek(scheduleDate) {
+        var dateToCompare = new Date(new Date(scheduleDate).getTime() + 6 * 24 * 60 * 60 * 1000);
+        // Resets all appointments if week is past
+        if (dateToCompare < new Date()) {
+            $('#schedule-table .schedule-day').find('a')
+                .addClass('disabled-link')
+                .addClass('appointment-booked')
+                .css('color', 'black');
         }
     }
 

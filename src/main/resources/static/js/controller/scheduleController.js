@@ -29,12 +29,12 @@ app.scheduleController = function () {
     };
 
     ScheduleController.prototype.updateAppointments = function () {
+        this._viewBag.clearBookedAppointments();
+
         this._viewBag.updateAppointments();
     };
 
     ScheduleController.prototype.loadBookedAppointments = function () {
-        this._viewBag.clearBookedAppointments();
-
         var _this = this;
 
         var startDate = this.currentMonday;
