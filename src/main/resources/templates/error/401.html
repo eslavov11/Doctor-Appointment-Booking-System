@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Week Schedule</title>
+    <link rel="stylesheet" href="../static/css/commons.css"
+          th:href="@{~/css/commons.css}"/>
+</head>
+<head th:replace="fragment/parts::head">
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{~/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<header th:replace="fragment/parts::menu">
+</header>
+<main>
+    <div class="container">
+        <h1 class="h1">401 Not Authorized For The Requested Resource.</h1>
+        <p>You don't seem to be authorized for the requested resource.</p>
+        <p>You can:</p>
+        <ul>
+            <li>
+                Go to
+                <a href="/">home page</a>
+            </li>
+        </ul>
+    </div>
+</main>
+<div th:replace="fragment/parts::scripts">
+</div>
+</body>
+</html>

@@ -7,12 +7,14 @@ import com.doctorAppointmentBookingSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -33,7 +35,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/", "/register-patient", "/register-doctor",
                             "/bootstrap/**", "/jquery/**", "/tether/**", "/font-awesome/**", "/select2/**", "/css/**", "/js/**",
                             "/img/**", "/connect/**").permitAll()
-                    .antMatchers("/bikes/**").hasRole("USER")
+                    .antMatchers("/appointment/doctor/**", "/schedule/edit").hasRole("DOCTOR")
+                    .antMatchers("/appointment/patient/**").hasRole("PATIENT")
                     .anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/login").permitAll()
@@ -57,4 +60,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder getBCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    /*@Bean
+    public RequestHeaderAuthenticationFilter getRequestHeaderAuthenticationFilter(final AuthenticationManager authenticationManager) {
+        RequestHeaderAuthenticationFilter requestHeaderAuthenticationFilter = new RequestHeaderAuthenticationFilterImpl();
+        requestHeaderAuthenticationFilter.setAuthenticationManager(authenticationManager);
+
+        return requestHeaderAuthenticationFilter;
+    }*/
 }
