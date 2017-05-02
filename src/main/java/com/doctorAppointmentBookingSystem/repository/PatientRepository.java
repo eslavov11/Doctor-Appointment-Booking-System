@@ -17,5 +17,5 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     List<Patient> findAllByDoctorId(long doctorId);
 
-    Page<Patient> findAllByDoctorId(long doctorId, Pageable pageable);
+    Page<Patient> findAllByDoctorIdOrderByDateOfBirthDesc(long doctorId, Pageable pageable);
 }

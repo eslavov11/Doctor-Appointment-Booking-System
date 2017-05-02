@@ -85,7 +85,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Page<PatientViewModel> getPatientsByDoctorId(Pageable pageable, long doctorId) {
-        Page<Patient> patients = this.patientRepository.findAllByDoctorId(doctorId, pageable);
+        Page<Patient> patients = this.patientRepository.findAllByDoctorIdOrderByDateOfBirthDesc(doctorId, pageable);
         List<PatientViewModel> patientViewModels = new ArrayList<>();
         for (Patient patient : patients) {
             PatientViewModel patientViewModel = this.modelMapper.map(patient, PatientViewModel.class);
