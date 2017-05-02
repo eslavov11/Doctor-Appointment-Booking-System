@@ -42,6 +42,9 @@
                 <li sec:authorize="hasRole('ROLE_DOCTOR')" class="nav-item">
                     <a class="nav-link" href="/schedule/">Schedule</a>
                 </li>
+                <li sec:authorize="hasRole('ROLE_DOCTOR')" class="nav-item">
+                    <a class="nav-link" href="/doctor/patients">Patients</a>
+                </li>
                 <!-- PATIENT -->
                 <li sec:authorize="hasRole('ROLE_PATIENT')" class="nav-item">
                     <a class="nav-link" href="/appointment/patient">My Appointments</a>

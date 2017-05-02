@@ -57,7 +57,7 @@ public class DoctorController {
     }
 
     @GetMapping("/doctors")
-    public String getBikes(Model model, @PageableDefault(size = 8) Pageable pageable){
+    public String getDoctors(Model model, @PageableDefault(size = 8) Pageable pageable){
         Page<DoctorViewModel> doctors = this.doctorService.getAll(pageable);
         model.addAttribute("doctors", doctors);
 

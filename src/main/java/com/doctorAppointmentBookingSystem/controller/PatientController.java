@@ -1,10 +1,18 @@
 package com.doctorAppointmentBookingSystem.controller;
 
+import com.doctorAppointmentBookingSystem.entity.Doctor;
+import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.model.bindingModel.PatientRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.DoctorViewModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.PatientViewModel;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,5 +60,25 @@ public class PatientController {
         this.patientService.create(patientRegistrationModel);
 
         return "redirect:/";
+    }
+
+    //TODO: admin
+    /*@GetMapping("/patients")
+    public String getPatients(Model model, @PageableDefault(size = 8) Pageable pageable) {
+        Page<PatientViewModel> patients = this.patientService.getAll(pageable);
+        model.addAttribute("patients", patients);
+
+        return "patient/patients";
+    }*/
+
+    @GetMapping("/doctor/patients")
+    public String getDoctorPatients(Model model, @PageableDefault(size = 8) Pageable pageable, Authentication principal) {
+        long userId = ((User) principal.getPrincipal()).getId();
+        Doctor doctor = this.doctorService.getByUserId(userId);
+
+        Page<PatientViewModel> patients = this.patientService.getPatientsByDoctorId(pageable, doctor.getId());
+        model.addAttribute("patients", patients);
+
+        return "patient/patients";
     }
 }

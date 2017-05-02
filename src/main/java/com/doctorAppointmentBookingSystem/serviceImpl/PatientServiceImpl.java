@@ -6,12 +6,16 @@ import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.model.bindingModel.PatientRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.UserRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.PatientBasicViewModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.PatientViewModel;
 import com.doctorAppointmentBookingSystem.repository.PatientRepository;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.PatientService;
 import com.doctorAppointmentBookingSystem.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -77,5 +81,29 @@ public class PatientServiceImpl implements PatientService {
         }
 
         return patientBasicViewModels;
+    }
+
+    @Override
+    public Page<PatientViewModel> getPatientsByDoctorId(Pageable pageable, long doctorId) {
+        Page<Patient> patients = this.patientRepository.findAllByDoctorId(doctorId, pageable);
+        List<PatientViewModel> patientViewModels = new ArrayList<>();
+        for (Patient patient : patients) {
+            PatientViewModel patientViewModel = this.modelMapper.map(patient, PatientViewModel.class);
+            patientViewModels.add(patientViewModel);
+        }
+
+        return (Page<PatientViewModel>) new PageImpl(patientViewModels, pageable, patients.getTotalElements());
+    }
+
+    @Override
+    public Page<PatientViewModel> getAll(Pageable pageable) {
+        Page<Patient> patients = this.patientRepository.findAll(pageable);
+        List<PatientViewModel> patientViewModels = new ArrayList<>();
+        for (Patient patient : patients) {
+            PatientViewModel patientViewModel = this.modelMapper.map(patient, PatientViewModel.class);
+            patientViewModels.add(patientViewModel);
+        }
+
+        return (Page<PatientViewModel>) new PageImpl(patientViewModels, pageable, patients.getTotalElements());
     }
 }

@@ -25,14 +25,17 @@
                              src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Wladimir-Klitschko.jpg" alt=""/>
 
                         <h4 class="card-title">
-                            <a th:text="|Dr. ${doctor.firstName} ${doctor.lastName}|" th:href="|/doctor/${doctor.id}|">Dr. Name</a>
+                            <a th:text="|Dr. ${doctor.firstName} ${doctor.lastName}|" th:href="|/doctor/${doctor.id}|">Dr.
+                                Name</a>
                         </h4>
 
                         <small class="text-muted" th:text="|City: ${doctor.settlePointName}|">City: Varna</small>
                         <br/>
-                        <small class="text-muted" th:text="|Experience: ${#dates.year(#dates.createNow()) - #dates.year(doctor.startPracticeDate) + 1} years|"></small>
+                        <small class="text-muted"
+                               th:text="|Experience: ${#dates.year(#dates.createNow()) - #dates.year(doctor.startPracticeDate) + 1} years|"></small>
                         <br/>
-                        <small class="text-muted" th:text="|Telephone: ${doctor.telephoneNumber}|">Telephone number: #</small>
+                        <small class="text-muted" th:text="|Telephone: ${doctor.telephoneNumber}|">Telephone number: #
+                        </small>
                     </div>
                 </div>
             </div>
@@ -40,11 +43,17 @@
 
         <nav aria-label="Page navigation example" th:if="!${#lists.isEmpty(doctors)}">
             <ul class="pagination">
-                <li class="page-item" th:classappend="!${doctors.hasPrevious()}? 'disabled'"><a class="page-link" href="#" th:href="${doctors.hasPrevious()} ? '/doctors?page=' + ${doctors.previousPageable().getPageNumber()}" >Previous</a></li>
+                <li class="page-item" th:classappend="!${doctors.hasPrevious()}? 'disabled'">
+                    <a class="page-link"
+                       th:href="${doctors.hasPrevious()} ? '/doctors?page=' + ${doctors.previousPageable().getPageNumber()}">Previous</a>
+                </li>
                 <li class="page-item" th:each="i : ${#numbers.sequence(0, doctors.getTotalPages() - 1)}">
                     <a class="page-link" href="#" th:href="|/doctors?page=${i}|" th:text="${i + 1}">1</a>
                 </li>
-                <li class="page-item" th:classappend="!${doctors.hasNext()}? 'disabled'"><a class="page-link" href="#" th:href="${doctors.hasNext()} ? '/doctors?page=' + ${doctors.nextPageable().getPageNumber()}">Next</a></li>
+                <li class="page-item" th:classappend="!${doctors.hasNext()}? 'disabled'">
+                    <a class="page-link" href="#"
+                       th:href="${doctors.hasNext()} ? '/doctors?page=' + ${doctors.nextPageable().getPageNumber()}">Next</a>
+                </li>
             </ul>
         </nav>
 
