@@ -34,7 +34,7 @@ public class PatientController {
 
     @GetMapping("/register-patient")
     public String getRegister(@ModelAttribute PatientRegistrationModel patientRegistrationModel, Model model) {
-        List<DoctorSelectViewModel> doctors = this.doctorService.getAll();
+        List<DoctorSelectViewModel> doctors = this.doctorService.getAllSelect();
         model.addAttribute("doctors", doctors);
 
         return "patient-register";
@@ -43,7 +43,7 @@ public class PatientController {
     @PostMapping("/register-patient")
     public String register(@Valid @ModelAttribute PatientRegistrationModel patientRegistrationModel, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            List<DoctorSelectViewModel> doctors = this.doctorService.getAll();
+            List<DoctorSelectViewModel> doctors = this.doctorService.getAllSelect();
             model.addAttribute("doctors", doctors);
 
             return "patient-register";

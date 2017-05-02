@@ -7,6 +7,7 @@ import com.doctorAppointmentBookingSystem.entity.WeekSchedule;
 import com.doctorAppointmentBookingSystem.model.bindingModel.DoctorRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.UserRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.DoctorViewModel;
 import com.doctorAppointmentBookingSystem.repository.DoctorRepository;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.SettlePointService;
@@ -14,6 +15,9 @@ import com.doctorAppointmentBookingSystem.service.UserService;
 import com.doctorAppointmentBookingSystem.service.WeekScheduleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -65,7 +69,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<DoctorSelectViewModel> getAll() {
+    public List<DoctorSelectViewModel> getAllSelect() {
         List<Doctor> doctors = this.doctorRepository.findAllByOrderByFirstNameAscLastName();
         List<DoctorSelectViewModel> doctorSelectViewModels = new ArrayList<>();
         for (Doctor doctor : doctors) {
@@ -86,6 +90,18 @@ public class DoctorServiceImpl implements DoctorService {
         Doctor doctor = this.doctorRepository.findOneByUserId(userId);
 
         return this.modelMapper.map(doctor, DoctorSelectViewModel.class);
+    }
+
+    @Override
+    public Page<DoctorViewModel> getAll(Pageable pageable) {
+        Page<Doctor> doctors = this.doctorRepository.findAll(pageable);
+        List<DoctorViewModel> doctorViewModels = new ArrayList<>();
+        for (Doctor doctor : doctors) {
+            DoctorViewModel doctorViewModel = this.modelMapper.map(doctor, DoctorViewModel.class);
+            doctorViewModels.add(doctorViewModel);
+        }
+
+        return (Page<DoctorViewModel>) new PageImpl(doctorViewModels, pageable, doctors.getTotalElements());
     }
 
     private User createDoctorUser(DoctorRegistrationModel registrationModel) {

@@ -3,6 +3,9 @@ package com.doctorAppointmentBookingSystem.service;
 import com.doctorAppointmentBookingSystem.entity.Doctor;
 import com.doctorAppointmentBookingSystem.model.bindingModel.DoctorRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.DoctorViewModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,5 +21,7 @@ public interface DoctorService {
 
     DoctorSelectViewModel getModelByUserId(long userId);
 
-    List<DoctorSelectViewModel> getAll();
+    List<DoctorSelectViewModel> getAllSelect();
+
+    Page<DoctorViewModel> getAll(Pageable pageable);
 }
