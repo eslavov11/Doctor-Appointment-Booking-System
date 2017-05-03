@@ -60,15 +60,21 @@ public class DoctorServiceImpl implements DoctorService {
         doctor.setUser(user);
         doctor.setSettlePoint(settlePoint);
         doctor.setWeekSchedule(weekSchedule);
+        doctor.setWorksWithNZOK(registrationModel.getWorksWithNZOK() == null);
 
         this.doctorRepository.saveAndFlush(doctor);
     }
 
     @Override
     public void save(EditDoctorModel editDoctorModel) {
+        Doctor currentDoctor = this.doctorRepository.findOne(editDoctorModel.getId());
         Doctor doctor = this.modelMapper.map(editDoctorModel, Doctor.class);
 
-
+        doctor.setWorksWithNZOK(editDoctorModel.getWorksWithNZOK() == null);
+        doctor.setWeekSchedule(currentDoctor.getWeekSchedule());
+        doctor.setPatients(currentDoctor.getPatients());
+        doctor.setUser(currentDoctor.getUser());
+        doctor.setRating(currentDoctor.getRating());
 
         this.doctorRepository.saveAndFlush(doctor);
     }

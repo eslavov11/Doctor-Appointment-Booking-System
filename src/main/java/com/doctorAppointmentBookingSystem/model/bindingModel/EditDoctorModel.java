@@ -45,7 +45,7 @@ public class EditDoctorModel {
     @NotNull(message = "Invalid start practice date")
     private Date startPracticeDate;
 
-    private long settlePoint;
+    private long settlePointId;
 
     @Size(max = 256, message = "Invalid address length")
     private String address;
@@ -121,12 +121,12 @@ public class EditDoctorModel {
         this.startPracticeDate = startPracticeDate;
     }
 
-    public long getSettlePoint() {
-        return settlePoint;
+    public long getSettlePointId() {
+        return settlePointId;
     }
 
-    public void setSettlePoint(long settlePoint) {
-        this.settlePoint = settlePoint;
+    public void setSettlePointId(long settlePointId) {
+        this.settlePointId = settlePointId;
     }
 
     public String getAddress() {

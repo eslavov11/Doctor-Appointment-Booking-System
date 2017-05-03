@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragment/parts::head">
-</head>
 <head>
     <title>Edit Profile</title>
     <link rel="stylesheet" href="../../static/select2/css/select2.min.css"
           th:href="@{~/select2/css/select2.min.css}"/>
     <link rel="stylesheet" href="../../static/css/commons.css"
           th:href="@{~/css/commons.css}"/>
+<head th:replace="fragment/parts::head">
+</head>
 </head>
 <body>
 <header th:replace="fragment/parts::menu">
@@ -96,7 +96,7 @@
 
             <div class="form-group">
                 <label class="form-control-label" for="inputSettlePoint">Settle point</label>
-                <select class="form-control form-control-danger" id="inputSettlePoint" th:field="*{settlePoint}">
+                <select class="form-control form-control-danger" id="inputSettlePoint" th:field="*{settlePointId}">
                     <option th:each="settlePoint : ${settlePoints}"
                             th:value="${settlePoint.id}"
                             th:text="${settlePoint.name} + ' (' + ${settlePoint.ekatte} + ')'"></option>
@@ -132,6 +132,7 @@
 
             <input type="submit" class="btn btn-secondary clickable float-right" value="Edit Profile"/>
         </form>
+        <br/>
         <br/>
     </div>
 </main>

@@ -79,6 +79,9 @@ public class DoctorController {
 
     @GetMapping("/doctor/edit")
     public String getEditDoctor(Model model, Authentication principal) {
+        List<SettlePointViewModel> settlePoints = this.settlePointService.getAll();
+        model.addAttribute("settlePoints", settlePoints);
+
         long userId = ((User) principal.getPrincipal()).getId();
         EditDoctorModel editDoctorModel = this.doctorService.getEditModelByUserId(userId);
 
@@ -89,8 +92,11 @@ public class DoctorController {
 
     @PostMapping("/doctor/edit")
     public String editDoctor(@Valid @ModelAttribute EditDoctorModel editDoctorModel, BindingResult bindingResult,
-                             Authentication principal) {
+                             Authentication principal, Model model) {
         if(bindingResult.hasErrors()){
+            List<SettlePointViewModel> settlePoints = this.settlePointService.getAll();
+            model.addAttribute("settlePoints", settlePoints);
+
             return "doctor/edit";
         }
 
