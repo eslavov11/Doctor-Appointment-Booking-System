@@ -44,7 +44,7 @@ public class EditPatientModel {
 
     private Boolean isInsured;
 
-    private String doctorFistName;
+    private String doctorFirstName;
 
     private String doctorLastName;
 
@@ -112,7 +112,7 @@ public class EditPatientModel {
         this.gender = gender;
     }
 
-    public Boolean getInsured() {
+    public Boolean getIsInsured() {
         return isInsured;
     }
 
@@ -120,12 +120,12 @@ public class EditPatientModel {
         isInsured = insured;
     }
 
-    public String getDoctorFistName() {
-        return doctorFistName;
+    public String getDoctorFirstName() {
+        return doctorFirstName;
     }
 
-    public void setDoctorFistName(String doctorFistName) {
-        this.doctorFistName = doctorFistName;
+    public void setDoctorFirstName(String doctorFirstName) {
+        this.doctorFirstName = doctorFirstName;
     }
 
     public String getDoctorLastName() {

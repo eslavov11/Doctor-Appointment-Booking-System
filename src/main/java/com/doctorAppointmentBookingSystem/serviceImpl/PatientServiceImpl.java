@@ -52,8 +52,8 @@ public class PatientServiceImpl implements PatientService {
         User user = this.userService.register(userRegistrationModel);
 
         Doctor doctor = this.doctorService.getById(registrationModel.getDoctor());
-
         Patient patient = this.modelMapper.map(registrationModel, Patient.class);
+        patient.setInsured(registrationModel.getIsInsured() == null);
         patient.setUser(user);
         patient.setDoctor(doctor);
 
@@ -62,8 +62,13 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public void save(EditPatientModel editPatientModel) {
+        Patient currentPatient = this.patientRepository.findOne(editPatientModel.getId());
         Patient patient = this.modelMapper.map(editPatientModel, Patient.class);
 
+        patient.setInsured(editPatientModel.getIsInsured() == null);
+        patient.setUser(currentPatient.getUser());
+        patient.setDoctor(currentPatient.getDoctor());
+        patient.setDateOfEnrollment(currentPatient.getDateOfEnrollment());
 
         this.patientRepository.saveAndFlush(patient);
     }

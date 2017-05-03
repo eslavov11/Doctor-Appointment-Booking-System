@@ -101,10 +101,14 @@ public class PatientController {
     }
 
     @PostMapping("/patient/edit")
-    public String editPatient(@Valid @ModelAttribute EditPatientModel editPatientModel, BindingResult bindingResult) {
+    public String editPatient(@Valid @ModelAttribute EditPatientModel editPatientModel, BindingResult bindingResult, Authentication principal) {
         if(bindingResult.hasErrors()){
             return "patient/edit";
         }
+
+        long userId = ((User) principal.getPrincipal()).getId();
+        EditPatientModel editPatientModelId = this.patientService.getEditModelByUserId(userId);
+        editPatientModel.setId(editPatientModelId.getId());
 
         this.patientService.save(editPatientModel);
 

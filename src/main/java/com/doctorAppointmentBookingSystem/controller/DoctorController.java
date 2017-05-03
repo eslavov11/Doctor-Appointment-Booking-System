@@ -80,7 +80,6 @@ public class DoctorController {
     @GetMapping("/doctor/edit")
     public String getEditDoctor(Model model, Authentication principal) {
         long userId = ((User) principal.getPrincipal()).getId();
-
         EditDoctorModel editDoctorModel = this.doctorService.getEditModelByUserId(userId);
 
         model.addAttribute("editDoctorModel", editDoctorModel);
@@ -89,10 +88,15 @@ public class DoctorController {
     }
 
     @PostMapping("/doctor/edit")
-    public String editDoctor(@Valid @ModelAttribute EditDoctorModel editDoctorModel, BindingResult bindingResult) {
+    public String editDoctor(@Valid @ModelAttribute EditDoctorModel editDoctorModel, BindingResult bindingResult,
+                             Authentication principal) {
         if(bindingResult.hasErrors()){
             return "doctor/edit";
         }
+
+        long userId = ((User) principal.getPrincipal()).getId();
+        EditDoctorModel editDoctorModelId = this.doctorService.getEditModelByUserId(userId);
+        editDoctorModel.setId(editDoctorModelId.getId());
 
         this.doctorService.save(editDoctorModel);
 
