@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Doctors</title>
+    <link rel="stylesheet" href="../../static/css/commons.css"
+          th:href="@{~/css/commons.css}"/>
+</head>
+<head th:replace="fragment/parts::head">
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{~/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<header th:replace="fragment/parts::menu">
+</header>
+<main>
+    <div class="container">
+        <h1 class="h1 text-center">Doctors</h1>
+
+        <div class="card-deck">
+            <div th:each="doctor,iter : ${doctors}" class="col-md-6 col-lg-3" style=" padding-bottom: 15px;">
+                <div class="card">
+                    <div class="card-block text-center">
+                        <img height="100px" style="margin-bottom: 5px;"
+                             src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Wladimir-Klitschko.jpg" alt=""/>
+
+                        <h4 class="card-title">
+                            <a th:text="|Dr. ${doctor.firstName} ${doctor.lastName}|" th:href="|/doctor/${doctor.id}|">Dr.
+                                Name</a>
+                        </h4>
+
+                        <small class="text-muted" th:text="|City: ${doctor.settlePointName}|">City: Varna</small>
+                        <br/>
+                        <small class="text-muted"
+                               th:text="|Experience: ${#dates.year(#dates.createNow()) - #dates.year(doctor.startPracticeDate) + 1} years|"></small>
+                        <br/>
+                        <small class="text-muted" th:text="|Telephone: ${doctor.telephoneNumber}|">Telephone number: #
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation example" th:if="!${#lists.isEmpty(doctors)}">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="!${doctors.hasPrevious()}? 'disabled'">
+                    <a class="page-link"
+                       th:href="${doctors.hasPrevious()} ? '/doctors?page=' + ${doctors.previousPageable().getPageNumber()}">Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, doctors.getTotalPages() - 1)}">
+                    <a class="page-link" href="#" th:href="|/doctors?page=${i}|" th:text="${i + 1}">1</a>
+                </li>
+                <li class="page-item" th:classappend="!${doctors.hasNext()}? 'disabled'">
+                    <a class="page-link" href="#"
+                       th:href="${doctors.hasNext()} ? '/doctors?page=' + ${doctors.nextPageable().getPageNumber()}">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+        <br/>
+    </div>
+</main>
+
+<div th:replace="fragment/parts::scripts">
+</div>
+</body>
+</html>

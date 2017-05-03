@@ -2,6 +2,7 @@ package com.doctorAppointmentBookingSystem.controller;
 
 import com.doctorAppointmentBookingSystem.entity.Doctor;
 import com.doctorAppointmentBookingSystem.entity.User;
+import com.doctorAppointmentBookingSystem.model.bindingModel.EditPatientModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.PatientRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.DoctorViewModel;
@@ -16,10 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -40,26 +38,13 @@ public class PatientController {
         this.doctorService = doctorService;
     }
 
-    @GetMapping("/register-patient")
-    public String getRegister(@ModelAttribute PatientRegistrationModel patientRegistrationModel, Model model) {
-        List<DoctorSelectViewModel> doctors = this.doctorService.getAllSelect();
-        model.addAttribute("doctors", doctors);
+    @GetMapping("/patient/{id}")
+    public String getEditPatient(@PathVariable long id, Model model) {
+        PatientViewModel patientViewModel = this.patientService.getById(id);
 
-        return "patient-register";
-    }
+        model.addAttribute("patientViewModel", patientViewModel);
 
-    @PostMapping("/register-patient")
-    public String register(@Valid @ModelAttribute PatientRegistrationModel patientRegistrationModel, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            List<DoctorSelectViewModel> doctors = this.doctorService.getAllSelect();
-            model.addAttribute("doctors", doctors);
-
-            return "patient-register";
-        }
-
-        this.patientService.create(patientRegistrationModel);
-
-        return "redirect:/";
+        return "patient/patient";
     }
 
     //TODO: admin
@@ -80,5 +65,49 @@ public class PatientController {
         model.addAttribute("patients", patients);
 
         return "patient/patients";
+    }
+
+    @GetMapping("/register-patient")
+    public String getRegister(@ModelAttribute PatientRegistrationModel patientRegistrationModel, Model model) {
+        List<DoctorSelectViewModel> doctors = this.doctorService.getAllSelect();
+        model.addAttribute("doctors", doctors);
+
+        return "patient/register";
+    }
+
+    @PostMapping("/register-patient")
+    public String register(@Valid @ModelAttribute PatientRegistrationModel patientRegistrationModel, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            List<DoctorSelectViewModel> doctors = this.doctorService.getAllSelect();
+            model.addAttribute("doctors", doctors);
+
+            return "patient/register";
+        }
+
+        this.patientService.create(patientRegistrationModel);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/patient/edit")
+    public String getEditPatient(Model model, Authentication principal) {
+        long userId = ((User) principal.getPrincipal()).getId();
+
+        EditPatientModel editPatientModel = this.patientService.getEditModelByUserId(userId);
+
+        model.addAttribute("editPatientModel", editPatientModel);
+
+        return "patient/edit";
+    }
+
+    @PostMapping("/patient/edit")
+    public String editPatient(@Valid @ModelAttribute EditPatientModel editPatientModel, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "patient/edit";
+        }
+
+        this.patientService.save(editPatientModel);
+
+        return "redirect:/";
     }
 }

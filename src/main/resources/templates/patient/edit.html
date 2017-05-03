@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/parts::head">
+</head>
+<head>
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="../../static/select2/css/select2.min.css"
+          th:href="@{~/select2/css/select2.min.css}"/>
+    <link rel="stylesheet" href="../../static/css/commons.css"
+          th:href="@{~/css/commons.css}"/>
+</head>
+<body>
+<header th:replace="fragment/parts::menu">
+</header>
+<main>
+    <div class="container">
+        <h1 class="h1">Edit Profile</h1>
+        <form method="post" th:object="${editPatientModel}">
+
+            <div class="form-group" th:classappend="${#fields.hasErrors('firstName')} ? 'has-danger'">
+                <label class="form-control-label" for="inputFirstName">First Name</label>
+                <input type="text" class="form-control form-control-danger" id="inputFirstName"
+                       th:field="*{firstName}"/>
+                <div class="form-control-feedback" th:each="error : ${#fields.errors('firstName')}" th:text="${error}">
+                    Sorry, that First name is incorrect. Try another?
+                </div>
+            </div>
+
+            <div class="form-group" th:classappend="${#fields.hasErrors('lastName')} ? 'has-danger'">
+                <label class="form-control-label" for="inputLastName">Last Name</label>
+                <input type="text" class="form-control form-control-danger" id="inputLastName" th:field="*{lastName}"/>
+                <div class="form-control-feedback" th:each="error : ${#fields.errors('lastName')}" th:text="${error}">
+                    Sorry, that Last name is incorrect. Try another?
+                </div>
+            </div>
+
+            <div class="form-group" th:classappend="${#fields.hasErrors('EGN')} ? 'has-danger'">
+                <label class="form-control-label" for="inputEGN">EGN</label>
+                <input type="text" class="form-control form-control-danger" id="inputEGN" th:field="*{EGN}"/>
+                <div class="form-control-feedback" th:each="error : ${#fields.errors('EGN')}" th:text="${error}">
+                    Sorry, that EGN is incorrect.
+                </div>
+            </div>
+
+            <div class="form-group" th:classappend="${#fields.hasErrors('telephoneNumber')} ? 'has-danger'">
+                <label class="form-control-label" for="inputTelephoneNumber">Telephone Number</label>
+                <input type="tel" class="form-control form-control-danger" id="inputTelephoneNumber"
+                       th:field="*{telephoneNumber}"/>
+                <div class="form-control-feedback" th:each="error : ${#fields.errors('telephoneNumber')}"
+                     th:text="${error}">
+                    Sorry, that telephone number is incorrect.
+                </div>
+            </div>
+
+            <div class="form-group" th:classappend="${#fields.hasErrors('dateOfBirth')} ? 'has-danger'">
+                <label class="form-control-label" for="inputDateOfBirth">Date Of Birth</label>
+                <input type="date" class="form-control form-control-danger" id="inputDateOfBirth"
+                       th:field="*{dateOfBirth}"/>
+                <div class="form-control-feedback" th:each="error : ${#fields.errors('dateOfBirth')}"
+                     th:text="${error}">
+                    Sorry, that date is incorrect.
+                </div>
+            </div>
+
+            <div class="form-group" th:classappend="${#fields.hasErrors('gender')} ? 'has-danger'">
+                <label class="form-control-label">Gender</label>
+                <br/>
+                <label class="custom-control custom-radio">
+                    <input id="gender-male" name="gender" type="radio" class="custom-control-input"
+                           th:field="*{gender}" th:value="MALE"/>
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Male</span>
+                </label>
+                <label class="custom-control custom-radio">
+                    <input name="gender" type="radio" class="custom-control-input" th:field="*{gender}"
+                           th:value="FEMALE"/>
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Female</span>
+                </label>
+                <div class="form-control-feedback" th:each="error : ${#fields.errors('gender')}"
+                     th:text="${error}">
+                    Invalid gender.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label" for="inputDoctor">Doctor</label>
+                <input type="tel" readonly="readonly" class="form-control form-control-danger" id="inputDoctor"
+                       th:value="|*{doctorFirstName} *{doctorLastName}|"/>
+            </div>
+
+            <div class="form-group" th:classappend="${#fields.hasErrors('isInsured')} ? 'has-danger'">
+                <label class="custom-control custom-checkbox form-control-label">
+                    <input type="checkbox" checked="checked" class="custom-control-input" th:field="*{isInsured}"/>
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">I am insured</span>
+                </label>
+            </div>
+
+            <input type="submit" class="btn btn-secondary clickable float-right" value="Edit Profile"/>
+        </form>
+        <br/>
+    </div>
+</main>
+<div th:replace="fragment/parts::scripts">
+</div>
+<script th:src="@{~/select2/js/select2.min.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    $(document).ready(function () {
+        $("#inputDoctor").select2();
+    });
+</script>
+</body>
+</html>

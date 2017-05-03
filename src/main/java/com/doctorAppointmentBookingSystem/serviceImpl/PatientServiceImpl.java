@@ -3,6 +3,7 @@ package com.doctorAppointmentBookingSystem.serviceImpl;
 import com.doctorAppointmentBookingSystem.entity.Doctor;
 import com.doctorAppointmentBookingSystem.entity.Patient;
 import com.doctorAppointmentBookingSystem.entity.User;
+import com.doctorAppointmentBookingSystem.model.bindingModel.EditPatientModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.PatientRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.UserRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.PatientBasicViewModel;
@@ -60,8 +61,30 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public void save(EditPatientModel editPatientModel) {
+        Patient patient = this.modelMapper.map(editPatientModel, Patient.class);
+
+
+        this.patientRepository.saveAndFlush(patient);
+    }
+
+    @Override
+    public PatientViewModel getById(long id) {
+        Patient patient = this.patientRepository.findOne(id);
+
+        return this.modelMapper.map(patient, PatientViewModel.class);
+    }
+
+    @Override
     public Patient getByUserId(long userId) {
         return this.patientRepository.findOneByUserId(userId);
+    }
+
+    @Override
+    public EditPatientModel getEditModelByUserId(long userId) {
+        Patient patient = this.patientRepository.findOneByUserId(userId);
+
+        return this.modelMapper.map(patient, EditPatientModel.class);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.doctorAppointmentBookingSystem.entity.SettlePoint;
 import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.entity.WeekSchedule;
 import com.doctorAppointmentBookingSystem.model.bindingModel.DoctorRegistrationModel;
+import com.doctorAppointmentBookingSystem.model.bindingModel.EditDoctorModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.UserRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.DoctorSelectViewModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.DoctorViewModel;
@@ -64,8 +65,24 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public void save(EditDoctorModel editDoctorModel) {
+        Doctor doctor = this.modelMapper.map(editDoctorModel, Doctor.class);
+
+
+
+        this.doctorRepository.saveAndFlush(doctor);
+    }
+
+    @Override
     public Doctor getById(long id) {
         return this.doctorRepository.getOne(id);
+    }
+
+    @Override
+    public DoctorViewModel getViewModelById(long id) {
+        Doctor doctor = this.doctorRepository.getOne(id);
+
+        return this.modelMapper.map(doctor, DoctorViewModel.class);
     }
 
     @Override
@@ -83,6 +100,14 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Doctor getByUserId(long userId) {
         return this.doctorRepository.findOneByUserId(userId);
+    }
+
+
+    @Override
+    public EditDoctorModel getEditModelByUserId(long userId) {
+        Doctor doctor = this.doctorRepository.findOneByUserId(userId);
+
+        return this.modelMapper.map(doctor, EditDoctorModel.class);
     }
 
     @Override
