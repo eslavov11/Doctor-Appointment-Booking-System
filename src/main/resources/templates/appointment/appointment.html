@@ -21,7 +21,7 @@
         <div class="form-group">
             <label class="form-control-label">Appointment For</label>
             <div>
-                <a href="#"
+                <a th:href="|/doctor/${appointmentViewModel.doctorSelectViewModel.id}|"
                    th:text="'Dr. ' + ${appointmentViewModel.doctorSelectViewModel.firstName} + ' ' + ${appointmentViewModel.doctorSelectViewModel.lastName}"></a>,
                 <span class="form-control-label"
                       th:text="${appointmentViewModel.doctorSelectViewModel.settlePointName}"></span>

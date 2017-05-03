@@ -31,6 +31,7 @@
                 <tr th:each="patient,iter : ${patients}" th:object="${patient}">
                     <td th:if="${param.page != null}" th:text="${param.page[0]} * 8 + ${iter.index + 1}">index</td>
                     <td th:if="${param.page == null}" th:text="${iter.index + 1}">index</td>
+
                     <td th:text="|*{firstName} *{lastName}|">name</td>
                     <td th:text="*{#dates.format(dateOfBirth, 'dd-MMM-yyyy')}">date</td>
                     <td th:text="*{telephoneNumber}">telephone</td>

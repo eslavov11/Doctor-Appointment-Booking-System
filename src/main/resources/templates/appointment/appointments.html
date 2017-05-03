@@ -30,7 +30,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="appointment,iter : ${appointmentViewModels}" th:object="${appointment}">
-                    <td th:text="${iter.index + 1}">index</td>
+                    <td th:if="${param.page != null}" th:text="${param.page[0]} * 8 + ${iter.index + 1}">index</td>
+                    <td th:if="${param.page == null}" th:text="${iter.index + 1}">index</td>
+
                     <td th:text="*{#dates.format(date, 'dd-MMM-yyyy HH:mm')}">date</td>
                     <td th:text="*{type}">type</td>
                     <td sec:authorize="hasRole('ROLE_DOCTOR')"
@@ -54,7 +56,7 @@
                     <a sec:authorize="hasRole('ROLE_PATIENT')" class="page-link"
                        th:href="${appointmentViewModels.hasPrevious()} ? '/appointment/patient?page=' + ${appointmentViewModels.previousPageable().getPageNumber()}" >Previous</a>
                 </li>
-                <li class="page-item" th:each="i : ${#numbers.sequence(0, appointmentViewModels.getTotalPages() - 1)}">
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, (appointmentViewModels.getTotalPages() == 0 ? 0 : appointmentViewModels.getTotalPages() - 1))}">
                     <a sec:authorize="hasRole('ROLE_DOCTOR')" class="page-link" href="#" th:href="|/appointment/doctor?page=${i}|" th:text="${i + 1}">1</a>
                     <a sec:authorize="hasRole('ROLE_PATIENT')" class="page-link" href="#" th:href="|/appointment/patient?page=${i}|" th:text="${i + 1}">1</a>
                 </li>
