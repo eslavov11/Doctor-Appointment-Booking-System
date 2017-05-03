@@ -45,7 +45,27 @@
                 </tbody>
             </table>
         </div>
-        <br/>
+
+        <nav aria-label="Page navigation example" th:if="!${#lists.isEmpty(appointmentViewModels)}">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="!${appointmentViewModels.hasPrevious()}? 'disabled'">
+                    <a sec:authorize="hasRole('ROLE_DOCTOR')" class="page-link"
+                       th:href="${appointmentViewModels.hasPrevious()} ? '/appointment/doctor?page=' + ${appointmentViewModels.previousPageable().getPageNumber()}" >Previous</a>
+                    <a sec:authorize="hasRole('ROLE_PATIENT')" class="page-link"
+                       th:href="${appointmentViewModels.hasPrevious()} ? '/appointment/patient?page=' + ${appointmentViewModels.previousPageable().getPageNumber()}" >Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, appointmentViewModels.getTotalPages() - 1)}">
+                    <a sec:authorize="hasRole('ROLE_DOCTOR')" class="page-link" href="#" th:href="|/appointment/doctor?page=${i}|" th:text="${i + 1}">1</a>
+                    <a sec:authorize="hasRole('ROLE_PATIENT')" class="page-link" href="#" th:href="|/appointment/patient?page=${i}|" th:text="${i + 1}">1</a>
+                </li>
+                <li class="page-item" th:classappend="!${appointmentViewModels.hasNext()}? 'disabled'">
+                    <a sec:authorize="hasRole('ROLE_DOCTOR')" class="page-link"
+                       th:href="${appointmentViewModels.hasNext()} ? '/appointment/doctor?page=' + ${appointmentViewModels.nextPageable().getPageNumber()}">Next</a>
+                    <a sec:authorize="hasRole('ROLE_PATIENT')" class="page-link"
+                       th:href="${appointmentViewModels.hasNext()} ? '/appointment/patient?page=' + ${appointmentViewModels.nextPageable().getPageNumber()}">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </main>
 

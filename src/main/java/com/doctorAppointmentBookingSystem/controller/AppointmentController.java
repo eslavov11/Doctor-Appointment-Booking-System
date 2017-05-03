@@ -12,6 +12,9 @@ import com.doctorAppointmentBookingSystem.service.AppointmentTypeService;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
 import com.doctorAppointmentBookingSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,10 +56,10 @@ public class AppointmentController {
     }
 
     @GetMapping("/patient")
-    public String getPatientAppointmentHomePage(Authentication principal, Model model) {
+    public String getPatientAppointmentHomePage(Authentication principal, Model model, @PageableDefault(size = 8) Pageable pageable) {
         long userId = ((User) (principal).getPrincipal()).getId();
         Patient patient = this.patientService.getByUserId(userId);
-        List<AppointmentViewModel> appointmentViewModels = this.appointmentService.getAllForPatientById(patient.getId());
+        Page<AppointmentViewModel> appointmentViewModels = this.appointmentService.getAllForPatientById(patient.getId(), pageable);
 
         model.addAttribute("appointmentViewModels", appointmentViewModels);
 
@@ -64,10 +67,10 @@ public class AppointmentController {
     }
 
     @GetMapping("/doctor")
-    public String getDoctorAppointmentHomePage(Authentication principal, Model model) {
+    public String getDoctorAppointmentHomePage(Authentication principal, Model model, @PageableDefault(size = 8) Pageable pageable) {
         long userId = ((User) (principal).getPrincipal()).getId();
         Doctor doctor = this.doctorService.getByUserId(userId);
-        List<AppointmentViewModel> appointmentViewModels = this.appointmentService.getAllForDoctorById(doctor.getId());
+        Page<AppointmentViewModel> appointmentViewModels = this.appointmentService.getAllForDoctorById(doctor.getId(), pageable);
 
         model.addAttribute("appointmentViewModels", appointmentViewModels);
 

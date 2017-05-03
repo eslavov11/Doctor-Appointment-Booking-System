@@ -13,6 +13,9 @@ import com.doctorAppointmentBookingSystem.service.AppointmentService;
 import com.doctorAppointmentBookingSystem.service.AppointmentTypeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -83,6 +86,18 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public Page<AppointmentViewModel> getAllForPatientById(long patientId, Pageable pageable) {
+        Page<Appointment> appointments = this.appointmentRepository.findAllByPatientIdOrderByDate(patientId, pageable);
+        List<AppointmentViewModel> appointmentViewModels = new ArrayList<>();
+
+        for (Appointment appointment : appointments) {
+            appointmentViewModels.add(mapAppointmentViewModel(appointment));
+        }
+
+        return (Page<AppointmentViewModel>) new PageImpl(appointmentViewModels, pageable, appointments.getTotalElements());
+    }
+
+    @Override
     public List<AppointmentViewModel> getAllForDoctorById(long doctorId) {
         List<Appointment> appointments = this.appointmentRepository.findAllByDoctorIdOrderByDate(doctorId);
         List<AppointmentViewModel> appointmentViewModels = new ArrayList<>();
@@ -92,6 +107,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
 
         return appointmentViewModels;
+    }
+
+    @Override
+    public Page<AppointmentViewModel> getAllForDoctorById(long doctorId, Pageable pageable) {
+        Page<Appointment> appointments = this.appointmentRepository.findAllByDoctorIdOrderByDate(doctorId, pageable);
+        List<AppointmentViewModel> appointmentViewModels = new ArrayList<>();
+
+        for (Appointment appointment : appointments) {
+            appointmentViewModels.add(mapAppointmentViewModel(appointment));
+        }
+
+        return (Page<AppointmentViewModel>) new PageImpl(appointmentViewModels, pageable, appointments.getTotalElements());
     }
 
     @Override
