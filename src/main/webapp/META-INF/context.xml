@@ -1,0 +1,8 @@
+<!--
+<Context reloadable="true" >
+    <Resources>
+        <PreResources base="C://dabs_mm_pics/doctor_pic" className="org.apache.catalina.webresources.DirResourceSet" webAppMount="/mm_pics/doctor" />
+    </Resources>
+    <Valve className="org.apache.catalina.valves.RemoteAddrValve"  allow=".*" />
+</Context>
+-->
