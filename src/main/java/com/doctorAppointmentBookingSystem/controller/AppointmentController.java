@@ -128,10 +128,6 @@ public class AppointmentController {
             throw new InvalidAppointmentDateException();
         }
 
-        if (false) {
-            //TODO: check if date not taken -> go to schedule if true
-        }
-
         addAppointmentModel.setDate(date);
 
         long userId = ((User) ((Authentication) principal).getPrincipal()).getId();
@@ -167,10 +163,6 @@ public class AppointmentController {
             return "appointment/add";
         }
 
-        if (false) {
-            //TODO: check if not taken
-        }
-
         addAppointmentModel.setDate(date);
 
         long userId = ((User) principal.getPrincipal()).getId();
@@ -190,10 +182,6 @@ public class AppointmentController {
                                           @ModelAttribute AddAppointmentModel addAppointmentModel, Model model) {
         if (date.before(new Date())) {
             throw new InvalidAppointmentDateException();
-        }
-
-        if (false) {
-            //TODO: check if date not taken -> go to schedule if ture
         }
 
         addAppointmentModel.setDate(date);
@@ -235,7 +223,6 @@ public class AppointmentController {
             return "appointment/add";
         }
 
-        //TODO: check if not taken
 
         addAppointmentModel.setDate(date);
 

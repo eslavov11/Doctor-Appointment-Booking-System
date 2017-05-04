@@ -56,7 +56,7 @@ public class DoctorController {
         return "doctor/doctor";
     }
 
-    @GetMapping("/doctors")
+    @GetMapping({"/", "/doctors"})
     public String getDoctors(Model model, @PageableDefault(size = 8) Pageable pageable) {
         Page<DoctorViewModel> doctors = this.doctorService.getAll(pageable);
         model.addAttribute("doctors", doctors);

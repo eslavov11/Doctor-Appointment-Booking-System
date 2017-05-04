@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Log</title>
+    <link rel="stylesheet" href="../../static/css/commons.css"
+          th:href="@{~/css/commons.css}"/>
+</head>
+<head th:replace="fragment/parts::head">
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css"
+          th:href="@{~/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<header th:replace="fragment/parts::menu">
+</header>
+<main>
+    <div class="container">
+        <div class="table-wrapper">
+            <h1 class="h1">Log</h1>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>IP</th>
+                    <th>Text</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="aLog,iter : ${log}" th:object="${aLog}">
+                    <td th:if="${param.page != null}" th:text="${param.page[0]} * 8 + ${iter.index + 1}">index</td>
+                    <td th:if="${param.page == null}" th:text="${iter.index + 1}">index</td>
+
+                    <td th:text="*{#dates.format(date, 'dd-MMM-yyyy')}">date</td>
+                    <td th:text="*{ip}">ip</td>
+                    <td th:text="*{text}">text</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <nav aria-label="Page navigation example" th:if="!${#lists.isEmpty(log)}">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="!${log.hasPrevious()}? 'disabled'">
+                    <a class="page-link"
+                       th:href="${log.hasPrevious()} ? '/log?page=' + ${log.previousPageable().getPageNumber()}" >Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, log.getTotalPages() - 1)}">
+                    <a class="page-link" href="#" th:href="|/log?page=${i}|" th:text="${i + 1}">1</a>
+                </li>
+                <li class="page-item" th:classappend="!${log.hasNext()}? 'disabled'">
+                    <a class="page-link"
+                       th:href="${log.hasNext()} ? '/log?page=' + ${log.nextPageable().getPageNumber()}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</main>
+
+<div th:replace="fragment/parts::scripts">
+</div>
+</body>
+</html>
