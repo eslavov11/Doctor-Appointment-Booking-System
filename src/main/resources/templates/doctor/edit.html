@@ -25,7 +25,7 @@
                 <input type="file" class="form-control form-control-danger" id="img-1"/>
             </div>
 
-            <button id="update-picture-btn" class="btn btn-secondary clickable float-right">Change Picture</button>
+            <button disabled="disabled" id="update-picture-btn" class="btn btn-secondary float-right">Change Picture</button>
             <br/>
         </div>
 
@@ -170,6 +170,10 @@
         updateDoctorImage();
     });
 
+    $('#img-1').change(function () {
+        $('#update-picture-btn').removeAttr('disabled');
+    });
+
     function updateDoctorImage() {
         var imgFile = $('#img-1')[0].files[0];
         if (!imgFile) {
@@ -181,6 +185,8 @@
         data.append('img-1', imgFile);
 
         $('#img-1').val('');
+
+        $('#update-picture-btn').attr('disabled','disabled');
 
         $.ajax({
             dataType: 'text',

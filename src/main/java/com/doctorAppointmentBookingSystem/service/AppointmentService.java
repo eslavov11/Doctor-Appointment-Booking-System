@@ -15,7 +15,7 @@ import java.util.List;
 public interface AppointmentService {
     void save(AddAppointmentModel addAppointmentModel);
 
-    List<AppointmentDateViewModel> getAllForDate(Date date);
+    List<AppointmentDateViewModel> getAllForDateAndDoctor(Date date, long doctorId);
 
     List<AppointmentViewModel> getAllForPatientById(long patientId);
 
@@ -25,7 +25,7 @@ public interface AppointmentService {
 
     Page<AppointmentViewModel> getAllForDoctorById(long doctorId, Pageable pageable);
 
-    AppointmentViewModel getByDate(Date date);
+    AppointmentViewModel getByDateAndDoctorId(Date date, long doctorId);
 
     AppointmentViewModel getById(long id);
 }

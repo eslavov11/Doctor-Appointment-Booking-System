@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.text.DateFormat;
@@ -110,8 +111,10 @@ public class AppointmentController {
     }
 
     @GetMapping("/")
-    public String getAppointment(@RequestParam("date") @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm:ss a") Date date, Model model) {
-        AppointmentViewModel appointmentViewModel = this.appointmentService.getByDate(date);
+    public String getAppointment(@RequestParam("date") @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm:ss a") Date date, Model model,
+                                 Authentication principal, HttpServletRequest request) {
+        long doctorId = getDoctorId(principal, request);
+        AppointmentViewModel appointmentViewModel = this.appointmentService.getByDateAndDoctorId(date, doctorId);
 
         model.addAttribute("appointmentViewModel", appointmentViewModel);
 
@@ -182,7 +185,8 @@ public class AppointmentController {
     }
 
     @GetMapping("/doctor/add")
-    public String getDoctorAddAppointment(Principal principal, @RequestParam("date") @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm:ss a") Date date,
+    public String getDoctorAddAppointment(Principal principal,
+                                          @RequestParam("date") @DateTimeFormat(pattern = "MM/dd/yyyy hh:mm:ss a") Date date,
                                           @ModelAttribute AddAppointmentModel addAppointmentModel, Model model) {
         if (date.before(new Date())) {
             throw new InvalidAppointmentDateException();
@@ -247,10 +251,23 @@ public class AppointmentController {
 
     @GetMapping("/getForDate")
     public ResponseEntity<List<AppointmentDateViewModel>> getWeekSchedule(
-            @RequestParam("date") @DateTimeFormat(pattern = "MM/dd/yyyy") Date date) {
-        List<AppointmentDateViewModel> appointmentDateViewModels = this.appointmentService.getAllForDate(date);
+            @RequestParam("date") @DateTimeFormat(pattern = "MM/dd/yyyy") Date date, Authentication principal, HttpServletRequest request) {
+        long doctorId = getDoctorId(principal, request);
+
+        List<AppointmentDateViewModel> appointmentDateViewModels = this.appointmentService.getAllForDateAndDoctor(date, doctorId);
 
         return ResponseEntity.ok(appointmentDateViewModels);
+    }
+
+    private long getDoctorId(Authentication principal, HttpServletRequest request) {
+        long userId = ((User) principal.getPrincipal()).getId();
+        if (request.isUserInRole("ROLE_DOCTOR")) {
+            return this.doctorService.getByUserId(userId).getId();
+        } else if (request.isUserInRole("ROLE_PATIENT")) {
+            return this.patientService.getByUserId(userId).getDoctor().getId();
+        }
+
+        return 0;
     }
 
     @ExceptionHandler(AppointmentNotFoundException.class)

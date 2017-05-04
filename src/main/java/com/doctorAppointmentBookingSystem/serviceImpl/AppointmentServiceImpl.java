@@ -53,7 +53,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentDateViewModel> getAllForDate(Date date) {
+    public List<AppointmentDateViewModel> getAllForDateAndDoctor(Date date, long doctorId) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 23);
@@ -61,7 +61,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         cal.set(Calendar.SECOND, 59);
         Date endDate = cal.getTime();
 
-        List<Appointment> appointments = this.appointmentRepository.findAllBetweenDates(date, endDate);
+        List<Appointment> appointments = this.appointmentRepository.findAllBetweenDatesByDoctorId(date, endDate, doctorId);
 
         List<AppointmentDateViewModel> appointmentDateViewModels = new ArrayList<>();
 
@@ -122,8 +122,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public AppointmentViewModel getByDate(Date date) {
-        Appointment appointment = this.appointmentRepository.findOneByDate(date);
+    public AppointmentViewModel getByDateAndDoctorId(Date date, long doctorId) {
+        Appointment appointment = this.appointmentRepository.findOneByDateAndDoctorId(date, doctorId);
         if (appointment == null) {
             throw new AppointmentNotFoundException();
         }

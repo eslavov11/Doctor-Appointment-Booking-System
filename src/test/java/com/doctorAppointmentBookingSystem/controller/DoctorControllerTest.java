@@ -57,7 +57,7 @@ public class DoctorControllerTest {
     public void showDoctorGivenValidDoctorModel_ShouldReturnOkStatus() throws Exception {
         //Act
         this.mvc
-                .perform(get("/doctor/" + DOCTOR_ID))
+                .perform(get("/doctors/" + DOCTOR_ID))
                 .andExpect(status().isOk());
     }
 
@@ -65,7 +65,7 @@ public class DoctorControllerTest {
     public void showDoctorGivenValidDoctorModel_ShouldReturnDoctorPage() throws Exception {
         //Act
         this.mvc
-                .perform(get("/doctor/" + DOCTOR_ID))
+                .perform(get("/doctors/" + DOCTOR_ID))
                 .andExpect(view().name("doctor/doctor"));
     }
 
@@ -73,7 +73,7 @@ public class DoctorControllerTest {
     public void showDoctorGivenValidDoctorModel_ShouldSetModel() throws Exception {
         //Act
         this.mvc
-                .perform(get("/doctor/" + DOCTOR_ID))
+                .perform(get("/doctors/" + DOCTOR_ID))
                 .andExpect(model().attribute("doctorViewModel", hasProperty("id", is(DOCTOR_ID))))
                 .andExpect(model().attribute("doctorViewModel", hasProperty("firstName", is(FIRST_NAME))))
                 .andExpect(model().attribute("doctorViewModel", hasProperty("lastName", IsNull.nullValue(String.class))));
@@ -83,7 +83,7 @@ public class DoctorControllerTest {
     public void showDoctorGivenValidDoctorModel_ShouldCallServiceOnce() throws Exception {
         //Act
         this.mvc
-                .perform(get("/doctor/" + DOCTOR_ID));
+                .perform(get("/doctors/" + DOCTOR_ID));
         verify(this.doctorService, times(1)).getViewModelById(DOCTOR_ID);
         verifyNoMoreInteractions(this.doctorService);
     }

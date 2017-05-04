@@ -47,7 +47,7 @@ public class DoctorController {
         this.settlePointService = settlePointService;
     }
 
-    @GetMapping("/doctor/{id}")
+    @GetMapping("/doctors/{id}")
     public String getDoctor(@PathVariable long id, Model model) {
         DoctorViewModel doctorViewModel = this.doctorService.getViewModelById(id);
 

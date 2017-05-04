@@ -1,6 +1,7 @@
 package com.doctorAppointmentBookingSystem.repository;
 
 import com.doctorAppointmentBookingSystem.entity.Appointment;
+import com.doctorAppointmentBookingSystem.entity.Doctor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +30,8 @@ public class AppointmentRepositoryTest {
     private static Calendar calendarBeforeDate = Calendar.getInstance();
     private static Calendar calendarAfterDate = Calendar.getInstance();
 
+    public static final long DOCTOR_ID = 1;
+
     @Autowired
     private TestEntityManager em;
 
@@ -41,6 +44,10 @@ public class AppointmentRepositoryTest {
         Appointment appointment = new Appointment();
         appointment.setDescription(DESCRIPTION);
 
+        Doctor doctor = new Doctor();
+        doctor.setId(DOCTOR_ID);
+        appointment.setDoctor(doctor);
+
         calendarDate.set(2000, 0, 1);
         calendarBeforeDate.set(1999, 0, 1);
         calendarAfterDate.set(2001, 0, 1);
@@ -52,7 +59,7 @@ public class AppointmentRepositoryTest {
     public void findAppointmentsBetweenDates_ShouldReturnOne() throws Exception {
         //Act
         List<Appointment> appointments = this.appointmentRepository
-                .findAllBetweenDates(calendarBeforeDate.getTime(), calendarAfterDate.getTime());
+                .findAllBetweenDatesByDoctorId(calendarBeforeDate.getTime(), calendarAfterDate.getTime(), DOCTOR_ID);
 
         //Assert
         assertEquals(1, appointments.size());
@@ -62,7 +69,7 @@ public class AppointmentRepositoryTest {
     public void findAppointmentsBetweenDates_ShouldMatchDescription() throws Exception {
         //Act
         List<Appointment> appointments = this.appointmentRepository
-                .findAllBetweenDates(calendarBeforeDate.getTime(), calendarAfterDate.getTime());
+                .findAllBetweenDatesByDoctorId(calendarBeforeDate.getTime(), calendarAfterDate.getTime(), DOCTOR_ID);
 
         //Assert
         assertEquals(DESCRIPTION, appointments.get(0).getDescription());
@@ -72,7 +79,7 @@ public class AppointmentRepositoryTest {
     public void findAppointmentsBetweenDates_BetweenDatesSwitched_ShouldReturnNone() throws Exception {
         //Act
         List<Appointment> appointments = this.appointmentRepository
-                .findAllBetweenDates(calendarAfterDate.getTime(), calendarBeforeDate.getTime());
+                .findAllBetweenDatesByDoctorId(calendarBeforeDate.getTime(), calendarAfterDate.getTime(), DOCTOR_ID);
 
         //Assert
         assertEquals(0, appointments.size());
