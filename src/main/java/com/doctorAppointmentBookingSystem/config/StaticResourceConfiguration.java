@@ -1,5 +1,6 @@
 package com.doctorAppointmentBookingSystem.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -12,7 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class StaticResourceConfiguration extends WebMvcConfigurerAdapter {
-    /*@Value("${upload.location}")*/private static final String PICTURE_RESOURCE_HANDLER = "/mm_pics/**";
+    //@Value("${upload.location}")
+    private static final String PICTURE_RESOURCE_HANDLER = "/mm_pics/**";
     private static final String PICTURE_RESOURCE_LOCATION = "file:C:/dabs_mm_pics/doctor_pic/";
 
     private static final String[] RESOURCE_LOCATIONS = {"classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/"};
@@ -24,8 +26,6 @@ public class StaticResourceConfiguration extends WebMvcConfigurerAdapter {
         }
 
         registry.addResourceHandler(PICTURE_RESOURCE_HANDLER).addResourceLocations(PICTURE_RESOURCE_LOCATION);
-
-        //registry.addResourceHandler("/uploads/**").addResourceLocations(uploadLocation);
     }
 
     @Override

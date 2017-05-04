@@ -18,6 +18,9 @@
 
         <div>
             <div class="form-group">
+                <img id="doctor-picture" height="250px" style="margin-bottom: 5px; border: 1px solid black;"
+                     src="" alt=""/>
+                <br/>
                 <label class="form-control-label" for="img-1">Picture</label>
                 <input type="file" class="form-control form-control-danger" id="img-1"/>
             </div>
@@ -26,6 +29,8 @@
             <br/>
         </div>
 
+        <br/>
+        <hr/>
 
         <form method="post" th:object="${editDoctorModel}">
 
@@ -151,9 +156,14 @@
 <div th:replace="fragment/parts::scripts">
 </div>
 <script th:src="@{~/select2/js/select2.min.js}"></script>
+<script th:src="@{~/js/util/requester.js}" src="../../static/js/util/requester.js"></script>
 <script type="text/javascript" th:inline="javascript">
+    var app = app || {};
+    var requester = requester || app.requester.load();
+
     $(document).ready(function () {
         $("#inputSettlePoint").select2();
+        getDoctorImage();
     });
 
     $('#update-picture-btn').click(function () {
@@ -161,8 +171,14 @@
     });
 
     function updateDoctorImage() {
+        var imgFile = $('#img-1')[0].files[0];
+        if (!imgFile) {
+            return;
+        }
+
         var data = new FormData();
-        data.append('img-1', $('#img-1')[0].files[0]);
+
+        data.append('img-1', imgFile);
 
         $('#img-1').val('');
 
@@ -180,12 +196,20 @@
 //                xhr.setRequestHeader(header, token);
             },
             success: function (result) {
-                //
+                getDoctorImage();
             },
             error: function (error) {
                 //
             }
         });
+    }
+
+    function getDoctorImage() {
+        requester.get('/doctor/picture').then(
+            function (data) {
+                $('#doctor-picture').attr('src', data.picturePath);
+            }
+        );
     }
 </script>
 </body>

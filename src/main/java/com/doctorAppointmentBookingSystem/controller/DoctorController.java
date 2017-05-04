@@ -3,6 +3,7 @@ package com.doctorAppointmentBookingSystem.controller;
 import com.doctorAppointmentBookingSystem.entity.User;
 import com.doctorAppointmentBookingSystem.model.bindingModel.DoctorRegistrationModel;
 import com.doctorAppointmentBookingSystem.model.bindingModel.EditDoctorModel;
+import com.doctorAppointmentBookingSystem.model.bindingModel.EditDoctorPictureModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.DoctorViewModel;
 import com.doctorAppointmentBookingSystem.model.viewModel.SettlePointViewModel;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
@@ -40,17 +41,14 @@ public class DoctorController {
 
     private SettlePointService settlePointService;
 
-    private Environment environment;
-
     @Autowired
-    public DoctorController(DoctorService doctorService, SettlePointService settlePointService, Environment environment) {
+    public DoctorController(DoctorService doctorService, SettlePointService settlePointService) {
         this.doctorService = doctorService;
         this.settlePointService = settlePointService;
-        this.environment = environment;
     }
 
     @GetMapping("/doctor/{id}")
-    public String getEditPatient(@PathVariable long id, Model model) {
+    public String getDoctor(@PathVariable long id, Model model) {
         DoctorViewModel doctorViewModel = this.doctorService.getViewModelById(id);
 
         model.addAttribute("doctorViewModel", doctorViewModel);
@@ -67,7 +65,7 @@ public class DoctorController {
     }
 
     @GetMapping("/register-doctor")
-    public String getRegister(@ModelAttribute DoctorRegistrationModel doctorRegistrationModel, Model model) {
+    public String getDoctorRegister(@ModelAttribute DoctorRegistrationModel doctorRegistrationModel, Model model) {
         List<SettlePointViewModel> settlePoints = this.settlePointService.getAll();
         model.addAttribute("settlePoints", settlePoints);
 
@@ -75,7 +73,7 @@ public class DoctorController {
     }
 
     @PostMapping("/register-doctor")
-    public String register(@Valid @ModelAttribute DoctorRegistrationModel doctorRegistrationModel, BindingResult bindingResult, Model model) {
+    public String registerDoctor(@Valid @ModelAttribute DoctorRegistrationModel doctorRegistrationModel, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             List<SettlePointViewModel> settlePoints = this.settlePointService.getAll();
             model.addAttribute("settlePoints", settlePoints);
@@ -120,15 +118,21 @@ public class DoctorController {
         return "redirect:/";
     }
 
+    @GetMapping("/doctor/picture")
+    public ResponseEntity<EditDoctorPictureModel> getDoctorPicture(Authentication principal) {
+        long userId = ((User) principal.getPrincipal()).getId();
+        EditDoctorPictureModel editDoctorPictureModel = this.doctorService.getPictureModelByUserId(userId);
+        editDoctorPictureModel.setPicturePath("/mm_pics/" + editDoctorPictureModel.getPicturePath());
+
+        return ResponseEntity.ok(editDoctorPictureModel);
+    }
+
     @PostMapping("/doctor/edit-picture")
     @ResponseBody
     public String addPictures(MultipartHttpServletRequest request, Authentication principal) {
         Iterator<String> itr = request.getFileNames();
 //        String imageFolderPath = environment.getProperty("doctor_image_folder");
         String imageFolderPath = "C:/dabs_mm_pics/doctor_pic/";
-
-        long userId = ((User) principal.getPrincipal()).getId();
-        long doctorId = this.doctorService.getByUserId(userId).getId();
 
         MultipartFile picture = request.getFile(itr.next());
 
@@ -151,8 +155,14 @@ public class DoctorController {
             e.printStackTrace();
         }
 
-        //multimediaFiles.setDataUrl(pictureName);
-        //multimediaFiles.setMimeType(picture.getContentType());
+        long userId = ((User) principal.getPrincipal()).getId();
+        long doctorId = this.doctorService.getByUserId(userId).getId();
+
+        EditDoctorPictureModel editDoctorPictureModel = new EditDoctorPictureModel();
+        editDoctorPictureModel.setId(doctorId);
+        editDoctorPictureModel.setPicturePath(pictureName);
+
+        this.doctorService.savePicture(editDoctorPictureModel);
 
         return "Success";
     }

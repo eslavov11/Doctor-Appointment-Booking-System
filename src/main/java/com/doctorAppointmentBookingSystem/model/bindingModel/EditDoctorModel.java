@@ -55,8 +55,6 @@ public class EditDoctorModel {
 
     private Boolean worksWithNZOK;
 
-    private String picturePath;
-
     public long getId() {
         return id;
     }
@@ -151,13 +149,5 @@ public class EditDoctorModel {
 
     public void setWorksWithNZOK(Boolean worksWithNZOK) {
         this.worksWithNZOK = worksWithNZOK;
-    }
-
-    public String getPicturePath() {
-        return picturePath;
-    }
-
-    public void setPicturePath(String picturePath) {
-        this.picturePath = picturePath;
     }
 }

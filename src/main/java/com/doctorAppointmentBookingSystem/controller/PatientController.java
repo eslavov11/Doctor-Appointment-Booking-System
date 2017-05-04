@@ -39,7 +39,7 @@ public class PatientController {
     }
 
     @GetMapping("/patient/{id}")
-    public String getEditPatient(@PathVariable long id, Model model) {
+    public String getPatient(@PathVariable long id, Model model) {
         PatientViewModel patientViewModel = this.patientService.getById(id);
 
         model.addAttribute("patientViewModel", patientViewModel);
@@ -68,7 +68,7 @@ public class PatientController {
     }
 
     @GetMapping("/register-patient")
-    public String getRegister(@ModelAttribute PatientRegistrationModel patientRegistrationModel, Model model) {
+    public String getPatientRegister(@ModelAttribute PatientRegistrationModel patientRegistrationModel, Model model) {
         List<DoctorSelectViewModel> doctors = this.doctorService.getAllSelect();
         model.addAttribute("doctors", doctors);
 
@@ -76,7 +76,7 @@ public class PatientController {
     }
 
     @PostMapping("/register-patient")
-    public String register(@Valid @ModelAttribute PatientRegistrationModel patientRegistrationModel, BindingResult bindingResult, Model model) {
+    public String registerPatient(@Valid @ModelAttribute PatientRegistrationModel patientRegistrationModel, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             List<DoctorSelectViewModel> doctors = this.doctorService.getAllSelect();
             model.addAttribute("doctors", doctors);

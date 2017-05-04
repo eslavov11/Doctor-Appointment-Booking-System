@@ -21,8 +21,8 @@
             <div th:each="doctor,iter : ${doctors}" class="col-md-6 col-lg-3" style=" padding-bottom: 15px;">
                 <div class="card">
                     <div class="card-block text-center">
-                        <img height="100px" style="margin-bottom: 5px;"
-                             src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Wladimir-Klitschko.jpg" alt=""/>
+                        <img height="100px" style="margin-bottom: 5px; border: 1px solid black;"
+                             th:src="${doctor.picturePath} ? (|/mm_pics/${doctor.picturePath}|) : 'http://www.hghtherapy.me/wp-content/uploads/2012/02/happy-doctor4.jpg'" alt=""/>
 
                         <h4 class="card-title">
                             <a th:text="|Dr. ${doctor.firstName} ${doctor.lastName}|" th:href="|/doctor/${doctor.id}|">Dr.

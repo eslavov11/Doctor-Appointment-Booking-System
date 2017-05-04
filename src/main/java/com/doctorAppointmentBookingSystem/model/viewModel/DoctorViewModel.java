@@ -15,6 +15,8 @@ public class DoctorViewModel {
 
     private Date startPracticeDate;
 
+    private String picturePath;
+
     public long getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class DoctorViewModel {
 
     public void setStartPracticeDate(Date startPracticeDate) {
         this.startPracticeDate = startPracticeDate;
+    }
+
+    public String getPicturePath() {
+        return picturePath;
+    }
+
+    public void setPicturePath(String picturePath) {
+        this.picturePath = picturePath;
     }
 }
