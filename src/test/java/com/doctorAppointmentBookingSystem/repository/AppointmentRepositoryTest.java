@@ -23,7 +23,6 @@ import static org.junit.Assert.*;
 @DataJpaTest
 @ActiveProfiles("test")
 public class AppointmentRepositoryTest {
-
     private static final String DESCRIPTION = "Pain in the knees";
 
     private static Calendar calendarDate = Calendar.getInstance();
