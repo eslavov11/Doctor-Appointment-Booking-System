@@ -30,7 +30,7 @@
                     <td th:if="${param.page != null}" th:text="${param.page[0]} * 8 + ${iter.index + 1}">index</td>
                     <td th:if="${param.page == null}" th:text="${iter.index + 1}">index</td>
 
-                    <td th:text="*{#dates.format(date, 'dd-MMM-yyyy')}">date</td>
+                    <td th:text="*{#dates.format(date, 'dd-MMM-yyyy HH:mm:ss')}">date</td>
                     <td th:text="*{ip}">ip</td>
                     <td th:text="*{text}">text</td>
                 </tr>

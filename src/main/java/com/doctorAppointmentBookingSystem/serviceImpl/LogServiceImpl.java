@@ -43,7 +43,7 @@ public class LogServiceImpl implements LogService {
         Page<Log> log = this.logRepository.findAll(pageable);
         List<LogViewModel> logViewModel = new ArrayList<>();
         for (Log aLog : log) {
-            LogViewModel aLogViewModel = this.modelMapper.map(log, LogViewModel.class);
+            LogViewModel aLogViewModel = this.modelMapper.map(aLog, LogViewModel.class);
             logViewModel.add(aLogViewModel);
         }
 
