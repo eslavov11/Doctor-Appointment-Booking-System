@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class StaticResourceConfiguration extends WebMvcConfigurerAdapter {
-    private static final String PICTURE_RESOURCE_HANDLER = "/mm_pics/**";
+    /*@Value("${upload.location}")*/private static final String PICTURE_RESOURCE_HANDLER = "/mm_pics/**";
     private static final String PICTURE_RESOURCE_LOCATION = "file:C:/dabs_mm_pics/doctor_pic/";
 
     private static final String[] RESOURCE_LOCATIONS = {"classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/"};
