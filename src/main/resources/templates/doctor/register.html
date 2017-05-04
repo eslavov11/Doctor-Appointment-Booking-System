@@ -90,7 +90,6 @@
                 <label class="form-control-label" for="inputDateOfBirth">Date Of Birth</label>
                 <input type="date" class="form-control form-control-danger" id="inputDateOfBirth"
                        th:field="*{dateOfBirth}" th:value="${#dates.format(#dates.createNow(), 'dd-MMM-yyyy')}" />
-                <!--TODO: set with jQuery current date-->
                 <div class="form-control-feedback" th:each="error : ${#fields.errors('dateOfBirth')}"
                      th:text="${error}">
                     Sorry, that date is incorrect.

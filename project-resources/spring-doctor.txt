@@ -99,7 +99,7 @@ administration
 
 *home page - annonymous -> list of all doctors - ratings, etc...
 *home page - patient -> doctor's schedule on home page
-*home page - doctor -> my schedule / or list of all patients <- TODO
+*home page - doctor -> my schedule / or list of all patients
 
 *doctor -> access all patients - pagination
 *doctor -> edit schedule - only be able to access his own schedule!
