@@ -94,7 +94,7 @@ public class AppointmentServiceImplTest {
     }
 
     @Test(expected = AppointmentNotFoundException.class)
-    public void findByIdGivenInvalidBike_ShouldThrowException() throws Exception {
+    public void findByIdGivenInvalidAppointment_ShouldThrowException() throws Exception {
         //Act
         this.appointmentService.getById(INVALID_ID);
     }
