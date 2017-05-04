@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Patients</title>
+    <title>Patient</title>
     <link rel="stylesheet" href="../../static/css/commons.css"
           th:href="@{~/css/commons.css}"/>
 </head>
@@ -14,51 +14,23 @@
 </header>
 <main>
     <div class="container">
-        <div class="table-wrapper">
-            <h1 class="h1">My Patients</h1>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Date Of Birth</th>
-                    <th>Telephone</th>
-                    <th>Is Insured</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="patient,iter : ${patients}" th:object="${patient}">
-                    <td th:if="${param.page != null}" th:text="${param.page[0]} * 8 + ${iter.index + 1}">index</td>
-                    <td th:if="${param.page == null}" th:text="${iter.index + 1}">index</td>
-                    <td th:text="|*{firstName} *{lastName}|">name</td>
-                    <td th:text="*{#dates.format(dateOfBirth, 'dd-MMM-yyyy')}">date</td>
-                    <td th:text="*{telephoneNumber}">telephone</td>
-                    <td th:text="*{isInsured} ? 'Yes' : 'No'">isInsured</td>
+        <h1 class="h1 text-center">Patient</h1>
 
-                    <td>
-                        <a class="btn btn-secondary" th:href="|/patient/*{id}|">View</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="card">
+            <div class="card-block text-center">
+                <h4 class="card-title">
+                    <a th:text="|${patientViewModel.firstName} ${patientViewModel.lastName}|"></a>
+                </h4>
+
+                <small class="text-muted" th:text="|EGN: ${patientViewModel.EGN}|"></small>
+                <br/>
+                <small class="text-muted"
+                       th:text="|Date of birth: ${#dates.format(patientViewModel.dateOfBirth, 'dd-MMM-yyyy')}"></small>
+                <br/>
+                <small class="text-muted" th:text="|Telephone: ${patientViewModel.telephoneNumber}|">Telephone number: #
+                </small>
+            </div>
         </div>
-
-        <nav aria-label="Page navigation example" th:if="!${#lists.isEmpty(patients)}">
-            <ul class="pagination">
-                <li class="page-item" th:classappend="!${patients.hasPrevious()}? 'disabled'">
-                    <a class="page-link"
-                       th:href="${patients.hasPrevious()} ? '/doctor/patients?page=' + ${patients.previousPageable().getPageNumber()}" >Previous</a>
-                </li>
-                <li class="page-item" th:each="i : ${#numbers.sequence(0, patients.getTotalPages() - 1)}">
-                    <a class="page-link" href="#" th:href="|/doctor/patients?page=${i}|" th:text="${i + 1}">1</a>
-                </li>
-                <li class="page-item" th:classappend="!${patients.hasNext()}? 'disabled'">
-                    <a class="page-link"
-                       th:href="${patients.hasNext()} ? '/doctor/patients?page=' + ${patients.nextPageable().getPageNumber()}">Next</a>
-                </li>
-            </ul>
-        </nav>
     </div>
 </main>
 
