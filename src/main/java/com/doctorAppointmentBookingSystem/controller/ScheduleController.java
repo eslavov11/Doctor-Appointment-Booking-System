@@ -10,6 +10,7 @@ import com.doctorAppointmentBookingSystem.service.PatientService;
 import com.doctorAppointmentBookingSystem.service.WeekScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
@@ -44,6 +45,7 @@ public class ScheduleController {
         this.patientService = patientService;
     }
 
+    @PreAuthorize("hasRole('PATIENT') or hasRole('DOCTOR')")
     @GetMapping("/")
     public String getSchedule(Authentication principal, Model model, HttpServletRequest request) {
         long userId = ((User) principal.getPrincipal()).getId();
