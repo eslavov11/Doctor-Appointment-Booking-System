@@ -1,7 +1,9 @@
 package com.doctorAppointmentBookingSystem.controller;
 
 import com.doctorAppointmentBookingSystem.model.viewModel.DoctorViewModel;
+import com.doctorAppointmentBookingSystem.model.viewModel.PatientViewModel;
 import com.doctorAppointmentBookingSystem.service.DoctorService;
+import com.doctorAppointmentBookingSystem.service.PatientService;
 import com.doctorAppointmentBookingSystem.service.SettlePointService;
 import org.hamcrest.core.IsNull;
 import org.junit.Before;
@@ -19,7 +21,6 @@ import java.util.Date;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -27,67 +28,67 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 /**
- * Created by Edi on 04-May-17.
+ * Created by Edi on 05-May-17.
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(DoctorController.class)
+@WebMvcTest(PatientController.class)
 @ActiveProfiles("test")
 @EnableSpringDataWebSupport
-public class DoctorControllerTest {
-    private static final long DOCTOR_ID = 1;
+public class PatientControllerTest {
+    private static final long PATIENT_ID = 1;
     private static final String FIRST_NAME = "Georgi";
 
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private DoctorService doctorService;
+    private PatientService patientService;
 
     @MockBean
-    private SettlePointService settlePointService;
+    private DoctorService doctorService;
 
     @Before
     public void setUp() throws Exception {
         //Arrange
-        DoctorViewModel doctorViewModel = new DoctorViewModel();
-        doctorViewModel.setId(DOCTOR_ID);
-        doctorViewModel.setStartPracticeDate(new Date());
-        doctorViewModel.setFirstName(FIRST_NAME);
-        when(this.doctorService.getViewModelById(DOCTOR_ID)).thenReturn(doctorViewModel);
+        PatientViewModel patientViewModel = new PatientViewModel();
+        patientViewModel.setId(PATIENT_ID);
+        patientViewModel.setDateOfBirth(new Date());
+        patientViewModel.setFirstName(FIRST_NAME);
+        when(this.patientService.getById(PATIENT_ID)).thenReturn(patientViewModel);
     }
 
     @Test
-    public void showDoctorGivenValidDoctorModel_ShouldReturnOkStatus() throws Exception {
+    public void showPatientGivenValidModel_ShouldReturnOkStatus() throws Exception {
         //Act
         this.mvc
-                .perform(get("/doctors/" + DOCTOR_ID))
+                .perform(get("/patient/" + PATIENT_ID))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void showDoctorGivenValidDoctorModel_ShouldReturnDoctorPage() throws Exception {
+    public void showPatientGivenValidModel_ShouldReturnPage() throws Exception {
         //Act
         this.mvc
-                .perform(get("/doctors/" + DOCTOR_ID))
-                .andExpect(view().name("doctor/doctor"));
+                .perform(get("/patient/" + PATIENT_ID))
+                .andExpect(view().name("patient/patient"));
     }
 
     @Test
-    public void showDoctorGivenValidDoctorModel_ShouldSetModel() throws Exception {
+    public void showPatientGivenValidModel_ShouldSetModel() throws Exception {
         //Act
         this.mvc
-                .perform(get("/doctors/" + DOCTOR_ID))
-                .andExpect(model().attribute("doctorViewModel", hasProperty("id", is(DOCTOR_ID))))
-                .andExpect(model().attribute("doctorViewModel", hasProperty("firstName", is(FIRST_NAME))))
-                .andExpect(model().attribute("doctorViewModel", hasProperty("lastName", IsNull.nullValue(String.class))));
+                .perform(get("/patient/" + PATIENT_ID))
+                .andExpect(model().attribute("patientViewModel", hasProperty("id", is(PATIENT_ID))))
+                .andExpect(model().attribute("patientViewModel", hasProperty("firstName", is(FIRST_NAME))))
+                .andExpect(model().attribute("patientViewModel", hasProperty("lastName", IsNull.nullValue(String.class))));
     }
 
     @Test
-    public void showDoctorGivenValidDoctorModel_ShouldCallServiceOnce() throws Exception {
+    public void showPatientGivenValidModel_ShouldCallServiceOnce() throws Exception {
         //Act
         this.mvc
-                .perform(get("/doctors/" + DOCTOR_ID));
-        verify(this.doctorService, times(1)).getViewModelById(DOCTOR_ID);
-        verifyNoMoreInteractions(this.doctorService);
+                .perform(get("/patient/" + PATIENT_ID));
+        verify(this.patientService, times(1)).getById(PATIENT_ID);
+        verifyNoMoreInteractions(this.patientService);
     }
 }

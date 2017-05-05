@@ -247,11 +247,13 @@ public class AppointmentController {
     }
 
     private long getDoctorId(Authentication principal, HttpServletRequest request) {
-        long userId = ((User) principal.getPrincipal()).getId();
-        if (request.isUserInRole("ROLE_DOCTOR")) {
-            return this.doctorService.getByUserId(userId).getId();
-        } else if (request.isUserInRole("ROLE_PATIENT")) {
-            return this.patientService.getByUserId(userId).getDoctor().getId();
+        if (principal != null) {
+            long userId = ((User) principal.getPrincipal()).getId();
+            if (request.isUserInRole("ROLE_DOCTOR")) {
+                return this.doctorService.getByUserId(userId).getId();
+            } else if (request.isUserInRole("ROLE_PATIENT")) {
+                return this.patientService.getByUserId(userId).getDoctor().getId();
+            }
         }
 
         return 0;

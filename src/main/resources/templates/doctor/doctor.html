@@ -29,8 +29,12 @@
 
                 <small class="text-muted" th:text="|City: ${doctorViewModel.settlePointName}|">City: Varna</small>
                 <br/>
+                <!--<small class="text-muted"-->
+                       <!--th:text="|Experience: ${#dates.year(#dates.createNow()) - #dates.year(doctorViewModel.startPracticeDate) + 1} years|"></small>-->
+                <!--<br/>-->
+
                 <small class="text-muted"
-                       th:text="|Experience: ${#dates.year(#dates.createNow()) - #dates.year(doctorViewModel.startPracticeDate) + 1} years|"></small>
+                th:text="|Experience: ${#dates.year(#dates.createNow()) - #dates.year(doctorViewModel.startPracticeDate) + 1} years|"></small>
                 <br/>
                 <small class="text-muted" th:text="|Telephone: ${doctorViewModel.telephoneNumber}|">Telephone number: #
                 </small>
