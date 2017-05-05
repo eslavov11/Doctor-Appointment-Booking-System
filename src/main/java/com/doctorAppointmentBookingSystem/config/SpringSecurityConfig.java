@@ -35,8 +35,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/", "/register-patient", "/register-doctor", "/doctors/**", "/mm_pics/**",
                             "/bootstrap/**", "/jquery/**", "/tether/**", "/font-awesome/**", "/select2/**", "/css/**",
                             "/img/**", "/connect/**").permitAll()
-                    .antMatchers("/appointment/doctor/**", "/schedule/edit").hasRole("DOCTOR")
-                    .antMatchers("/appointment/patient/**").hasRole("PATIENT")
+                    .antMatchers("/appointment/doctor/**", "/schedule/edit", "/doctor/edit", "/doctor/patients, /doctor/edit-picture").hasRole("DOCTOR")
+                    .antMatchers("/appointment/patient/**", "/patient/edit").hasRole("PATIENT")
                     .antMatchers("/log/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()

@@ -131,7 +131,6 @@ public class DoctorController {
     @ResponseBody
     public String addPictures(MultipartHttpServletRequest request, Authentication principal) {
         Iterator<String> itr = request.getFileNames();
-//        String imageFolderPath = environment.getProperty("doctor_image_folder");
         String imageFolderPath = "C:/dabs_mm_pics/doctor_pic/";
 
         MultipartFile picture = request.getFile(itr.next());
