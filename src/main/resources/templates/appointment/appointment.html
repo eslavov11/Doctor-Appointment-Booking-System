@@ -31,7 +31,7 @@
         <div class="form-group" sec:authorize="hasRole('ROLE_DOCTOR')">
             <label class="form-control-label">For Patient</label>
             <div>
-                <a href="#"
+                <a th:href="|/patient/${appointmentViewModel.patientBasicViewModel.id}|"
                    th:text="${appointmentViewModel.patientBasicViewModel.firstName} + ' ' + ${appointmentViewModel.patientBasicViewModel.lastName}"></a>,
                 <span class="form-control-label"
                       th:text="'(' + ${appointmentViewModel.patientBasicViewModel.EGN} + ')'"></span>
